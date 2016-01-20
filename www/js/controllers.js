@@ -16,6 +16,18 @@ angular.module('starter.controllers', ['firebase'])
 	}  
 })
 
+// Invest
+.controller('InvestCtrl', function($scope, $state) {
+
+	console.log("InvestCtrl");
+	$scope.sideMenuNavigation = function() {
+		if(localStorage.getItem("email") != null) {
+			state.go('app.overview');
+		} else
+			state.go('auth.main');
+	}  
+})
+
 //LOGIN
 .controller('LoginCtrl', function($scope, $http, $state, $location) {
 
@@ -711,7 +723,6 @@ function getMainBarValues($scope, $http) {
 		    var rp1 = radialProgress(document.getElementById('div1'))
 		            .label("ROI")
 		            .onClick(onClick1)
-		            .diameter(120)
 		            .value(val)
 		            .render();
 		}

@@ -55,7 +55,14 @@
     fill: #FFFFFF;
 }
 
-.radial-svg {
+#div1 .radial-svg {
+    margin: -30px auto;
+    position: absolute;
+    top: 116px;
+    left: 4%;
+}
+
+#div2 .radial-svg {
     margin: 0 auto;
     width: 93px;
     height: 93px;
@@ -104,6 +111,12 @@
 /*Property details chart*/
 #div2 .component {
 	fill: #EDE5E5;
+}
+
+#div1 .label {
+	fill: white;
+	font-weight: bold;
+    font-size: larger;
 }
 
 #div2 .label {
