@@ -13,9 +13,6 @@ angular.module('starter.controllers', ['firebase'])
 	$scope.selectChat = function() {
 
 		$state.go('chatMain');
-
-
-
 	}  
 })
 
@@ -154,15 +151,11 @@ angular.module('starter.controllers', ['firebase'])
 		propertyId = data.marketingPropertyId;
 		getAllMarketingPropertyImages(propertyId, $scope, $http);
 		getMarketingPropertyInfo(propertyId, $scope, $http);
-	});
-	
+	});	
 })
 
 //Chats Ctrl
-//Chats Ctrl
 .controller('ChatsCtrl', function($scope, $state, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) {
-
-
 
 		$scope.branchToChat = function (BranchName) {
 
@@ -171,14 +164,7 @@ angular.module('starter.controllers', ['firebase'])
 		console.log(BranchName);
 
 		$state.go('chats');
-
 	}
-
-	
-
-
-
-
 
 	$scope.chatIsActive = false;
 
@@ -208,104 +194,19 @@ angular.module('starter.controllers', ['firebase'])
 		chat.message = "";
 
 		$ionicScrollDelegate.scrollBottom();
-
 	}
-
-
 })
 
 //OverviewProperties Ctrl - logged in user
-.controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state) {
-
+.controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q) {
     var id;  
+    $rootScope.isOverviewLoading = true;
     
-    // get main bar values
-    url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Property/getPropertiesROIChartAPI';
-	id = localStorage.getItem('id');
-	$http({
-	    url: url, 
-	    method: "GET",
-	    params:  {index:id}, 
-	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-	}).then(function(resp) {
-
-		$scope.propertyBar = [];
-
-		$scope.propertyBar = resp.data[0];
-		
-		var val = resp.data[0]['TotalReturn'] / resp.data[0]['InvestmentAmount'] * 100;
-		
-		// bar
-		var div1 = d3.select(document.getElementById('div1'));
-		start();
-
-		function onClick1() {
-		    deselect();
-		}
-
-		function labelFunction(val,min,max) {
-
-		}
-
-		function deselect() {
-		    //div1.attr("class","radial");
-		}
-
-		function start() {
-			$('.label').val("sghdsfhsdf");
-		    var rp1 = radialProgress(document.getElementById('div1'))
-		            .label("ROI")
-		            .onClick(onClick1)
-		            .diameter(120)
-		            .value(val)
-		            .render();
-		}
-	
-	}, function(err) {
-	    console.error('ERR', err);
-	})
-    
-	// get properties for 'your properties' section
-	if(loginUserType == "client") {    	
-    	url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage';
-    	id = localStorage.getItem('id');
-    	$http({
-    	    url: url, 
-    	    method: "GET",
-    	    params:  {index:id}, 
-    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    	}).then(function(resp) {
-
-    		$scope.propertyImage = [];
-    		$scope.propertyImage = resp.data;
-    		
-    		addClass($scope.propertyImage);
-    		
-    	}, function(err) {
-    	    console.error('ERR', err);
-    	})
-    }
-	
-	// get properties for 'special deals section'
-	if(loginUserType == "client") {    	
-		url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage/getSpecialDealsPropertyImage';
-    	id = localStorage.getItem('id');
-    	$http({
-    	    url: url, 
-    	    method: "GET",
-    	    params:  {index:id}, 
-    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    	}).then(function(resp) {
-
-    		$scope.specialPropertyImage = [];
-    		$scope.specialPropertyImage = resp.data;
-
-    		addClass($scope.specialPropertyImage);
-    		
-    	}, function(err) {
-    	    console.error('ERR', err);
-    	})
-	}
+    var promise = getOverviewPageData($scope, $http, $q);
+	promise.then(function() {
+	}, function() {
+		alert('Failed: ');
+	});
 	
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
 		console.log("showDetails function " + propertyId);
@@ -317,7 +218,7 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('PropertyDetailsCtrl', function($scope, $ionicScrollDelegate, $http, $rootScope, $timeout) {
+.controller('PropertyDetailsCtrl', function($scope, $ionicScrollDelegate, $http, $rootScope, $timeout, $q) {
 	
 	$scope.showPurchase = 1;
 	$scope.showClosing = 0;
@@ -329,17 +230,16 @@ angular.module('starter.controllers', ['firebase'])
 	$scope.requestPopup = 0;
 	$scope.Info = {};
 	
+	$rootScope.isPropertyDetailsLoading = true;
+	
 	var propertyId;
 	$scope.$on( "showDetails", function(event, data) {
-		propertyId = data.PropertyId;		
-		getPropertyImage(propertyId, $scope, $http);
-		getPropertyChart(propertyId, $scope, $http);
-		getPurchaseDetails(propertyId, $scope, $http);
-		getClosingDetails(propertyId, $scope, $http);
-		getRenovationDetails(propertyId, $scope, $http);
-		getLeasingDetails(propertyId, $scope, $http);
-		getOccupiedDetails(propertyId, $scope, $http);
-		getEvictionDetails(propertyId, $scope, $http);		
+		propertyId = data.PropertyId;	
+		var promise = getOverviewDetailsPageData(propertyId, $scope, $http, $q);
+		promise.then(function() {
+		}, function() {
+			alert('Failed: ');
+		});			
 	});
 	
 	$scope.click = function(section) {		
@@ -731,8 +631,7 @@ function getJacksonvilleProperties($scope, $http) {
 	}); 
 }
 
-function getProperties($scope, $http, $q) {
-	 
+function getProperties($scope, $http, $q) {	 
 	return $q.all([getRochesterProperties($scope, $http), getClevelandProperties($scope, $http), 
 	                getColumbusProperties($scope, $http), getJacksonvilleProperties($scope, $http)]).
 	                then(function(results) {
@@ -769,4 +668,120 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	}, function(err) {
 	    console.error('ERR', err);
 	})
+}
+
+//get main bar values
+function getMainBarValues($scope, $http) {	
+    url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Property/getPropertiesROIChartAPI';
+	id = localStorage.getItem('id');
+	$http({
+	    url: url, 
+	    method: "GET",
+	    params:  {index:id}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+
+		$scope.propertyBar = [];
+
+		$scope.propertyBar = resp.data[0];
+		
+		var val = resp.data[0]['TotalReturn'] / resp.data[0]['InvestmentAmount'] * 100;
+		
+		// bar
+		var div1 = d3.select(document.getElementById('div1'));
+		start();
+
+		function onClick1() {
+		    deselect();
+		}
+
+		function labelFunction(val,min,max) {
+
+		}
+
+		function deselect() {
+		    //div1.attr("class","radial");
+		}
+
+		function start() {
+			$('.label').val("sghdsfhsdf");
+		    var rp1 = radialProgress(document.getElementById('div1'))
+		            .label("ROI")
+		            .onClick(onClick1)
+		            .diameter(120)
+		            .value(val)
+		            .render();
+		}
+	
+	}, function(err) {
+	    console.error('ERR', err);
+	})
+}
+
+//get properties for 'your properties' section
+function getPropertiesForYourPropertiesSection($scope, $http) {	
+	if(loginUserType == "client") {    	
+    	url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage';
+    	id = localStorage.getItem('id');
+    	$http({
+    	    url: url, 
+    	    method: "GET",
+    	    params:  {index:id}, 
+    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    	}).then(function(resp) {
+
+    		$scope.propertyImage = [];
+    		$scope.propertyImage = resp.data;
+    		
+    		addClass($scope.propertyImage);
+    		
+    	}, function(err) {
+    	    console.error('ERR', err);
+    	})
+    }
+}
+
+//get properties for 'special deals section'
+function getPropertiesForSpecialDealsSection($scope, $http) {
+	if(loginUserType == "client") {    	
+		url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage/getSpecialDealsPropertyImage';
+		id = localStorage.getItem('id');
+		$http({
+		    url: url, 
+		    method: "GET",
+		    params:  {index:id}, 
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(resp) {
+	
+			$scope.specialPropertyImage = [];
+			$scope.specialPropertyImage = resp.data;
+	
+			addClass($scope.specialPropertyImage);
+			
+		}, function(err) {
+		    console.error('ERR', err);
+		})
+	}
+}
+
+function getOverviewPageData($scope, $http, $q) {	 
+	return $q.all([getMainBarValues($scope, $http), getPropertiesForYourPropertiesSection($scope, $http), 
+	               setTimeout(getPropertiesForSpecialDealsSection($scope, $http), 5000)]).
+	                then(function(results) {
+		$scope.isOverviewLoading = false;
+	});
+}
+
+function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
+	return $q.all([getPropertyImage(propertyId, $scope, $http), 
+	               getPropertyChart(propertyId, $scope, $http), 
+	               getPurchaseDetails(propertyId,$scope, $http), 
+	               getClosingDetails(propertyId, $scope, $http),
+	               getRenovationDetails(propertyId, $scope, $http), 
+	               getLeasingDetails(propertyId, $scope, $http),
+	               getOccupiedDetails(propertyId, $scope, $http),
+	               getEvictionDetails(propertyId, $scope, $http)]).
+	                then(function(results) {
+		$scope.isPropertyDetailsLoading = false;
+	});
 }

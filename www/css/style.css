@@ -19,7 +19,6 @@ body, h2, h4 {
 .rowMainScreen {
     background-image: url('img/coverLogin.jpg');
     background-size: cover;
-
 }
 
 .pointer {
@@ -368,6 +367,7 @@ hr {
     margin: 0 auto;
     margin-top: 55%;
     display: block;
+    z-index: 5;
 }
 
 /* ********************************************** */
