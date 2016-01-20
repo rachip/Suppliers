@@ -9,32 +9,32 @@
 	<ion-spinner icon="bubbles" ng-if='isOverviewLoading' class="spinner"></ion-spinner>
 	
 	<div ng-if='!isOverviewLoading'> 
-	    <div class="overviewMain">
-	  
-	    <!-- START Header -->
-		    <h2>OVERVIEW</h2>
-		    <h4>A short view of your earnings</h4>
-			<div id='outer' >
-			    <div id="main" style="width: 170px;">
-			        <div id="div1"></div>
-			    </div>
-			</div>
-			
-			<div id="barValue">
-				<ul>
-					<li>
-						<span class="totlaInvestmentTitle">Total Investment:</span>
-						<span class="totlaInvestment">{{propertyBar.InvestmentAmount}}</span>					
-					</li>
-					<li>
-						<span class="totalReturnsTitle">Total Returns:</span>
-						<span class="totalReturns">{{propertyBar.TotalReturn}}</span>	
-					</li>				
-				</ul>					
-			</div>
-	    </div>
-	
-	    <!-- END Header -->
+	    <div class="overviewMain" ng-click="showAllBar()">
+    
+    <!-- START Header -->
+	    <h2>OVERVIEW</h2>
+	    <h4>A short view of your earnings</h4>
+		<div id='outer' >
+		    <div id="main" style="width: 170px;">
+		        <div id="div1"></div>
+		    </div>
+		</div>
+		
+		<div id="barValue">
+			<ul>
+				<li>
+					<span class="totlaInvestmentTitle">Total Investment:</span>
+					<span class="totlaInvestment">{{propertyBar.InvestmentAmount}}</span>					
+				</li>
+				<li>
+					<span class="totalReturnsTitle">Total Returns:</span>
+					<span class="totalReturns">{{propertyBar.TotalReturn}}</span>	
+				</li>				
+			</ul>					
+		</div>
+    </div>
+
+    <!-- END Header -->
 	    
 	    <!-- START Investment chart section -->
 	    <!-- END Investment chart section -->

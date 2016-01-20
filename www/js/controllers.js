@@ -200,13 +200,15 @@ angular.module('starter.controllers', ['firebase'])
 //OverviewProperties Ctrl - logged in user
 .controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q) {
     var id;  
-    $rootScope.isOverviewLoading = true;
+    $scope.isOverviewLoading = true;
     
     var promise = getOverviewPageData($scope, $http, $q);
 	promise.then(function() {
 	}, function() {
 		alert('Failed: ');
 	});
+	
+	getMainBarValues($scope, $http);
 	
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
 		console.log("showDetails function " + propertyId);
@@ -239,7 +241,8 @@ angular.module('starter.controllers', ['firebase'])
 		promise.then(function() {
 		}, function() {
 			alert('Failed: ');
-		});			
+		});	
+		getPropertyChart(propertyId, $scope, $http);
 	});
 	
 	$scope.click = function(section) {		
@@ -308,7 +311,7 @@ angular.module('starter.controllers', ['firebase'])
 
 function getPropertyImage(propertyId, $scope, $http) {	
 	console.log("getPropertyImage function" + propertyId);
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage/getAllPropertyImages', 
 	    method: "GET",
 	    params:  {PropertyId: propertyId}, 
@@ -385,7 +388,7 @@ function getPropertyChart(propertyId, $scope, $http) {
 
 function getPurchaseDetails(propertyId, $scope, $http) {
 	console.log("getPurchaseDetails function");
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PurchaseAndSale', 
 	    method: "GET",
 	    params:  {index: propertyId}, 
@@ -408,7 +411,7 @@ function getPurchaseDetails(propertyId, $scope, $http) {
 }
 
 function getClosingDetails(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Closing', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -430,7 +433,7 @@ function getClosingDetails(propertyId, $scope, $http) {
 }
 
 function getRenovationDetails(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Renovation', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -455,7 +458,7 @@ function getRenovationDetails(propertyId, $scope, $http) {
 }
 
 function getLeasingDetails(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Leasing', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -476,7 +479,7 @@ function getLeasingDetails(propertyId, $scope, $http) {
 }
 
 function getOccupiedDetails(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Occupied', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -496,7 +499,7 @@ function getOccupiedDetails(propertyId, $scope, $http) {
 }
 
 function getEvictionDetails(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Eviction', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -723,7 +726,7 @@ function getPropertiesForYourPropertiesSection($scope, $http) {
 	if(loginUserType == "client") {    	
     	url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage';
     	id = localStorage.getItem('id');
-    	$http({
+    	return $http({
     	    url: url, 
     	    method: "GET",
     	    params:  {index:id}, 
@@ -746,7 +749,7 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 	if(loginUserType == "client") {    	
 		url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage/getSpecialDealsPropertyImage';
 		id = localStorage.getItem('id');
-		$http({
+		return $http({
 		    url: url, 
 		    method: "GET",
 		    params:  {index:id}, 
@@ -765,7 +768,7 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 }
 
 function getOverviewPageData($scope, $http, $q) {	 
-	return $q.all([getMainBarValues($scope, $http), getPropertiesForYourPropertiesSection($scope, $http), 
+	return $q.all([getPropertiesForYourPropertiesSection($scope, $http), 
 	               setTimeout(getPropertiesForSpecialDealsSection($scope, $http), 5000)]).
 	                then(function(results) {
 		$scope.isOverviewLoading = false;
@@ -773,8 +776,7 @@ function getOverviewPageData($scope, $http, $q) {
 }
 
 function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
-	return $q.all([getPropertyImage(propertyId, $scope, $http), 
-	               getPropertyChart(propertyId, $scope, $http), 
+	return $q.all([getPropertyImage(propertyId, $scope, $http),	                
 	               getPurchaseDetails(propertyId,$scope, $http), 
 	               getClosingDetails(propertyId, $scope, $http),
 	               getRenovationDetails(propertyId, $scope, $http), 
