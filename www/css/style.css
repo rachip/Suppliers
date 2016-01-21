@@ -532,6 +532,7 @@ ul.propertyDetails li span:nth-child(2) {
   border-bottom:2px solid;   /*Bottom border for each menu item*/
   border-color: #666;   /*Sets colors for top and bottom border*/
   color: white;    /*Text color for each item*/
+  font-size: 22px;
 }
  
 /*Changes the border for the last item*/

@@ -18,13 +18,12 @@ angular.module('starter.controllers', ['firebase'])
 
 // Invest
 .controller('InvestCtrl', function($scope, $state) {
-
-	console.log("InvestCtrl");
+	
 	$scope.sideMenuNavigation = function() {
 		if(localStorage.getItem("email") != null) {
-			state.go('app.overview');
+			$state.go('app.overview');
 		} else
-			state.go('auth.main');
+			$state.go('auth.main');
 	}  
 })
 
