@@ -11,7 +11,7 @@ angular.module('starter.controllers', ['firebase'])
 .controller('AppCtrl', function($scope, $location, $state, $ionicConfig, $rootScope, $http, $ionicPopup) {
 
 	$scope.selectChat = function() {
-
+		console.log('click chat ' + $rootScope.propertyCnt);
 		$state.go('chatMain');
 	}  
 })
@@ -213,7 +213,7 @@ angular.module('starter.controllers', ['firebase'])
     var id;  
     $scope.isOverviewLoading = true;
     
-    var promise = getOverviewPageData($scope, $http, $q);
+    var promise = getOverviewPageData($scope, $rootScope, $http, $q);
 	promise.then(function() {
 	}, function() {
 		alert('Failed: ');
@@ -756,7 +756,7 @@ function getMainBarValues($scope, $http) {
 }
 
 //get properties for 'your properties' section
-function getPropertiesForYourPropertiesSection($scope, $http) {	
+function getPropertiesForYourPropertiesSection($scope, $rootScope, $http) {	
 	if(loginUserType == "client") {    	
     	url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage';
     	id = localStorage.getItem('id');
@@ -769,6 +769,8 @@ function getPropertiesForYourPropertiesSection($scope, $http) {
 
     		$scope.propertyImage = [];
     		$scope.propertyImage = resp.data;
+    		
+    		$rootScope.propertyCnt = resp.data.length;
     		
     		addClass($scope.propertyImage);
     		
@@ -801,9 +803,9 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 	}
 }
 
-function getOverviewPageData($scope, $http, $q) {	 
-	return $q.all([getPropertiesForYourPropertiesSection($scope, $http), 
-	               setTimeout(getPropertiesForSpecialDealsSection($scope, $http), 5000)]).
+function getOverviewPageData($scope, $rootScope, $http, $q) {	 
+	return $q.all([getPropertiesForYourPropertiesSection($scope, $rootScope, $http), 
+	               getPropertiesForSpecialDealsSection($scope, $http)]).
 	                then(function(results) {
 		$scope.isOverviewLoading = false;
 	});

@@ -173,15 +173,13 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     url: '/chatMain',
       templateUrl: 'templates/chatsMain.html',
           controller: 'ChatsCtrl'
- 
   })
 
 
-    .state('chats', {
+ .state('chats', {
     url: '/chats',
       templateUrl: 'templates/tab-chats.html',
           controller: 'ChatsCtrl'
- 
   })
 
   // if none of the above states are matched, use this as the fallback
