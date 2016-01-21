@@ -85,9 +85,9 @@
 					</li>
 					<li ng-show="showPurchaseNote" >
 						<span>Note</span>
-						<span>{{purchaseAndSale['Note']}}</span>
+						<p class="note">{{purchaseAndSale['Note']}}</p>	
 					</li>
-				</ul>			
+				</ul>					
 			</div>
 		</div>
 		<!-- END Purchase -->
@@ -116,7 +116,7 @@
 					</li>
 					<li ng-show="showClosingNote" >
 						<span>Note</span>
-						<span>{{closing['Note']}}</span>
+						<p class="note">{{closing['Note']}}</p>
 					</li>
 				</ul>			
 			</div>
@@ -175,7 +175,7 @@
 					</li>
 					<li ng-show="showRenovationNote" >
 						<span>Note</span>
-						<span>{{renovation['Note']}}</span>
+						<p class="note">{{renovation['Note']}}</p>
 					</li>
 				</ul>			
 			</div>  
@@ -221,7 +221,7 @@
 					</li>
 					<li ng-show="showLeasingNote" >
 						<span>Note</span>
-						<span>{{leasing['Note']}}</span>
+						<p class="note">{{leasing['Note']}}</p>
 					</li>
 				</ul>			
 			</div>
@@ -268,15 +268,15 @@
 					</li>
 					<li>
 						<span>Eviction Note</span>
-						<span>{{occupied['EvictionNote']}}</span>
+						<p class="evictionNote">{{occupied['EvictionNote']}}</p>
 					</li>
 					<li>
 						<span>Going To Be Vacent</span>
 						<span>{{occupied['GoingToBeVacent']}}</span>
 					</li>
-					<li ng-show="showOccupiedNote" >
+					<li ng-show="showOccupiedNote">
 						<span>Note</span>
-						<span>{{occupied['Note']}}</span>
+						<p class="note">{{occupied['Note']}}</p>
 					</li>
 				</ul>			
 			</div>
@@ -326,7 +326,7 @@
 					</li>
 					<li ng-show="showEvictionNote" >
 						<span>Note</span>
-						<span>{{eviction['Note']}}</span>
+						<p class="note">{{eviction['Note']}}</p>
 					</li>
 				</ul>			
 			</div>      

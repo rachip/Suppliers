@@ -514,7 +514,7 @@ function getOccupiedDetails(propertyId, $scope, $http) {
 		if (resp.data.length != 0) {
 		
 			$scope.occupied = resp.data[0];
-		
+			console.log($scope.occupied);
 			$scope.occupied['EvictionDate'] = dateFormat($scope.occupied['EvictionDate']);
 			$scope.occupied['GoingToBeVacent'] = dateFormat($scope.occupied['GoingToBeVacent']);
 			
