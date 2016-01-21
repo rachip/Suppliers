@@ -364,8 +364,11 @@ function getPropertyChart(propertyId, $scope, $http) {
 		    $scope.month = months <= 0 ? 0 : months;
  
 		    
-		    $scope.currentYield = ($scope.month) ? totalReturn / $scope.month * 12 / investmentAmount : 0;
+		    $scope.currentYield = ($scope.month && investmentAmount) ? totalReturn / $scope.month * 12 / investmentAmount : 0;
 			var val = (investmentAmount != 0) ? totalReturn / investmentAmount * 100 : 0;
+			
+			$scope.propertyChart.InvestmentAmount = numberWithCommas($scope.propertyChart.InvestmentAmount);
+			$scope.propertyChart.TotalReturn = numberWithCommas($scope.propertyChart.TotalReturn);
 			
 			// bar
 			var div1 = d3.select(document.getElementById('div2'));
@@ -409,6 +412,9 @@ function getPurchaseDetails(propertyId, $scope, $http) {
 		if (resp.data.length != 0) {
 			
 			$scope.purchaseAndSale = resp.data[0];
+			
+			$scope.purchaseAndSale['ClosignDate'] = dateFormat($scope.purchaseAndSale['ClosignDate']);
+			$scope.purchaseAndSale['Closed'] = dateFormat($scope.purchaseAndSale['Closed']);
 			
 			$scope.isHasPurchaseFile = $scope.purchaseAndSale['IsHasFile'] == 1 ? true : false;
 			$scope.IsBuyerFile = $scope.purchaseAndSale['IsBuyerFile'] == 1 ? true : false;
@@ -455,6 +461,10 @@ function getRenovationDetails(propertyId, $scope, $http) {
 			
 			$scope.renovation = resp.data[0];
 		
+			$scope.renovation['StartDate'] = dateFormat($scope.renovation['StartDate']);
+			$scope.renovation['FinishDate'] = dateFormat($scope.renovation['FinishDate']);
+			$scope.renovation['CofODate'] = dateFormat($scope.renovation['CofODate']);
+			
 			$scope.IsHasRenovationFile = $scope.renovation['IsHasFile'] == 1 ? true : false;
 			$scope.IsFundsSentFile = $scope.renovation['IsFundsSentFile'] == 1 ? true : false;
 			$scope.IsWorkEstimateFile = $scope.renovation['IsWorkEstimateFile'] == 1 ? true : false;
@@ -480,6 +490,10 @@ function getLeasingDetails(propertyId, $scope, $http) {
 		
 			$scope.leasing = resp.data[0];
 		
+			$scope.leasing['StartDate'] = dateFormat($scope.leasing['StartDate']);
+			$scope.leasing['EstimateRentDate'] = dateFormat($scope.leasing['EstimateRentDate']);
+			$scope.leasing['MoveInDate'] = dateFormat($scope.leasing['MoveInDate']);
+			
 			$scope.IsHasLeasingFile = $scope.leasing['IsHasFile'] == 1 ? true : false;
 			$scope.IsApplicationFile = $scope.leasing['IsApplicationFile'] == 1 ? true : false;
 			$scope.IsLeaseFile = $scope.leasing['IsLeaseFile'] == 1 ? true : false;
@@ -501,6 +515,9 @@ function getOccupiedDetails(propertyId, $scope, $http) {
 		
 			$scope.occupied = resp.data[0];
 		
+			$scope.occupied['EvictionDate'] = dateFormat($scope.occupied['EvictionDate']);
+			$scope.occupied['GoingToBeVacent'] = dateFormat($scope.occupied['GoingToBeVacent']);
+			
 			$scope.IsHasOccupiedFile = $scope.occupied['IsHasFile'] == 1 ? true : false;
 			$scope.IsMaintanenceFile = $scope.occupied['IsMaintanenceFile'] == 1 ? true : false;
 			$scope.showOccupiedNote = $scope.occupied['ShowNote'] == 1 ? true : false;
@@ -518,8 +535,12 @@ function getEvictionDetails(propertyId, $scope, $http) {
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
+			
 			$scope.eviction = resp.data[0];
 
+			$scope.eviction['CourtDate'] = dateFormat($scope.eviction['CourtDate']);
+			$scope.eviction['RemovedDate'] = dateFormat($scope.eviction['RemovedDate']);
+			
 			$scope.IsHasEvictionFile = $scope.eviction['IsHasFile'] == 1 ? true : false;
 			$scope.showEvictionNote = $scope.eviction['ShowNote'] == 1 ? true : false;
 		} 
@@ -702,6 +723,9 @@ function getMainBarValues($scope, $http) {
 		
 		var val = resp.data[0]['TotalReturn'] / resp.data[0]['InvestmentAmount'] * 100;
 		
+		$scope.propertyBar.InvestmentAmount = numberWithCommas($scope.propertyBar.InvestmentAmount);
+		$scope.propertyBar.TotalReturn = numberWithCommas($scope.propertyBar.TotalReturn);
+		
 		// bar
 		var div1 = d3.select(document.getElementById('div1'));
 		start();
@@ -797,4 +821,13 @@ function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
 	                then(function(results) {
 		$scope.isPropertyDetailsLoading = false;
 	});
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function dateFormat(date) {
+	var formattedDate = new Date(date);
+	return (formattedDate.getMonth() + 1) + '/' + formattedDate.getDate() + '/' +  formattedDate.getFullYear();
 }
