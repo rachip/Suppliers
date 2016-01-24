@@ -1,9 +1,15 @@
 .left { float: left; }
 .right { float: right; }
+.left-30 { margin-left: 30px; }
 .left-50 { margin-left: 50px; }
+.bottom-20 { margin-bottom: 20px;}
+.bottom-26 { margin-bottom: 26px;}
+.right-2pe { margin-right: 2%; }
 .calign { text-align: center; }
-.width_50pe { width:50%; }
+.width_48pe { width: 48%; }
+.width_50pe { width: 50%; }
 .line_2 { line-height: 2; }
+.bold { font-weight: bold; }
 
 svg{width:30%;}
 
@@ -383,7 +389,7 @@ hr {
     font-family: 'MuseoSans';
     font-size: x-large;
     font-weight: bolder;
-    margin: 30px 50px;
+    margin: 30px 30px;
     text-shadow: 1px 1px #000000;   
 }
 
@@ -391,11 +397,13 @@ hr.propertyDetails {
     border: 0;
     height: 1px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    clear: both;
 }
 
 .section {
-    margin: 20px 40px;
+    margin: 20px 30px;
 }
+
 .sectionTitle {
     display: inline-block;
 }
@@ -524,6 +532,22 @@ ul.propertyDetails li span:nth-child(2) {
      background-color: #3f4041 !important;
  }
  
+.popup-container .popup {
+	width: 325px;
+}
+
+.popup-head h3, .popup-body span, .popup-buttons button {
+	font-family: 'MuseoSans';
+}
+
+.button.button-positive {
+	background-color: #000000;
+}
+
+.button.button-positive.activated {
+	background-color: #000000;
+}
+ 
  /*Set the background to transparent for ion-item*/
 .custom .item {
   background-color: transparent;
@@ -623,12 +647,23 @@ ul.propertyDetails li span:nth-child(2) {
     font-size: 30px !important;
 }
 
+/* ********************************************** */
+/* Marketing Details page */
+ul.marketingDetails li {
+	line-height: 2.5;
+}
+
+.rating {
+	border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+    clear: both;
+}
 
 /* -------------- the chats part -------------------- */
 
 .messages {
-
- background: #E4E4E4;
+ 	background: #E4E4E4;
     padding: 10px;
     margin-bottom: 20px;
     width: 60%;
@@ -637,7 +672,6 @@ ul.propertyDetails li span:nth-child(2) {
 }
 
 .other {
-
     background: #86D2FF;
     padding: 10px;
     margin-bottom: 20px;
@@ -647,10 +681,7 @@ ul.propertyDetails li span:nth-child(2) {
 } 
 
 .other p, .messages p {
-
     margin: 0;
     color: #525050;
     font-size: 12px;
-
-
 }

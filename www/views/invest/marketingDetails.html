@@ -11,37 +11,48 @@
 	</div>	
 	
 	<div class="propertyName">{{marketingData.Price}}$</div>
-	<h4 class="left-50">{{marketingData.Neighborhood}}</h4>
-	<h4 class="left-50">{{marketingData.CityAndState}}</h4>
-	<h4 class="left-50">{{marketingData.Address}}</h4>
+	<h4 class="left-30">{{marketingData.Neighborhood}}</h4>
+	<h4 class="left-30">{{marketingData.CityAndState}}</h4>
+	<h4 class="left-30 bottom-26">{{marketingData.Address}}</h4>
 	
 	<hr class="propertyDetails">
 	
 	<!-- START Investment Details -->
 	<div class="section"> 
  		<h3 class="sectionTitle">Investment Details</h3>
- 		<div>
- 			<div class="width_50pe left">
- 				<ul>
-					<li class="line_2">
-						<span>Current Ann. Return</span>	
-						<span class="right">{{marketingData.CurrentAnnualReturn}}%</span>
-					</li>
-					<li class="line_2">
-						<span>Accrued Ann. Return</span>	
-						<span class="right">{{marketingData.AccruedAnnualReturn}}%</span>
-					</li>
-					<li class="line_2">
-						<span>Gross Ann. Return*</span>	
-						<span class="right">{{marketingData.GrossAnnualReturn}}%</span>
-					</li>
-				</ul>
- 			</div>
- 			<hr width="1" size="500">
- 			<div class="width_50pe left">ds</div>
- 		</div>
-		<!--	<i class="icon pointer arrow"></i>    -->		     
- 	</div> 
+ 		<div> 			
+			<ul class="marketingDetails">
+				<li>
+					<span>Current Ann. Return</span>	
+					<span class="right">{{marketingData.CurrentAnnualReturn}}%</span>
+				</li>
+				<li>
+					<span>Accrued Ann. Return</span>	
+					<span class="right">{{marketingData.AccruedAnnualReturn}}%</span>
+				</li>
+				<li>
+					<span class="bold">Gross Ann. Return*</span>	
+					<span class="right bold">{{marketingData.GrossAnnualReturn}}%</span>
+				</li>			
+				<li>
+					<span>Term Remaining:</span>	
+					<span class="right bold">{{marketingData.TermRemaining}}</span>
+				</li>
+				<li>
+					<span>Min. Investment:</span>	
+					<span class="right bold">{{marketingData.MinInvestment}}</span>
+				</li>
+				<li>
+					<span>Investment Size:</span>	
+					<span class="right bold">${{marketingData.InvestmentSize}}</span>
+				</li>
+				<li>
+					<span>Underlying Security:</span>	
+					<span class="right bold">{{marketingData.UnderlyingSecurity}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
  	<!-- END Investment Details -->
 	
 	<hr class="propertyDetails">
@@ -49,14 +60,291 @@
 	<!-- START Investment Summary -->
 	<div class="section"> 
  		<h3 class="sectionTitle">Investment Summary</h3>
-<!-- 		<i class="icon pointer arrow"></i>    -->
 		<p>{{marketingData.InvestmentSummary}}</p>		     
  	</div> 
  	<!-- END Investment Summary -->
  	
+ 	<hr class="propertyDetails">
  	
+ 	<!-- START Key Deal Points -->
+	<div class="section"> 
+ 		<h3 class="sectionTitle">Key Deal Points</h3>
+		<p>{{marketingData.InvestmentSummary}}</p>		     
+ 	</div> 
+ 	<!-- END Key Deal Points-->
  	
+ 	<hr class="propertyDetails">
  	
+ 	<!-- START Projected Return Calculator -->
+	<div class="section"> 
+ 		<h3 class="sectionTitle">Projected Return Calculator</h3>
+		<p>{{marketingData.InvestmentSummary}}</p>		     
+ 	</div> 
+ 	<!-- END Projected Return Calculator-->
+ 	
+ 	<hr class="propertyDetails">
+ 	
+ 	<!-- START Fundrise Rating -->
+	<div class="section"> 
+ 		<h3 class="sectionTitle">ME Rating</h3>
+		<div> 			
+			<ul class="marketingDetails">
+				<li>
+					<span>Category</span>	
+					<span class="right">Capital Senior to ME</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.CapitalSeniorAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.CapitalSeniorPoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.CapitalSeniorPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>
+				<li>
+					<span>Category</span>	
+					<span class="right">Capital Junior to ME</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.CapitalJuniorAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.CapitalJuniorPoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.CapitalJuniorPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>					
+				<li>
+					<span>Category</span>	
+					<span class="right">Location</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.LocationAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.LocationPoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.LocationPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>					
+				<li>
+					<span>Category</span>	
+					<span class="right">Occupancy</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.OccupancyAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.OccupancyPoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.OccupancyPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>					
+				<li>
+					<span>Category</span>	
+					<span class="right">Development Phase</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.DevelopmentPhaseAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.DevelopmentPhasePoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.DevelopmentPhasePoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>					
+				<li>
+					<span>Category</span>	
+					<span class="right">Sponsor's Track Record</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>					
+				<li>
+					<span>Category</span>	
+					<span class="right">Completion Guaranty</span>
+				</li>
+				<li>
+					<span>Assessment</span>	
+					<span class="right">{{marketingData.CompletionGuarantyAssessment}}</span>
+				</li>
+				<li>
+					<span>Points</span>	
+					<span class="right">{{marketingData.CompletionGuarantyPoints}}</span>
+				</li>			
+				<li>
+					<span>Level</span>	
+					<span class="right">{{marketingData.CompletionGuarantyPoints}}</span>
+				</li>									
+			</ul>
+		</div>     
+ 	</div> 
+ 	<!-- END Fundrise Rating-->
+ 	
+ 	<hr class="propertyDetails">
+ 	
+ 	<!-- START Risk-Adjusted Return -->
+	<div class="section"> 
+ 		<h3 class="sectionTitle">Risk-Adjusted Return</h3>
+ 	</div> 
+ 	<!-- END Risk-Adjusted Return-->
+ 	
+ 	<hr class="propertyDetails">
+ 	
+ 	<!-- START Capital Structure -->
+	<div class="section"> 
+ 		<h3 class="sectionTitle">Capital Structure</h3>
+ 			<ul class="marketingDetails">
+ 				<li>
+					<span>Type</span>	
+					<span class="right">Sponsor's Track Record</span>
+				</li>
+				<li>
+					<span>Source</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+				</li>
+				<li>
+					<span>% of Total</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>			
+				<li>
+					<span>Amount</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>
+				<li>
+					<span>Type</span>	
+					<span class="right">Sponsor's Track Record</span>
+				</li>
+				<li>
+					<span>Source</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+				</li>
+				<li>
+					<span>% of Total</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>			
+				<li>
+					<span>Amount</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>			
+				<li>
+					<span>Type</span>	
+					<span class="right">Sponsor's Track Record</span>
+				</li>
+				<li>
+					<span>Source</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+				</li>
+				<li>
+					<span>% of Total</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>			
+				<li>
+					<span>Amount</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>			
+				<li>
+					<span>Type</span>	
+					<span class="right">Sponsor's Track Record</span>
+				</li>
+				<li>
+					<span>Source</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+				</li>
+				<li>
+					<span>% of Total</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>			
+				<li>
+					<span>Amount</span>	
+					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+				</li>										
+ 			</ul>
+ 	</div> 
+ 	<!-- END Capital Structure-->
+ 	
+ 	<hr class="propertyDetails">
+ 	
+ 	<!-- START Property Summary -->
+	<div class="section"> 
+ 		<h3 class="sectionTitle">Property Summary</h3>
+ 		<p>{{marketingData.PropertySummary}}</p>
+ 		<ul class="marketingDetails">
+			<li>
+				<span>Address</span>	
+				<span class="right">{{marketingData.Address}}</span>
+			</li>
+			<li>
+				<span>City & State</span>	
+				<span class="right">{{marketingData.CityAndState}}</span>
+			</li>
+			<li>
+				<span>Neighborhood</span>	
+				<span class="right">{{marketingData.Neighborhood}}</span>
+			</li>			
+			<li>
+				<span>Product Type</span>	
+				<span class="right">{{marketingData.ProductType}}</span>
+			</li>
+			<li>
+				<span>Project Phase</span>	
+				<span class="right">{{marketingData.ProjectPhase}}</span>
+			</li>								
+ 		</ul>	
+ 	</div> 
+ 	<!-- END Property Summary-->
  	
   </ion-content>
 </ion-view>

@@ -231,7 +231,8 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('PropertyDetailsCtrl', function($scope, $ionicScrollDelegate, $http, $rootScope, $timeout, $q) {
+.controller('PropertyDetailsCtrl', function($scope, $ionicScrollDelegate, $http, $rootScope, 
+			$timeout, $q, $ionicPopup) {
 	
 	$scope.showPurchase = 1;
 	$scope.showClosing = 0;
@@ -280,17 +281,18 @@ angular.module('starter.controllers', ['firebase'])
 	};
 	
 	$scope.requestInfo = function() {
-		$ionicScrollDelegate.scrollBottom();
+		$ionicScrollDelegate.scrollBottom();		
 		$scope.requestPopup = 1;
 		$('#requestInfo').removeClass('fadeOut').addClass('fadeIn');		
 		$('input[type=checkbox]').removeAttr('checked');
 	};
-
+	
+	showAlert = false;
 	$scope.sendRequestInfo = function() {
-	$ionicScrollDelegate.scrollTop();		
-		console.log($scope.Info);
+		$ionicScrollDelegate.scrollTop();		
 		for(var i in $scope.Info) {
 			if($scope.Info[i]) {
+				showAlert = true;
 				$http({
 		    	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/RequestUpdate', 
 		    	    method: "GET",
@@ -307,7 +309,19 @@ angular.module('starter.controllers', ['firebase'])
 		$('#requestInfo').removeClass('fadeIn').addClass('fadeOut');		
 		$timeout(function() {					
 			$scope.requestPopup = 0;
+			$scope.Info = {};
 		});	
+		
+		if(showAlert) {
+			var alertPopup = $ionicPopup.alert({
+			     title: 'Update ME',
+			     template: 'Your request for update was sent to the office'
+			   });
+			   alertPopup.then(function(res) {
+			     //console.log('Thank you for not eating my delicious ice cream cone');
+			   });
+			showAlert = false;
+		}
 	};
 })
 
