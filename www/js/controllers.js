@@ -166,47 +166,64 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //Chats Ctrl
-.controller('ChatsCtrl', function($scope, $state, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) {
+.controller('ChatsCtrl', function($scope, $ionicHistory, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 
-		$scope.branchToChat = function (BranchName) {
+	$scope.branchToChat = function (BranchName) { 
+		TheBranchName = BranchName;	
+	 	$scope.chatSelected = false; 	 
+	 	$state.go('chats'); 
+	} 
+ 
+ 	$scope.selectChat = function() { 
+ 		if ($rootScope.propertyCnt > 1 ) { 
+ 			$scope.chatSelected = true; 
+ 		} else { 
+ 			TheBranchName = $rootScope.TheBranchName; 
+ 			$state.go('chats'); 
+ 		} 
+ 	}  
 
-		TheBranchName = BranchName;
-
-		console.log(BranchName);
-
-		$state.go('chats');
-	}
-
-	$scope.chatIsActive = false;
-
-	$scope.myId = localStorage.getItem("id");
-	var userId = localStorage.getItem("id");
-
-	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId);
-
-	ref.on("child_added", function(messageSnapshot) {			 
-		var messageData = messageSnapshot.val();
-		console.log(messageData);
-	});
-
-	$scope.chats = $firebaseArray(ref);
-
-	var username = localStorage.getItem("ClientName");
-
-	$scope.sendChat = function(chat) {
-
-		$scope.chats.$add({
-			user: username,
-			userid: userId,
-	        message: chat.message,
-	        client: 'true',
-	        timestamp: new Date().getTime()
-		});
-		chat.message = "";
-
-		$ionicScrollDelegate.scrollBottom();
-	}
-})
+  	$scope.chatIsActive = false; 
+ 
+  	$scope.myId = localStorage.getItem("id"); 
+ 	var userId = localStorage.getItem("id"); 
+ 
+ 	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
+ 
+  	ref.on("child_added", function(date) { 
+	 	$ionicScrollDelegate.scrollBottom(); 
+	 	$ionicScrollDelegate.scrollBottom(); 
+ 	}); 
+ 
+  	$ionicScrollDelegate.scrollBottom(); 
+  
+ 	$scope.chats = $firebaseArray(ref); 
+ 
+  	var username = localStorage.getItem("ClientName"); 
+   
+ 	$scope.sendChat = function(chat) { 
+   		$scope.chats.$add({ 
+ 			user: username, 
+ 			userid: userId, 
+ 	        message: chat.message, 
+ 	        client: 'true', 
+ 	        timestamp: new Date().getTime() 
+ 		}); 
+ 		chat.message = ""; 
+ 	} 
+ 
+ 	$scope.myGoBack = function() { 
+ 		$ionicHistory.goBack(); 
+    }; 
+    
+    $scope.isEmpty = function (obj) {
+    	console.log("obj "+ obj);
+        if (obj == "") 
+        	return false;
+        else
+        	return true;
+    };
+}) 
 
 //OverviewProperties Ctrl - logged in user
 .controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q) {

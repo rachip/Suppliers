@@ -301,14 +301,16 @@ hr {
     margin-bottom: 10px;    
 }
 
-.seeAll {
+.seeAll {	
     font-family: 'MuseoSans';
     background-color: black;
     color: white;
     width: 50%;
     height: 35px;
-    margin-top: 10px;
+    margin-top: 13px;
     border: none;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 0 5px black;
 }
 
 .seeAllDiv {
@@ -431,11 +433,12 @@ ul.propertyDetails li span:nth-child(2) {
 .infoBtn {
     width: 90%;
     margin: 10px 5%;
-    border: 4px black solid;
-    background-color: white;
-    height: 60px;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 0 5px black;
+    background-color: black;
+    color: white;
+    height: 50px;
     font-size: large;
-    font-weight: bold;
     position: absolute;
 }
 
@@ -474,11 +477,11 @@ ul.propertyDetails li span:nth-child(2) {
 }
 
 .requestPopup {
-     background-color: white;
+    background-color: white;
     border: 1px black solid;
     padding: 20px;
-    width: 90%;
-    margin-left: 5%;
+    width: 92%;
+    margin-left: 4%;
     margin-bottom: -5%;
     display: block;
     bottom: -2%;
@@ -661,27 +664,158 @@ ul.marketingDetails li {
 }
 
 /* -------------- the chats part -------------------- */
-
-.messages {
- 	background: #E4E4E4;
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 60%;
-    border-radius: 3px;
-    float: left;
-}
-
-.other {
-    background: #86D2FF;
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 70%;
-    border-radius: 3px;
-    float: right;
+.messages { 
+	background: #E4E4E4; 
+    padding: 10px; 
+    margin-bottom: 20px; 
+    width: 60%; 
+    border-radius: 3px; 
+    float: left; 
 } 
 
-.other p, .messages p {
-    margin: 0;
-    color: #525050;
-    font-size: 12px;
+.other {  
+	background: #86D2FF; 
+    padding: 10px; 
+    margin-bottom: 20px; 
+    width: 70%; 
+    border-radius: 3px; 
+    float: right; 
+}  
+ 
+.other p, .messages p { 
+	margin: 0; 
+    color: #525050; 
+    font-size: 12px; 
+} 
+ 
+.statusBarChat { 
+	position: fixed; 
+    bottom: 0; 
+    right: 0; 
+    background: #353434; 
+    width: 100%; 
+    height: 140px; 
+    z-index: 9999; 
+} 
+ 
+.statusBarChat span { 
+	color: white; 
+    text-align: center; 
+    width: 100%; 
+    display: block; 
+    padding-top: 12px; 
+    font-size: 20px; 
+} 
+ 
+.col-100-p { 
+
+} 
+ 
+.col-50-p { 
+	width: 50%; 
+    float: left; 
+    padding: 10px; 
+    cursor: pointer; 
+} 
+ 
+ 
+.col-50-p span { 
+     background: rgba(251, 251, 251, 0.37); 
+     width: 100%; 
+     /* display: block; */ 
+     /* margin: 20px; */ 
+     padding-left: 21px; 
+     /* border: 2px #E6E2E2 solid; */ 
+     /* text-align: center; */ 
+     padding: 4px; 
+     border-radius: 4px; 
+     color: black; 
 }
+  
+ /** ios1-ios6 bubbles **/ 
+.bubble { 
+   box-sizing: border-box; 
+   float: left; 
+   width: auto; 
+   max-width: 80%; 
+   position: relative; 
+   clear: both;    
+   background: #FFFFFF;    
+   border: none; 
+   -webkit-border-radius: 10px; 
+   -moz-border-radius: 10px; 
+   border-radius: 10px;    
+   -webkit-box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); 
+   -moz-box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); 
+   box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); 
+   margin-bottom: 20px; 
+   padding: 6px 20px; 
+   color: #000; 
+   text-shadow: 0 1px 1px rgba(255,255,255,0.8); 
+   word-wrap: break-word; 
+   margin-left: 20px; 
+} 
+ 
+bubble:before, .bubble:after { 
+   border-radius: 20px / 5px; 
+   content: ''; 
+   display: block; 
+   position: absolute; 
+} 
+
+.bubble:before { 
+   border: 10px solid transparent; 
+   border-bottom-color: rgba(0,0,0,0.5); 
+   bottom: 0px; 
+   left: -7px; 
+   z-index: -2; 
+} 
+
+.bubble:after { 
+	border: 8px solid transparent; 
+    border-bottom-color: #FFFFFF; 
+    bottom: 0px; 
+    left: -5px; 
+    -webkit-box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 0px rgba(0,0,0,0.2); 
+    -moz-box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); 
+    /* box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); */ 
+}  
+ 
+.bubble-alt { 
+   float: right; 
+} 
+
+.bubble-alt:before { 
+   left: auto; 
+   right: -7px; 
+} 
+
+.bubble-alt:after { 
+   left: auto; 
+   right: -5px; 
+}
+ 
+ /* yellow bubble */ 
+.yellow { 
+     background: #646564; 
+     float: right; 
+     margin-left: 0px; 
+     margin-right: 20px; 
+     border: none; 
+     text-shadow: none; 
+}
+ 
+.yellow:after { 
+     border: 8px solid transparent; 
+     border-bottom-color: #646564; 
+     bottom: 0px; 
+     right: -5px; 
+     left: 0; 
+    -webkit-box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 0px rgba(0,0,0,0.2); 
+     -moz-box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); 
+     /* box-shadow: inset 0 8px 5px rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.2); */ 
+} 
+ 
+.yellow p, .yellow span { 
+	color: white; 
+} 

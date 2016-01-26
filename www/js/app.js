@@ -114,7 +114,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     url: "/app",
     templateUrl: "views/app/template.html",
     abstract: true,
-    controller: 'AppCtrl'
+    controller: 'ChatsCtrl'
   })
   
   //overview
@@ -178,8 +178,8 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
 
  .state('chats', {
     url: '/chats',
-      templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        	templateUrl: 'templates/tab-chats.html',
+           controller: 'ChatsCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback
