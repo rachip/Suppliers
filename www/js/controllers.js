@@ -157,12 +157,41 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicSlideBoxDelegate) {
+.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate) {
+	$scope.MailObj = {};
+	
 	$scope.$on( "marketingDetails", function(event, data) {
 		propertyId = data.marketingPropertyId;
 		getAllMarketingPropertyImages(propertyId, $scope, $http);
 		getMarketingPropertyInfo(propertyId, $scope, $http);
-	});	
+	});
+	
+	$scope.buy = function() {
+		console.log("buy function");
+		$ionicScrollDelegate.scrollBottom();
+		$scope.sendMail = 1;
+	}
+	
+	$scope.send = function() {
+		$ionicScrollDelegate.scrollTop();	
+		$scope.sendMail = 0;
+		console.log("$scope.MailObj.from" , $scope.MailObj.from);
+		
+		var obj = {from: $scope.MailObj.from, subject: $scope.MailObj.subject, content: $scope.MailObj.content};
+		console.log(obj);
+		
+		$http({
+		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Mail', 
+		    method: "POST",
+		    data: {from: $scope.MailObj.from, subject: $scope.MailObj.subject, content: $scope.MailObj.content},
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(resp) {
+			console.log("sucess")
+		}, function(err) {
+		    console.error('ERR', err);
+		})		
+	}
+	
 })
 
 //Chats Ctrl
@@ -721,6 +750,8 @@ function getAllMarketingPropertyImages(propertyId, $scope, $http) {
 }
 
 function getMarketingPropertyInfo(propertyId, $scope, $http) {
+	var investmentAmount, salePrice, purchaseCost, closingCost, softCost, investmentME, financing, address;
+	
 	$http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getMarketingId', 
 	    method: "GET",
@@ -729,11 +760,160 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
 			$scope.marketingData = resp.data[0];
+			investmentAmount = $scope.marketingData["BuyPrice"];
+			salePrice = $scope.marketingData["SalePrice"];
+			salePrice = $scope.marketingData["SalePrice"];
+			purchaseCost = $scope.marketingData["PurchaseCost"];
+			closingCost = $scope.marketingData["ClosingCost"];
+			softCost= $scope.marketingData["SoftCost"];
+			investmentME = $scope.marketingData["InvestmentME"];
+			financing = $scope.marketingData["Financing"];
+			address = $scope.marketingData["Address"];
+			
 			console.log($scope.marketingData);
+			
+			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
+			drawSensitivityAnalysisCart(investmentAmount, salePrice);
+			darwGoogleMap(address);
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
 	})
+}
+
+function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, investmentME, financing ) {
+	
+	var svg = d3.select("div#investmentAmountCart").append("svg").attr("width", 150).attr("height", 160);
+
+	svg.append("g").attr("id", "salesDonut");
+
+	var val1 = purchaseCost/buySum;
+	var val2 = closingCost/buySum;
+	var val3 = softCost/buySum;
+	var val4 = investmentME/buySum;
+	var val5 = financing/buySum;
+	
+	Donut3D.draw("salesDonut", 
+			[ {label:"sss", value:val1, color:"#686868"}, 
+			  {label:"sss", value:val2, color:"#888888"}, 
+			  {label:"sss", value:val3, color:"#A0A0A0"}, 
+			  {label:"sss", value:val4, color:"#C0C0C0"}, 
+			  {label:"aaa", value:val5, color:"#D8D8D8"}
+			], 70, 90, 70, 70, 0, 0.6);
+}
+
+function drawSensitivityAnalysisCart(buySum, saleSum) {
+	console.log("buySum " + buySum + " saleSum " + saleSum);
+	var income = saleSum - buySum;
+	var data = {
+		    labels: ["-20%", "-15%", "-10%", "-5%", "Base line", "5%", "10%", "15%", "20%"],
+		    datasets: [
+		        {
+		            label: "buySum",
+		            fillColor: "rgba(220,220,220,0.5)",
+		            strokeColor: "rgba(220,220,220,0.8)",
+		            highlightFill: "rgba(220,220,220,0.75)",
+		            highlightStroke: "rgba(220,220,220,1)",
+		            data: [calcPercent(buySum, 20, "minus"), calcPercent(buySum, 15, "minus"), calcPercent(buySum, 10, "minus"), calcPercent(buySum, 5, "minus"), 
+		                   buySum, 
+		                   calcPercent(buySum, 5, "plus"), calcPercent(buySum, 10, "plus"), calcPercent(buySum, 15, "plus"), calcPercent(buySum, 20, "plus")]
+		        },
+		        {
+		            label: "saleSum",
+		            fillColor: "rgba(160,160,160,0.5)",
+		            strokeColor: "rgba(160,160,160,0.8)",
+		            highlightFill: "rgba(160,160,160,0.75)",
+		            highlightStroke: "rgba(160,160,160,1)",
+		            data: [calcPercent(saleSum, 20, "minus"), calcPercent(saleSum, 15, "minus"), calcPercent(saleSum, 10, "minus"), calcPercent(saleSum, 5, "minus"), 
+		                   saleSum, 
+		                   calcPercent(saleSum, 5, "plus"), calcPercent(saleSum, 10, "plus"), calcPercent(saleSum, 15, "plus"), calcPercent(saleSum, 20, "plus")]
+		        },
+		        {
+		            label: "incomeSum",
+		            fillColor: "rgba(96,96,96,0.5)",
+		            strokeColor: "rgba(96,96,96,0.8)",
+		            highlightFill: "rgba(96,96,96,0.75)",
+		            highlightStroke: "rgba(96,96,96,1)",
+		            data: [calcPercent(income, 20, "minus"), calcPercent(income, 15, "minus"), calcPercent(income, 10, "minus"), calcPercent(income, 5, "minus"), 
+		                   income, 
+		                   calcPercent(income, 5, "plus"), calcPercent(income, 10, "plus"), calcPercent(income, 15, "plus") , calcPercent(income, 20, "plus")]
+		        }
+		    ]
+		};
+
+		// Get the context of the canvas element we want to select
+		var ctx = document.getElementById("myChart").getContext("2d");
+		var option = { scaleShowGridLines : false, 
+				       scaleOverride : true,
+		        	   scaleSteps : 5,
+		               scaleStepWidth : 5000000,
+		               scaleStartValue : 0, 
+		               onAnimationComplete: function () {
+
+		                   var ctx = this.chart.ctx;
+		                   ctx.font = this.scale.font;
+		                   ctx.fillStyle = this.scale.textColor
+		                   ctx.textAlign = "left";
+		                   ctx.textBaseline = "bottom";
+
+		                   this.datasets.forEach(function (dataset) {
+		                       dataset.bars.forEach(function (bar) {
+		                    	   ctx.fillText(Math.round( bar.value /1000000) + " M", bar.x+5, bar.y+5);
+		                       });
+		                   })
+		               }
+		             }	
+		var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+}
+
+function darwGoogleMap(address) {
+	var geocoder;
+	var map;
+	var address = address ;
+    
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(-34.397, 150.644);
+        
+    var mapOptions = {
+		zoom: 8,
+	    center: latlng,
+	    mapTypeControl: true,
+	    mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+	    navigationControl: true,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        
+    if (geocoder) {
+        geocoder.geocode( { 'address': address}, function(results, status) {
+	        if (status == google.maps.GeocoderStatus.OK) {
+		        if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {		        	
+		        	map.setCenter(results[0].geometry.location);		
+		        	
+		        	var infowindow = new google.maps.InfoWindow(
+		              { content: '<b>'+address+'</b>',
+		                size: new google.maps.Size(150,50)
+		              });
+		
+		        	var marker = new google.maps.Marker(
+		        	  { position: results[0].geometry.location,
+		        		map: map, 
+		                title:address
+		              }); 
+		          
+		        	google.maps.event.addListener(marker, 'click', function() {
+		        		infowindow.open(map,marker);
+		        	});
+		
+		        } else {
+		          alert("No results found");
+		        }
+	        } else {
+	          alert("Geocode was not successful for the following reason: " + status);
+	        }
+	    });
+    }
 }
 
 //get main bar values
@@ -862,4 +1042,13 @@ function numberWithCommas(x) {
 function dateFormat(date) {
 	var formattedDate = new Date(date);
 	return (formattedDate.getMonth() + 1) + '/' + formattedDate.getDate() + '/' +  formattedDate.getFullYear();
+}
+
+function calcPercent(sum, percent, operator) {
+	var val;
+	if(operator == 'minus') {
+		return val = sum * ((100 - percent) / 100);
+	} else {
+		return val = sum * ((100 + percent) / 100);
+	}
 }
