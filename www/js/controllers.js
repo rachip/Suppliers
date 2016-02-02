@@ -167,29 +167,85 @@ angular.module('starter.controllers', ['firebase'])
 	});
 	
 	$scope.buy = function() {
-		console.log("buy function");
 		$ionicScrollDelegate.scrollBottom();
 		$scope.sendMail = 1;
+	}
+	
+	$scope.meeting = function() {
+		$ionicScrollDelegate.scrollBottom();
+		$scope.meet = 1;
 	}
 	
 	$scope.send = function() {
 		$ionicScrollDelegate.scrollTop();	
 		$scope.sendMail = 0;
-		console.log("$scope.MailObj.from" , $scope.MailObj.from);
 		
-		var obj = {from: $scope.MailObj.from, subject: $scope.MailObj.subject, content: $scope.MailObj.content};
+		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule};
 		console.log(obj);
 		
+		// send mail to moshe gmail
 		$http({
-		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Mail', 
+		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/buy', 
 		    method: "POST",
-		    data: {from: $scope.MailObj.from, subject: $scope.MailObj.subject, content: $scope.MailObj.content},
+		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
 		}, function(err) {
 		    console.error('ERR', err);
-		})		
+		})	
+		
+		// save mail details in contacts leader tbl
+		$http({
+		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
+		    method: "POST",
+		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule},
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(resp) {
+			console.log("sucess")
+		}, function(err) {
+		    console.error('ERR', err);
+		})	
+		$scope.MailObj = {};
+	}
+	
+	$scope.setMeeting = function() {
+		$ionicScrollDelegate.scrollTop();		
+		$scope.meet = 0;
+		
+		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule};
+		console.log(obj);
+		
+		// send mail to moshe gmail
+		$http({
+		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/setMeeting', 
+		    method: "POST",
+		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+				   schedule: $scope.MailObj.schedule},
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(resp) {
+			console.log("sucess")
+		}, function(err) {
+		    console.error('ERR', err);
+		})	
+		
+		// save mail details in contacts leader tbl
+		$http({
+		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
+		    method: "POST",
+		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+				   address: '', schedule: $scope.MailObj.schedule},
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(resp) {
+			console.log("sucess")
+		}, function(err) {
+		    console.error('ERR', err);
+		})
+		$scope.MailObj = {};
 	}
 	
 })
@@ -274,6 +330,13 @@ angular.module('starter.controllers', ['firebase'])
 	    	var unbind = $rootScope.$broadcast( "showDetails", {PropertyId:propertyId, ImageURL:imageURL} );
 	    });
 	}
+	
+	$scope.gotoMarketing = function(propertyId) {	
+		$state.go('invest.marketingDetails');
+		$timeout(function() {
+	    	var unbind = $rootScope.$broadcast( "marketingDetails", {marketingPropertyId:propertyId} );
+	    });
+	};
 })
 
 //propertyDetails ctrl
@@ -774,6 +837,7 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawSensitivityAnalysisCart(investmentAmount, salePrice);
+			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			darwGoogleMap(address);
 		} 
 	}, function(err) {
@@ -794,46 +858,45 @@ function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, in
 	var val5 = financing/buySum;
 	
 	Donut3D.draw("salesDonut", 
-			[ {label:"sss", value:val1, color:"#686868"}, 
-			  {label:"sss", value:val2, color:"#888888"}, 
-			  {label:"sss", value:val3, color:"#A0A0A0"}, 
-			  {label:"sss", value:val4, color:"#C0C0C0"}, 
-			  {label:"aaa", value:val5, color:"#D8D8D8"}
+			[ {label:"sss", value:val1, color:"#499FCE"}, 
+			  {label:"sss", value:val2, color:"#1B4A64"}, 
+			  {label:"sss", value:val3, color:"#A37E64"}, 
+			  {label:"sss", value:val4, color:"#662756"}, 
+			  {label:"aaa", value:val5, color:"#7F8354"}
 			], 70, 90, 70, 70, 0, 0.6);
 }
 
 function drawSensitivityAnalysisCart(buySum, saleSum) {
-	console.log("buySum " + buySum + " saleSum " + saleSum);
 	var income = saleSum - buySum;
 	var data = {
-		    labels: ["-20%", "-15%", "-10%", "-5%", "Base line", "5%", "10%", "15%", "20%"],
+		    labels: ["-20%", "-15%", "-10%", "-5%", "Base", "5%", "10%", "15%", "20%"],
 		    datasets: [
 		        {
 		            label: "buySum",
-		            fillColor: "rgba(220,220,220,0.5)",
-		            strokeColor: "rgba(220,220,220,0.8)",
-		            highlightFill: "rgba(220,220,220,0.75)",
-		            highlightStroke: "rgba(220,220,220,1)",
+		            fillColor: "rgba(73,159,206,0.75)",
+		            strokeColor: "rgba(73,159,206,0.8)",
+		            highlightFill: "rgba(73,159,206,0.75)",
+		            highlightStroke: "rgba(73,159,206,1)",
 		            data: [calcPercent(buySum, 20, "minus"), calcPercent(buySum, 15, "minus"), calcPercent(buySum, 10, "minus"), calcPercent(buySum, 5, "minus"), 
 		                   buySum, 
 		                   calcPercent(buySum, 5, "plus"), calcPercent(buySum, 10, "plus"), calcPercent(buySum, 15, "plus"), calcPercent(buySum, 20, "plus")]
 		        },
 		        {
 		            label: "saleSum",
-		            fillColor: "rgba(160,160,160,0.5)",
-		            strokeColor: "rgba(160,160,160,0.8)",
-		            highlightFill: "rgba(160,160,160,0.75)",
-		            highlightStroke: "rgba(160,160,160,1)",
+		            fillColor: "rgba(27,74,100,0.75)",
+		            strokeColor: "rgba(27,74,100,0.8)",
+		            highlightFill: "rgba(27,74,100,0.75)",
+		            highlightStroke: "rgba(27,74,100,1)",
 		            data: [calcPercent(saleSum, 20, "minus"), calcPercent(saleSum, 15, "minus"), calcPercent(saleSum, 10, "minus"), calcPercent(saleSum, 5, "minus"), 
 		                   saleSum, 
 		                   calcPercent(saleSum, 5, "plus"), calcPercent(saleSum, 10, "plus"), calcPercent(saleSum, 15, "plus"), calcPercent(saleSum, 20, "plus")]
 		        },
 		        {
 		            label: "incomeSum",
-		            fillColor: "rgba(96,96,96,0.5)",
-		            strokeColor: "rgba(96,96,96,0.8)",
-		            highlightFill: "rgba(96,96,96,0.75)",
-		            highlightStroke: "rgba(96,96,96,1)",
+		            fillColor: "rgba(163,126,100,0.75)",
+		            strokeColor: "rgba(163,126,100,0.8)",
+		            highlightFill: "rgba(163,126,100,0.75)",
+		            highlightStroke: "rgba(163,126,100,1)",
 		            data: [calcPercent(income, 20, "minus"), calcPercent(income, 15, "minus"), calcPercent(income, 10, "minus"), calcPercent(income, 5, "minus"), 
 		                   income, 
 		                   calcPercent(income, 5, "plus"), calcPercent(income, 10, "plus"), calcPercent(income, 15, "plus") , calcPercent(income, 20, "plus")]
@@ -848,6 +911,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		        	   scaleSteps : 5,
 		               scaleStepWidth : 5000000,
 		               scaleStartValue : 0, 
+		               showTooltips: false,
 		               onAnimationComplete: function () {
 
 		                   var ctx = this.chart.ctx;
@@ -864,6 +928,24 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		               }
 		             }	
 		var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+}
+
+function capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing) {
+	if(investmentAmount != "0") {
+		$scope.purchaseCostTotalPercent = Math.round(purchaseCost / investmentAmount * 100);
+		$scope.closingCostTotalPercent = Math.round(closingCost / investmentAmount * 100);
+		$scope.softCostTotalPercent = Math.round(softCost / investmentAmount * 100);
+		$scope.investmentMETotalPercent = Math.round(investmentME / investmentAmount * 100);
+		$scope.financingTotalPercent = Math.round(financing / investmentAmount * 100);
+		$scope.totalPercent = Math.round($scope.purchaseCostTotalPercent + $scope.closingCostTotalPercent + $scope.softCostTotalPercent + $scope.investmentMETotalPercent + $scope.financingTotalPercent);
+		
+		$scope.purchaseCostAmount =  $scope.purchaseCostTotalPercent * investmentAmount / 100;
+		$scope.closingCostAmount = $scope.closingCostTotalPercent * investmentAmount / 100;
+		$scope.softCostAmount = $scope.softCostTotalPercent * investmentAmount / 100;
+		$scope.investmentMEAmount = $scope.investmentMETotalPercent * investmentAmount / 100;
+		$scope.financingAmount = $scope.financingTotalPercent * investmentAmount / 100;
+		$scope.totalAmount = $scope.purchaseCostAmount + $scope.closingCostAmount + $scope.softCostAmount + $scope.investmentMEAmount + $scope.financingAmount;
+	}
 }
 
 function darwGoogleMap(address) {

@@ -6,6 +6,7 @@
 .bottom-26 { margin-bottom: 26px;}
 .right-2pe { margin-right: 2%; }
 .calign { text-align: center; }
+.ralign { text-align: right; }
 .width_20pe { width: 20%; }
 .width_48pe { width: 48%; }
 .width_50pe { width: 50%; }
@@ -15,9 +16,11 @@
 .bold { font-weight: bold; }
 .dinline { display: inline-block; }
 .height_200px { height: 200px; }
-.lightBlue { color: rgb(141, 165, 1) }
-.blue { color: rgb(43, 122, 116) }
-.brown { color: rgb(241, 90, 36) }
+.lightBlue { color: #499FCE }
+.blue { color: #1B4A64 }
+.brown { color: #A37E64 }
+.purple { color: #662756 }
+.green { color: #7F8354 }
 
 /* svg{width:30%;} */
 
@@ -400,7 +403,7 @@ hr {
     font-size: x-large;
     font-weight: bolder;
     margin: 30px 30px;
-    text-shadow: 1px 1px #000000;   
+    text-shadow: 1px 1px #499FCE;   
 }
 
 hr.propertyDetails {
@@ -681,23 +684,23 @@ ul.marketingDetails li {
 }
 
 .squrePurchaseCost {	
-	background: #686868;	
+	background: #499FCE;	
 }
 
 .squreClosingCost {	
-	background: #888888;	
+	background: #1B4A64;	
 }
 
 .squreSoftCost {
-	background: #A0A0A0;	
+	background: #A37E64;	
 }
 
 .squreInvestmentME {
-	background: #C0C0C0;
+	background: #662756;
 }
 
 .squreFinancing {
-	background: #D8D8D8;
+	background: #7F8354;
 }
 
 .investmentAmountSpan {
@@ -724,15 +727,14 @@ ul.marketingDetails li {
 }
 
 .btn {
-   	width: 29%;
-    margin: 5px 8px;
+   	width: 27%;
+    margin: 5px 9px;
     border: 2px solid #FFFFFF;
     box-shadow: 0 0 0 5px black;
     background-color: black;
     color: white;
-    height: 50px;
+    height: 40px;
     font-size: medium;
-    /* position: absolute; */
 }
 
 .sendMailPopup {

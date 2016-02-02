@@ -24,31 +24,31 @@
 			<ul class="marketingDetails">
 				<li>
 					<span>Current Ann. Return</span>	
-					<span class="right">{{marketingData.CurrentAnnualReturn}}%</span>
+					<span class="right brown">{{marketingData.CurrentAnnualReturn}}%</span>
 				</li>
 				<li>
 					<span>Accrued Ann. Return</span>	
-					<span class="right">{{marketingData.AccruedAnnualReturn}}%</span>
+					<span class="right brown">{{marketingData.AccruedAnnualReturn}}%</span>
 				</li>
 				<li>
 					<span class="bold">Gross Ann. Return*</span>	
-					<span class="right bold">{{marketingData.GrossAnnualReturn}}%</span>
+					<span class="right bold brown">{{marketingData.GrossAnnualReturn}}%</span>
 				</li>			
 				<li>
 					<span>Term Remaining:</span>	
-					<span class="right">{{marketingData.TermRemaining}}</span>
+					<span class="right brown">{{marketingData.TermRemaining}}</span>
 				</li>
 				<li>
 					<span>Min. Investment:</span>	
-					<span class="right">{{marketingData.MinInvestment}}</span>
+					<span class="right brown">{{marketingData.MinInvestment}}</span>
 				</li>
 				<li>
 					<span>Investment Size:</span>	
-					<span class="right">${{marketingData.InvestmentSize}}</span>
+					<span class="right brown">${{marketingData.InvestmentSize}}</span>
 				</li>
 				<li>
 					<span>Underlying Security:</span>	
-					<span class="right">{{marketingData.UnderlyingSecurity}}</span>
+					<span class="right brown">{{marketingData.UnderlyingSecurity}}</span>
 				</li>
 			</ul>
 		</div>
@@ -172,77 +172,111 @@
  			<ul class="marketingDetails">
  				<li>
 					<span>Type</span>	
-					<span class="right">Sponsor's Track Record</span>
+					<span class="right">Purchase Cost</span>
 				</li>
 				<li>
 					<span>Source</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+					<span class="right">{{marketingData.PurchaseCostSource}}</span>
 				</li>
 				<li>
 					<span>% of Total</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">{{purchaseCostTotalPercent}}%</span>
 				</li>			
 				<li>
 					<span>Amount</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">${{purchaseCostAmount}}</span>
 				</li>
 				<li>
 					<hr class="rating">
 				</li>
 				<li>
 					<span>Type</span>	
-					<span class="right">Sponsor's Track Record</span>
+					<span class="right">Closing Cost</span>
 				</li>
 				<li>
 					<span>Source</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+					<span class="right">{{marketingData.ClosingCostSource}}</span>
 				</li>
 				<li>
 					<span>% of Total</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">{{closingCostTotalPercent}}%</span>
 				</li>			
 				<li>
 					<span>Amount</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">${{closingCostAmount}}</span>
 				</li>
 				<li>
 					<hr class="rating">
 				</li>			
 				<li>
 					<span>Type</span>	
-					<span class="right">Sponsor's Track Record</span>
+					<span class="right">Soft Cost</span>
 				</li>
 				<li>
 					<span>Source</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+					<span class="right">{{marketingData.SoftCostSource}}</span>
 				</li>
 				<li>
 					<span>% of Total</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">{{softCostTotalPercent}}%</span>
 				</li>			
 				<li>
 					<span>Amount</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">${{softCostAmount}}</span>
 				</li>
 				<li>
-					<hr class="rating">
+				<hr class="rating">
 				</li>			
 				<li>
 					<span>Type</span>	
-					<span class="right">Sponsor's Track Record</span>
+					<span class="right">Investment ME</span>
 				</li>
 				<li>
 					<span>Source</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordAssessment}}</span>
+					<span class="right">{{marketingData.InvestmentMESource}}</span>
 				</li>
 				<li>
 					<span>% of Total</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
+					<span class="right">{{investmentMETotalPercent}}%</span>
 				</li>			
 				<li>
 					<span>Amount</span>	
-					<span class="right">{{marketingData.SponsorTrackRecordPoints}}</span>
-				</li>										
+					<span class="right">${{investmentMEAmount}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>
+				<li>
+					<span>Type</span>	
+					<span class="right">Financing</span>
+				</li>
+				<li>
+					<span>Source</span>	
+					<span class="right">{{marketingData.FinancingSource}}</span>
+				</li>
+				<li>
+					<span>% of Total</span>	
+					<span class="right">{{financingTotalPercent}}%</span>
+				</li>			
+				<li>
+					<span>Amount</span>	
+					<span class="right">${{financingAmount}}</span>
+				</li>
+				<li>
+					<hr class="rating">
+				</li>
+				<li>
+					<span class="bold">Type</span>	
+					<span class="right bold">Total</span>
+				</li>				
+				<li>
+					<span class="bold">% of Total</span>	
+					<span class="right bold">{{totalPercent}}%</span>
+				</li>			
+				<li>
+					<span class="bold">Amount</span>	
+					<span class="right bold">${{totalAmount}}</span>
+				</li>												
  			</ul>
  	</div> 
  	<!-- END Capital Structure-->
@@ -265,59 +299,64 @@
  		<ul class="marketingDetails">
 			<li>
 				<span>Address</span>	
-				<span class="right">{{marketingData.Address}}</span>
+				<span class="right brown">{{marketingData.Address}}</span>
 			</li>
 			<li>
 				<span>City & State</span>	
-				<span class="right">{{marketingData.CityAndState}}</span>
+				<span class="right brown">{{marketingData.CityAndState}}</span>
 			</li>
 			<li>
 				<span>Neighborhood</span>	
-				<span class="right">{{marketingData.Neighborhood}}</span>
+				<span class="right brown">{{marketingData.Neighborhood}}</span>
 			</li>			
 			<li>
 				<span>Product Type</span>	
-				<span class="right">{{marketingData.ProductType}}</span>
+				<span class="right brown">{{marketingData.ProductType}}</span>
 			</li>
 			<li>
 				<span>Project Phase</span>	
-				<span class="right">{{marketingData.ProjectPhase}}</span>
+				<span class="right brown">{{marketingData.ProjectPhase}}</span>
 			</li>								
  		</ul>	
  	</div> 
  	<!-- END Property Summary-->
  	
  	
- 	<div id="mailPopup"
-			ng-show="sendMail == 1" class="sendMailPopup">
+ 	<div id="mailPopup" ng-show="sendMail == 1" class="sendMailPopup">
 <!-- 			ng-class="sendMail == 1 ? 'sendMailPopup animated fadeIn' : 'sendMailPopup'"> -->
-			<h3 class="calign">Send Mail</h3>
-			<ul class="propertyDetails">
-				
+		<h3 class="calign">Send Mail</h3>
+		<div class="list">	
+			<ul class="propertyDetails">			
 				<li>
-					<span>Your Name: </span>
+					<span>Name </span>
 					<label class="item item-input">	
 						<input class="" type="text" placeholder="Your Name" ng-model="MailObj.name">	
 					</label>
 				</li>
 				
 				<li>
-					<span>From: </span>
+					<span>Mail </span>
 					<label class="item item-input">	
-						<input class="" type="text" placeholder="Email" ng-model="MailObj.from">	
+						<input class="" type="text" placeholder="Your Email" ng-model="MailObj.mail">	
 					</label>
 				</li>
 				<li>
-					<span>Subject: </span>
+					<span>Phone </span>
 					<label class="item item-input">
-					    <input type="text" placeholder="Subject" ng-model="MailObj.subject">
+					    <input type="text" placeholder="Your Phone" ng-model="MailObj.phone"/>
 					</label>	
 					
 				</li>
 				<li>
-					<span>Content: </span>
+					<span>Address </span>
 					<label class="item item-input">
-						<textarea rows="6" class="" type="text" placeholder="Content" ng-model="MailObj.content"></textarea>	
+						<input class="" type="text" placeholder="Your Address" ng-model="MailObj.address"/>
+					</label>
+				</li>
+				<li>
+					<span>Meeting schedule </span>
+					<label class="item item-input">
+						<input class="" type="text" placeholder="yyyy-mm-dd" ng-model="MailObj.schedule"/>
 					</label>
 				</li>
 				<li>
@@ -326,12 +365,53 @@
 					</div>
 				</li>
 			</ul>
-		</div>
+		</div>	
+	</div>
  	
+ 	<div id="mailPopup" ng-show="meet == 1" class="sendMailPopup">
+		<h3 class="calign">Send Mail</h3>
+		<h3 class="ralign">x</h3>
+		<div class="list">	
+			<ul class="propertyDetails">			
+				<li>
+					<span>Name </span>
+					<label class="item item-input">	
+						<input class="" type="text" placeholder="Your Name" ng-model="MailObj.name">	
+					</label>
+				</li>
+				
+				<li>
+					<span>Mail </span>
+					<label class="item item-input">	
+						<input class="" type="text" placeholder="Your Email" ng-model="MailObj.mail">	
+					</label>
+				</li>
+				<li>
+					<span>Phone </span>
+					<label class="item item-input">
+					    <input type="text" placeholder="Your Phone" ng-model="MailObj.phone"/>
+					</label>	
+					
+				</li>				
+				<li>
+					<span>Meeting schedule </span>
+					<label class="item item-input">
+						<input class="" type="text" placeholder="yyyy-mm-dd" ng-model="MailObj.schedule"/>
+					</label>
+				</li>
+				<li>
+					<div class="calign">
+						<button class="seeAll" ng-click="setMeeting()">Send</button>
+					</div>
+				</li>
+			</ul>
+		</div>	
+	</div>
+	
  	<div class="btnDiv">
  		<button class="btn" ng-click="buy()">BUY</button>
  		<button class="btn" ng-click="share()">SHARE</button>
- 		<button class="btn" ng-click="meeting()">SET MEETING</button>
+ 		<button class="btn" ng-click="meeting()">MEETING</button>
  	</div>
  	
   </ion-content>

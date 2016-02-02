@@ -59,7 +59,8 @@
 	    </div>
 	    <div id="SPECIAL_DEALSimg">
 	    	<div ng-repeat="property in specialPropertyImage" class="animated fadeInLeft col {{property.class}}" 
-	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}">
+	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
+	    	ng-click="gotoMarketing(property.PropertyId)">
 	    	</div>
 	    </div>
 	    <!-- END Special deals section -->
