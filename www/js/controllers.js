@@ -834,7 +834,7 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			address = $scope.marketingData["Address"];
 			
 			console.log($scope.marketingData);
-			
+
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawSensitivityAnalysisCart(investmentAmount, salePrice);
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
