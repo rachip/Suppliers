@@ -311,8 +311,8 @@ angular.module('starter.controllers', ['firebase'])
 }) 
 
 //OverviewProperties Ctrl - logged in user
-.controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q) {
-    var id;  
+.controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
+    var id; 
     $scope.isOverviewLoading = true;
     
     var promise = getOverviewPageData($scope, $rootScope, $http, $q);
@@ -331,7 +331,8 @@ angular.module('starter.controllers', ['firebase'])
 	    });
 	}
 	
-	$scope.gotoMarketing = function(propertyId) {	
+	$scope.gotoMarketing = function(propertyId) {
+	    $ionicScrollDelegate.scrollTop();
 		$state.go('invest.marketingDetails');
 		$timeout(function() {
 	    	var unbind = $rootScope.$broadcast( "marketingDetails", {marketingPropertyId:propertyId} );

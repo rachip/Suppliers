@@ -6,12 +6,8 @@
  <ion-pane>
   <ion-content lazy-scroll has-header="true">
 
-	<ion-spinner icon="bubbles" ng-if='isOverviewLoading' class="spinner"></ion-spinner>
-	
-	<div ng-if='!isOverviewLoading'> 
-	    <div class="overviewMain" ng-click="showAllBar()">
-    
-    <!-- START Header -->
+	<div class="overviewMain">    
+    	<!-- START Header -->
 	    <h2>OVERVIEW</h2>
 	    <h4>A short view of your earnings</h4>
 		<div id='outer' >
@@ -32,12 +28,11 @@
 				</li>				
 			</ul>					
 		</div>
+		<!-- END Header -->
     </div>
-
-    <!-- END Header -->
 	    
-	    <!-- START Investment chart section -->
-	    <!-- END Investment chart section -->
+	<ion-spinner icon="bubbles" ng-if='isOverviewLoading' class="spinner"></ion-spinner>
+	<div ng-if='!isOverviewLoading'> 
 	    
 	    <!-- START Your properties section -->
 	    <div class="overviewTitle">

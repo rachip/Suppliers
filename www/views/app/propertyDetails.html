@@ -50,7 +50,7 @@
 		
 		<!-- START Purchase -->
 		<div class="section" ng-click="click(1)">
-			<h3 class="sectionTitle">Purchase And Sale</h3>
+			<h3 class="sectionTitle" ng-class="showPurchase == 1 ? 'lightBlue' : ''">Purchase And Sale</h3>
 			<i class="icon pointer arrow" 
 			ng-class="showPurchase == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i> 
 			<div ng-if="showPurchase == 1" ng-class="showPurchase == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
@@ -96,7 +96,7 @@
 		
 		<!-- START Closing -->
 	 	<div class="section" ng-click="click(2)">
-	 		<h3 class="sectionTitle">Closing</h3>
+	 		<h3 class="sectionTitle" ng-class="showClosing == 1 ? 'lightBlue' : ''">Closing</h3>
 			<i class="icon pointer arrow" 
 			ng-class="showClosing == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
 	
@@ -127,7 +127,7 @@
 		
 	 	<!-- START Renovation --> 
 	 	<div class="section" ng-click="click(3)"> 
-	 		<h3 class="sectionTitle">Renovation</h3>
+	 		<h3 class="sectionTitle" ng-class="showRenovation == 1 ? 'lightBlue' : ''">Renovation</h3>
 			<i class="icon pointer arrow" 
 			ng-class="showRenovation == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
 	
@@ -186,7 +186,7 @@
 		
 	 	<!-- START Leasing --> 
 	 	<div class="section" ng-click="click(4)"> 
-	 		<h3 class="sectionTitle">Leasing</h3>
+	 		<h3 class="sectionTitle" ng-class="showLeasing == 1 ? 'lightBlue' : ''">Leasing</h3>
 			<i class="icon pointer arrow" 
 			ng-class="showLeasing == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
 			<div ng-if="showLeasing == 1" ng-class="showLeasing == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
@@ -232,7 +232,7 @@
 		
 	 	<!-- START Occupied --> 
 	 	<div class="section" ng-click="click(5)">
-	 		<h3 class="sectionTitle">Occupied Property</h3>
+	 		<h3 class="sectionTitle" ng-class="showOccupied == 1 ? 'lightBlue' : ''">Occupied Property</h3>
 			<i class="icon pointer arrow" 
 			ng-class="showOccupied == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>   
 	
@@ -287,7 +287,7 @@
 		
 	 	<!-- START Eviction --> 
 	 	<div class="section" ng-click="click(6)"> 
-	 		<h3 class="sectionTitle">Eviction</h3>
+	 		<h3 class="sectionTitle" ng-class="showEviction == 1 ? 'lightBlue' : ''">Eviction</h3>
 			<i class="icon pointer arrow" 
 			ng-class="showEviction == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>   
 			<div ng-if="showEviction == 1" ng-class="showEviction == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
