@@ -365,8 +365,7 @@ angular.module('starter.controllers', ['firebase'])
 		promise.then(function() {
 		}, function() {
 			alert('Failed: ');
-		});	
-		getPropertyChart(propertyId, $scope, $http);
+		});			
 	});
 	
 	$scope.click = function(section) {		
@@ -455,7 +454,6 @@ function getPropertyImage(propertyId, $scope, $http) {
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
-			console.log(resp.data);
 			$scope.allImages = resp.data;			
 		} 		
 	}, function(err) {
@@ -496,7 +494,7 @@ function getPropertyChart(propertyId, $scope, $http) {
 			$scope.propertyChart.TotalReturn = numberWithCommas($scope.propertyChart.TotalReturn);
 			
 			// bar
-			var div1 = d3.select(document.getElementById('div2'));
+			var div2 = d3.select(document.getElementById('div2'));
 			start();
 
 			function onClick1() {
@@ -639,7 +637,6 @@ function getOccupiedDetails(propertyId, $scope, $http) {
 		if (resp.data.length != 0) {
 		
 			$scope.occupied = resp.data[0];
-			console.log($scope.occupied);
 			$scope.occupied['EvictionDate'] = dateFormat($scope.occupied['EvictionDate']);
 			$scope.occupied['GoingToBeVacent'] = dateFormat($scope.occupied['GoingToBeVacent']);
 			
@@ -1108,7 +1105,8 @@ function getOverviewPageData($scope, $rootScope, $http, $q) {
 }
 
 function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
-	return $q.all([getPropertyImage(propertyId, $scope, $http),	                
+	return $q.all([getPropertyImage(propertyId, $scope, $http),
+	               getPropertyChart(propertyId, $scope, $http),
 	               getPurchaseDetails(propertyId,$scope, $http), 
 	               getClosingDetails(propertyId, $scope, $http),
 	               getRenovationDetails(propertyId, $scope, $http), 
