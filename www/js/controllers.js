@@ -315,13 +315,15 @@ angular.module('starter.controllers', ['firebase'])
     var id; 
     $scope.isOverviewLoading = true;    
     
-    var promise = getOverviewPageData($scope, $rootScope, $http, $q);
-	promise.then(function() {
-	}, function() {
-		alert('Failed: ');
-	});
-	
-	getMainBarValues($scope, $http);
+    $scope.init = function() {
+    	var promise = getOverviewPageData($scope, $rootScope, $http, $q);
+		promise.then(function() {
+		}, function() {
+			alert('Failed: ');
+		});
+		
+		getMainBarValues($scope, $http);
+    }
     
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
 		console.log("showDetails function " + propertyId);
@@ -1051,7 +1053,7 @@ function getMainBarValues($scope, $http) {
 
 //get properties for 'your properties' section
 function getPropertiesForYourPropertiesSection($scope, $rootScope, $http) {	
-	if(loginUserType == "client") {    	
+	if(localStorage.getItem("loginUserType") == "client") {    	
     	url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage';
     	id = localStorage.getItem('id');
     	return $http({
@@ -1076,7 +1078,7 @@ function getPropertiesForYourPropertiesSection($scope, $rootScope, $http) {
 
 //get properties for 'special deals section'
 function getPropertiesForSpecialDealsSection($scope, $http) {
-	if(loginUserType == "client") {    	
+	if(localStorage.getItem("loginUserType") == "client") {    	
 		url = 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage/getSpecialDealsPropertyImage';
 		id = localStorage.getItem('id');
 		return $http({
