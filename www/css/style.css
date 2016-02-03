@@ -403,7 +403,16 @@ hr {
     font-size: x-large;
     font-weight: bolder;
     margin: 30px 30px;
-    text-shadow: 1px 1px #499FCE;   
+    text-shadow: 1px 1px #000000;   
+}
+
+
+.propertyPrice {
+    font-family: 'MuseoSans';
+    font-size: x-large;
+    font-weight: bolder;
+    margin: 30px 30px;
+    text-shadow: 1px 1px #499FCE;
 }
 
 hr.propertyDetails {
