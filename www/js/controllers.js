@@ -28,10 +28,10 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //LOGIN
-.controller('LoginCtrl', function($scope, $http, $state, $location) {
+.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $location) {
 
-	$scope.loginClick= 0;
-	$scope.errorLogin=0;
+	$scope.loginClick = 0;
+	$scope.errorLogin = 0;
 
 	$scope.updateMe = function() { 
 		$scope.loginClick = 1;
@@ -313,7 +313,7 @@ angular.module('starter.controllers', ['firebase'])
 //OverviewProperties Ctrl - logged in user
 .controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
     var id; 
-    $scope.isOverviewLoading = true;
+    $scope.isOverviewLoading = true;    
     
     var promise = getOverviewPageData($scope, $rootScope, $http, $q);
 	promise.then(function() {
@@ -322,14 +322,14 @@ angular.module('starter.controllers', ['firebase'])
 	});
 	
 	getMainBarValues($scope, $http);
-	
+    
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
 		console.log("showDetails function " + propertyId);
 		$state.go('app.propertyDetails');
 	    $timeout(function() {
 	    	var unbind = $rootScope.$broadcast( "showDetails", {PropertyId:propertyId, ImageURL:imageURL} );
 	    });
-	}
+	};
 	
 	$scope.gotoMarketing = function(propertyId) {
 	    $ionicScrollDelegate.scrollTop();
