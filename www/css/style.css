@@ -403,7 +403,7 @@ hr {
     font-size: x-large;
     font-weight: bolder;
     margin: 30px 30px;
-    text-shadow: 1px 1px #000000;   
+    /*text-shadow: 1px 1px #000000;   */
 }
 
 .propertyPrice {
@@ -411,7 +411,7 @@ hr {
     font-size: x-large;
     font-weight: bolder;
     margin: 30px 30px;
-    text-shadow: 1px 1px #499FCE;
+    /*text-shadow: 1px 1px #499FCE;*/
 }
 
 hr.propertyDetails {
@@ -731,11 +731,11 @@ ul.marketingDetails li {
 
 .btnDiv {
 	width: 90%;
-	margin: 0 5%;	
+	margin: 15px 5%;	
 }
 
 .btn {
-   	width: 27%;
+   	width: 28.5%;
     margin: 5px 9px;
     border: 2px solid #FFFFFF;
     box-shadow: 0 0 0 5px black;

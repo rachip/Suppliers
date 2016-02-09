@@ -346,7 +346,7 @@ angular.module('starter.controllers', ['firebase'])
 .controller('PropertyDetailsCtrl', function($scope, $ionicScrollDelegate, $http, $rootScope, 
 			$timeout, $q, $ionicPopup) {
 	
-	$scope.showPurchase = 1;
+	$scope.showPurchase = 0;
 	$scope.showClosing = 0;
 	$scope.showRenovation = 0;
 	$scope.showLeasing = 0;
@@ -910,7 +910,8 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 				       scaleOverride : true,
 		        	   scaleSteps : 5,
 		               scaleStepWidth : 5000000,
-		               scaleStartValue : 0, 
+		               scaleStartValue : 0,
+		               
 		               showTooltips: false,
 		               onAnimationComplete: function () {
 
