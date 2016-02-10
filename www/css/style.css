@@ -336,8 +336,8 @@ hr {
 }
 
 .price {
-    position: absolute;
-    bottom: 25px;
+    position: relative;
+    top: 81%;
     left: 25px;
     font-weight: bold;
     font-size: medium;
@@ -347,14 +347,14 @@ hr {
 }
 
 .address {
-    position: absolute;
-    bottom: 5px;
+    position: relative;
     left: 25px;
     font-weight: bold;
     font-size: small;
     color: white;
     font-family: 'MuseoSans';
     text-shadow: 2px 2px #000000;
+    top: 55%;
 }
 
 .desaturate {
@@ -372,6 +372,7 @@ hr {
 }
 
 .trapezoid {
+	position: absolute;
     margin-top: 33px;
     margin-left: -42px;
     border-bottom: 30px solid black;
@@ -750,7 +751,7 @@ ul.marketingDetails li {
 }
 
 .btn {
-   	width: 28.5%;
+   	width: 25.5%;
     margin: 5px 9px;
     border: 2px solid #FFFFFF;
     box-shadow: 0 0 0 5px black;

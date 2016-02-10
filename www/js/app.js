@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services', 'firebase', 'ionicLazyLoad', 'starter.controllers'])
+angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.controllers', 'starter.services', 'firebase', 'ionicLazyLoad', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -176,10 +176,14 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   })
 
 
- .state('chats', {
-    url: '/chats',
-        	templateUrl: 'templates/tab-chats.html',
-           controller: 'ChatsCtrl'
+ .state('app.chats', {
+	 url: '/chats',
+	 views: {
+	    'menuContent': {
+	    	templateUrl: 'templates/tab-chats.html',
+            controller: 'ChatsCtrl'
+	    }
+	 }
   })
 
   // if none of the above states are matched, use this as the fallback
