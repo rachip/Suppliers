@@ -14,6 +14,7 @@
 .width_80pe { width: 80%; }
 .width_100pe { width: 100%; }
 .line_2 { line-height: 2; }
+.line_40 { line-height: 40px; }
 .bold { font-weight: bold; }
 .dinline { display: inline-block; }
 .height_200px { height: 200px; }
@@ -403,7 +404,7 @@ hr {
     font-family: 'MuseoSans';
     font-size: x-large;
     font-weight: bolder;
-    margin: 30px 30px;
+    margin: 30px 30px 20px 30px;
     /*text-shadow: 1px 1px #000000;*/
 }
 
@@ -465,7 +466,7 @@ ul.propertyDetails li span:nth-child(2) {
 #barValueDiv2 {
     color: #000000; 
     font-family: 'MuseoSans';
-    padding-top: 7px;
+    padding-top: 16px;
 }
 
 .totlaInvestmentTitleDiv2, .totalReturnsTitleDiv2, .totlaTimeTitle, .currentYieldTitle {
