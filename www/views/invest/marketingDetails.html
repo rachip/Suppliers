@@ -324,7 +324,10 @@
  	
  	<div id="mailPopup" ng-show="sendMail == 1" class="sendMailPopup">
 <!-- 			ng-class="sendMail == 1 ? 'sendMailPopup animated fadeIn' : 'sendMailPopup'"> -->
-		<h3 class="calign">Send Mail</h3>
+		<div>
+			<h3 class="calign">Send Mail</h3>
+			<i class="ralign icon ion-android-cancel" ng-click="closeMailPopup()"></i>
+		</div>
 		<div class="list">	
 			<ul class="propertyDetails">			
 				<li>
@@ -360,7 +363,7 @@
 					</label>
 				</li>
 				<li>
-					<div class="calign">
+					<div class="calign top-20">
 						<button class="seeAll" ng-click="send()">Send</button>
 					</div>
 				</li>
@@ -368,8 +371,11 @@
 		</div>	
 	</div>
  	
- 	<div id="mailPopup" ng-show="meet == 1" class="sendMailPopup">
-		<h3 class="calign">Send Mail</h3>
+ 	<div id="mailPopup" ng-show="meet == 1" class="sendMailPopup">		
+		<div>
+			<h3 class="calign">Send Mail</h3>
+			<i class="ralign icon ion-android-cancel" ng-click="closeMeetingPopup()"></i>
+		</div>
 		<div class="list">	
 			<ul class="propertyDetails">			
 				<li>
@@ -399,7 +405,7 @@
 					</label>
 				</li>
 				<li>
-					<div class="calign">
+					<div class="calign top-20">
 						<button class="seeAll" ng-click="setMeeting()">Send</button>
 					</div>
 				</li>

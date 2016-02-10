@@ -169,12 +169,22 @@ angular.module('starter.controllers', ['firebase'])
 	$scope.buy = function() {
 		$ionicScrollDelegate.scrollBottom();
 		$scope.sendMail = 1;
-	}
+	};
 	
 	$scope.meeting = function() {
 		$ionicScrollDelegate.scrollBottom();
 		$scope.meet = 1;
-	}
+	};
+	
+	$scope.closeMailPopup = function() {
+		$ionicScrollDelegate.scrollTop();
+		$scope.sendMail = 0;
+	};
+	
+	$scope.closeMeetingPopup = function() {
+		$ionicScrollDelegate.scrollTop();
+		$scope.meet = 0;
+	};
 	
 	$scope.send = function() {
 		$ionicScrollDelegate.scrollTop();	
@@ -433,6 +443,11 @@ angular.module('starter.controllers', ['firebase'])
 			   });
 			showAlert = false;
 		}
+	};
+	
+	$scope.closePopup = function() {
+		$scope.requestPopup = 0;
+		$ionicScrollDelegate.scrollTop();
 	};
 })
 

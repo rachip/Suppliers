@@ -1,10 +1,11 @@
 .left { float: left; }
 .right { float: right; }
-.left-30 { margin-left: 30px; }
-.left-50 { margin-left: 50px; }
+.top-20 { margin-top: 30px; }
+.right-2pe { margin-right: 2%; }
 .bottom-20 { margin-bottom: 20px;}
 .bottom-26 { margin-bottom: 26px;}
-.right-2pe { margin-right: 2%; }
+.left-30 { margin-left: 30px; }
+.left-50 { margin-left: 50px; }
 .calign { text-align: center; }
 .ralign { text-align: right; }
 .width_20pe { width: 20%; }
@@ -403,7 +404,7 @@ hr {
     font-size: x-large;
     font-weight: bolder;
     margin: 30px 30px;
-    /*text-shadow: 1px 1px #000000;   */
+    /*text-shadow: 1px 1px #000000;*/
 }
 
 .propertyPrice {
@@ -504,6 +505,19 @@ ul.propertyDetails li span:nth-child(2) {
     margin-bottom: -5%;
     display: block;
     bottom: -2%;
+}
+
+.requestPopup h3 {
+	width: 95%;
+    margin-right: 0px;
+    display: inline-block;
+}
+
+.requestPopup i {
+    position: relative;
+    top: -48px;
+    left: 357px;
+    font-size: 28px;
 }
 
 #requestInfo {
@@ -746,14 +760,26 @@ ul.marketingDetails li {
 }
 
 .sendMailPopup {
-      background-color: white;
+    background-color: white;
     border: 1px black solid;
     padding: 20px;
-    width: 88%;
-    margin-left: 5.5%;
+    width: 87.5%;
+    margin-bottom: -15px;
+    margin-left: 6%;
 }
 
+.sendMailPopup h3 {
+	width: 95%;
+    margin-right: 0px;
+    display: inline-block;
+}
 
+.sendMailPopup i {
+    position: relative;
+    top: -48px;
+    left: 367px;
+    font-size: 28px;
+}
 /* -------------- the chats part -------------------- */
 .messages { 
 	background: #E4E4E4; 

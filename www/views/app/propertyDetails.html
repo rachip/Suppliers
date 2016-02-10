@@ -340,7 +340,10 @@
 		<div id="requestInfo"
 			ng-show="requestPopup == 1" 
 			ng-class="requestPopup == 1 ? 'requestPopup animated fadeIn' : 'requestPopup'">
-			<h3 class="calign">REQUEST INFO</h3>
+			<div>
+				<h3 class="calign">REQUEST INFO</h3>
+				<i class="ralign icon ion-android-cancel" ng-click="closePopup()"></i>
+			</div>
 			<ul class="propertyDetails">
 				<li>
 					<span>Purchase and Sale</span>	
