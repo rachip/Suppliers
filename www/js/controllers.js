@@ -160,15 +160,18 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup) {
+.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
 	$scope.MailObj = {};
 	
-	$rootScope.isPropertyDetailsLoading = true;
+	$rootScope.isMarketingDetailsLoading = true;
 	
 	$scope.$on( "marketingDetails", function(event, data) {
 		propertyId = data.marketingPropertyId;
-		getAllMarketingPropertyImages(propertyId, $scope, $http);
-		getMarketingPropertyInfo(propertyId, $scope, $http);
+		var promise = getMarketingDetailsPageData(propertyId, $scope, $http, $q);
+		promise.then(function() {
+		}, function() {
+			alert('Failed: ');
+		});			
 	});
 	
 	$scope.share = function() {
@@ -837,7 +840,7 @@ function getProperties($scope, $http, $q) {
 }
 
 function getAllMarketingPropertyImages(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getAllMarketingPropertyImages', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -854,7 +857,7 @@ function getAllMarketingPropertyImages(propertyId, $scope, $http) {
 function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	var investmentAmount, salePrice, purchaseCost, closingCost, softCost, investmentME, financing, address;
 	
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getMarketingId', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -1134,6 +1137,14 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 		    console.error('ERR', err);
 		})
 	}
+}
+
+function getMarketingDetailsPageData(propertyId, $scope, $http, $q) {
+	return $q.all([getAllMarketingPropertyImages(propertyId, $scope, $http),
+	               getMarketingPropertyInfo(propertyId, $scope, $http)]).
+	                then(function(results) {
+		$scope.isMarketingDetailsLoading = false;
+	});
 }
 
 function getOverviewPageData($scope, $rootScope, $http, $q) {	 
