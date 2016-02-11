@@ -280,7 +280,7 @@ angular.module('starter.controllers', ['firebase'])
 
 //Chats Ctrl
 .controller('ChatsCtrl', function($scope, $ionicHistory, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
-
+	
 	$scope.show_chat_bu = true;
 
 	$scope.branchToChat = function (BranchName) { 
@@ -293,6 +293,7 @@ angular.module('starter.controllers', ['firebase'])
  	$scope.selectChat = function() { 
  		if ($rootScope.propertyCnt > 1 ) { 
  			$scope.chatSelected = true; 
+ 			$scope.modal.show();
  		} else { 
  			TheBranchName = $rootScope.TheBranchName; 
  			$state.go('app.chats'); 
