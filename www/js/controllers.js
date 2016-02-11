@@ -909,7 +909,7 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawSensitivityAnalysisCart(investmentAmount, salePrice);
-			drawRating($scope, rating);
+			drawRating(rating);
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			darwGoogleMap(address);
 		} 
@@ -947,7 +947,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		        {
 		            label: "buySum",
 		            fillColor: "rgba(73,159,206,0.75)",
-		            strokeColor: "rgba(73,159,206,0.8)",
+		           // strokeColor: "rgba(73,159,206,0.8)",
 		            highlightFill: "rgba(73,159,206,0.75)",
 		            highlightStroke: "rgba(73,159,206,1)",
 		            data: [calcPercent(buySum, 20, "minus"), calcPercent(buySum, 15, "minus"), calcPercent(buySum, 10, "minus"), calcPercent(buySum, 5, "minus"), 
@@ -957,7 +957,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		        {
 		            label: "saleSum",
 		            fillColor: "rgba(27,74,100,0.75)",
-		            strokeColor: "rgba(27,74,100,0.8)",
+		           // strokeColor: "rgba(27,74,100,0.8)",
 		            highlightFill: "rgba(27,74,100,0.75)",
 		            highlightStroke: "rgba(27,74,100,1)",
 		            data: [calcPercent(saleSum, 20, "minus"), calcPercent(saleSum, 15, "minus"), calcPercent(saleSum, 10, "minus"), calcPercent(saleSum, 5, "minus"), 
@@ -967,7 +967,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		        {
 		            label: "incomeSum",
 		            fillColor: "rgba(163,126,100,0.75)",
-		            strokeColor: "rgba(163,126,100,0.8)",
+		            //strokeColor: "rgba(163,126,100,0.8)",
 		            highlightFill: "rgba(163,126,100,0.75)",
 		            highlightStroke: "rgba(163,126,100,1)",
 		            data: [calcPercent(income, 20, "minus"), calcPercent(income, 15, "minus"), calcPercent(income, 10, "minus"), calcPercent(income, 5, "minus"), 
@@ -1003,7 +1003,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
 }
 
-function drawRating($scope, rating) {
+function drawRating(rating) {
 	var imageUrl = '';
 	switch (rating) {
 	    case "A":  $('.ratingImg').html('<img src="css/img/A.png" height="auto" width="100%">');
