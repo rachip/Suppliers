@@ -33,9 +33,10 @@ angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.c
     user.save();
    
     var callback = function(data) {
-      push.addTokenToUser(user);
-      user.save();
-    };
+        push.addTokenToUser(user);
+        localStorage.setItem("deviceToken", data.token);
+         user.save();
+       };
     push.register(callback);
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

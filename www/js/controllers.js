@@ -108,6 +108,22 @@ angular.module('starter.controllers', ['firebase'])
 					localStorage.setItem("email", $scope.userDetail.email);
 					localStorage.setItem("password", $scope.userDetail.password);
 					localStorage.setItem("isLoggedin", "true");
+					
+					var deviceToken = localStorage.getItem("deviceToken");
+
+					$http({
+					    url: 'http://updateme.co.il/index.php/api/Login/setDeviceToken', 
+					    method: "POST",
+					    data:  {Userid: resp.data["ClientId"],
+					    DeviceToken: deviceToken,
+					    IsconnectToApp: 1}, 
+					    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+					    
+					}).then(function(resp) {
+
+						console.log(resp);
+
+						});
 				}
 					
 				$state.go('app.overview');
@@ -174,12 +190,15 @@ angular.module('starter.controllers', ['firebase'])
 		});			
 	});
 	
-	$scope.share = function() {
+	$scope.share = function(propID) {
 		var isLoggedin = localStorage.getItem("isLoggedin");
+		
+		console.log("propId : " + propID);
 
 		if (isLoggedin == "true") {
+			var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID;  
 			var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
-			$cordovaSocialSharing.share(massage, "Me app", null, "http://me.co.il");
+			$cordovaSocialSharing.share(massage, "Me app", null, uri);
 		}
 		else {
 			var alertPopup = $ionicPopup.alert({
@@ -286,7 +305,19 @@ angular.module('starter.controllers', ['firebase'])
 //Chats Ctrl
 .controller('ChatsCtrl', function($scope, $ionicHistory, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 	
+ 	$scope.myGoBack = function() { 
+ 		$ionicHistory.goBack(); 
+ 		$scope.show_chat_bu = true;
+ 		
+    }; 
+	
 	$scope.show_chat_bu = true;
+	
+	$scope.hide_chat_box = function() {
+		
+		$scope.chatSelected = false;
+		
+	}
 
 	$scope.branchToChat = function (BranchName) { 
 		TheBranchName = BranchName;	
@@ -298,7 +329,6 @@ angular.module('starter.controllers', ['firebase'])
  	$scope.selectChat = function() { 
  		if ($rootScope.propertyCnt > 1 ) { 
  			$scope.chatSelected = true; 
- 			$scope.modal.show();
  		} else { 
  			TheBranchName = $rootScope.TheBranchName; 
  			$state.go('app.chats'); 
@@ -335,9 +365,7 @@ angular.module('starter.controllers', ['firebase'])
  		chat.message = ""; 
  	} 
  
- 	$scope.myGoBack = function() { 
- 		$ionicHistory.goBack(); 
-    }; 
+
     
     $scope.isEmpty = function (obj) {
     	console.log("obj "+ obj);

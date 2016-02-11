@@ -2,7 +2,7 @@
 <ion-side-menus enable-menu-with-back-views="false"> 
    <ion-side-menu-content> 
      <ion-nav-bar class="bar-stable"> 
-       <ion-nav-back-button> 
+       <ion-nav-back-button ng-click="myGoBack()"> 
        </ion-nav-back-button> 
  
  
@@ -38,7 +38,7 @@
  
     <!-- Button Starts --> 
 	<div class="statusBarChat" ng-show="chatSelected"> 
-	<span class="close_chat_box">X</span>
+	<span class="close_chat_box" ng-click="hide_chat_box()">X</span>
     	<span> SELECT BRANCH </span>  
     	<div class="col-100-p"> 
 		     <div class="col-50-p" ng-click="branchToChat('Cleveland')"> 
