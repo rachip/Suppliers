@@ -160,13 +160,18 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup) {
+.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
 	$scope.MailObj = {};
+	
+	$rootScope.isMarketingDetailsLoading = true;
 	
 	$scope.$on( "marketingDetails", function(event, data) {
 		propertyId = data.marketingPropertyId;
-		getAllMarketingPropertyImages(propertyId, $scope, $http);
-		getMarketingPropertyInfo(propertyId, $scope, $http);
+		var promise = getMarketingDetailsPageData(propertyId, $scope, $http, $q);
+		promise.then(function() {
+		}, function() {
+			alert('Failed: ');
+		});			
 	});
 	
 	$scope.share = function() {
@@ -836,7 +841,7 @@ function getProperties($scope, $http, $q) {
 }
 
 function getAllMarketingPropertyImages(propertyId, $scope, $http) {
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getAllMarketingPropertyImages', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -853,7 +858,7 @@ function getAllMarketingPropertyImages(propertyId, $scope, $http) {
 function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	var investmentAmount, salePrice, purchaseCost, closingCost, softCost, investmentME, financing, address;
 	
-	$http({
+	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getMarketingId', 
 	    method: "GET",
 	    params:  {index:propertyId}, 
@@ -907,7 +912,7 @@ function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, in
 function drawSensitivityAnalysisCart(buySum, saleSum) {
 	var income = saleSum - buySum;
 	var data = {
-		    labels: ["-20%", "-15%", "-10%", "-5%", "Base", "5%", "10%", "15%", "20%"],
+		    labels: ["  -20%", "  -15%", "  -10%", "  -5%",  "   Base ", " 5%", " 10%", " 15%", " 20%"],
 		    datasets: [
 		        {
 		            label: "buySum",
@@ -946,10 +951,9 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var option = { scaleShowGridLines : false, 
 				       scaleOverride : true,
-		        	   scaleSteps : 5,
+		        	   scaleSteps : 6,
 		               scaleStepWidth : 5000000,
 		               scaleStartValue : 0,
-		               
 		               showTooltips: false,
 		               onAnimationComplete: function () {
 
@@ -961,7 +965,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 
 		                   this.datasets.forEach(function (dataset) {
 		                       dataset.bars.forEach(function (bar) {
-		                    	   ctx.fillText(Math.round( bar.value /1000000) + " M", bar.x+5, bar.y+5);
+		                    	   ctx.fillText(Math.round( bar.value /1000000) + "M", bar.x+5, bar.y+7);
 		                       });
 		                   })
 		               }
@@ -1133,6 +1137,14 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 		    console.error('ERR', err);
 		})
 	}
+}
+
+function getMarketingDetailsPageData(propertyId, $scope, $http, $q) {
+	return $q.all([getAllMarketingPropertyImages(propertyId, $scope, $http),
+	               getMarketingPropertyInfo(propertyId, $scope, $http)]).
+	                then(function(results) {
+		$scope.isMarketingDetailsLoading = false;
+	});
 }
 
 function getOverviewPageData($scope, $rootScope, $http, $q) {	 
