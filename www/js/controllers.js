@@ -1,6 +1,7 @@
 var widthArr = [60, 40, 50];
 var loginUserType;
 var TheBranchName;
+localStorage.setItem("isLoggedin", "false");
 angular.module('starter.controllers', ['firebase'])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
@@ -97,6 +98,7 @@ angular.module('starter.controllers', ['firebase'])
 					localStorage.setItem("branch", resp.data["BranchId"]);
 					localStorage.setItem("email", $scope.userDetail.email);
 					localStorage.setItem("password", $scope.userDetail.password);
+					localStorage.setItem("isLoggedin", "true");
 				}
 				else {
 					user.set('name', resp.data["ClientName"]);
@@ -105,6 +107,7 @@ angular.module('starter.controllers', ['firebase'])
 					localStorage.setItem("ClientName", resp.data["ClientName"]);
 					localStorage.setItem("email", $scope.userDetail.email);
 					localStorage.setItem("password", $scope.userDetail.password);
+					localStorage.setItem("isLoggedin", "true");
 				}
 					
 				$state.go('app.overview');
@@ -157,7 +160,7 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate) {
+.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup) {
 	$scope.MailObj = {};
 	
 	$rootScope.isPropertyDetailsLoading = true;
@@ -167,6 +170,21 @@ angular.module('starter.controllers', ['firebase'])
 		getAllMarketingPropertyImages(propertyId, $scope, $http);
 		getMarketingPropertyInfo(propertyId, $scope, $http);
 	});
+	
+	$scope.share = function() {
+		var isLoggedin = localStorage.getItem("isLoggedin");
+
+		if (isLoggedin == "true") {
+			var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
+			$cordovaSocialSharing.share(massage, "Me app", null, "http://me.co.il");
+		}
+		else {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Me app',
+				template: 'You must log in to share property'
+			});
+		}
+	}
 	
 	$scope.buy = function() {
 		$ionicScrollDelegate.scrollBottom();
@@ -265,10 +283,13 @@ angular.module('starter.controllers', ['firebase'])
 //Chats Ctrl
 .controller('ChatsCtrl', function($scope, $ionicHistory, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 
+	$scope.show_chat_bu = true;
+
 	$scope.branchToChat = function (BranchName) { 
 		TheBranchName = BranchName;	
-	 	$scope.chatSelected = false; 	 
-	 	$state.go('chats'); 
+	 	$scope.chatSelected = false; 
+	 	$scope.show_chat_bu = false;	 
+	 	$state.go('app.chats'); 
 	} 
  
  	$scope.selectChat = function() { 
@@ -276,7 +297,8 @@ angular.module('starter.controllers', ['firebase'])
  			$scope.chatSelected = true; 
  		} else { 
  			TheBranchName = $rootScope.TheBranchName; 
- 			$state.go('chats'); 
+ 			$state.go('app.chats'); 
+ 			$scope.show_chat_bu = false;
  		} 
  	}  
 
