@@ -874,11 +874,13 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			investmentME = $scope.marketingData["InvestmentME"];
 			financing = $scope.marketingData["Financing"];
 			address = $scope.marketingData["Address"];
+			rating = $scope.marketingData["Rating"];
 			
 			console.log($scope.marketingData);
 
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawSensitivityAnalysisCart(investmentAmount, salePrice);
+			drawRating($scope, rating);
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			darwGoogleMap(address);
 		} 
@@ -970,6 +972,24 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		               }
 		             }	
 		var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+}
+
+function drawRating($scope, rating) {
+	var imageUrl = '';
+	switch (rating) {
+	    case "A":  $('.ratingImg').html('<img src="css/img/A.png" height="auto" width="100%">');
+	               break;
+	    case "B":  $('.ratingImg').html('<img src="css/img/B.png" height="auto" width="100%">');
+        		   break;
+	    case "C":  $('.ratingImg').html('<img src="css/img/C.png" height="auto" width="100%">');
+        		   break;
+	    case "D":  $('.ratingImg').html('<img src="css/img/D.png" height="auto" width="100%">');
+        		   break;
+	    case "E":  $('.ratingImg').html('<img src="css/img/E.png" height="auto" width="100%">');
+        		   break;
+	    case "F":  $('.ratingImg').html('<img src="css/img/F.png" height="auto" width="100%">');
+        		   break;
+	}
 }
 
 function capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing) {
