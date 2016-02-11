@@ -50,7 +50,7 @@
 						<span>Investment Size:</span>	
 						<span class="right brown">${{marketingData.InvestmentSize}}</span>
 					</li>
-					<li>
+					<li class="bottom-28">
 						<span>Underlying Security:</span>	
 						<span class="right brown">{{marketingData.UnderlyingSecurity}}</span>
 					</li>
@@ -76,7 +76,7 @@
 	 	<div class="section"> 
 	 		<h3 class="sectionTitle">Investment Amount</h3>
 	 		<div> 			
-	 			<div class="left dinline height_200px">
+	 			<div class="left dinline height_200px width_50pe">
 	 				<ul class="marketingDetails">
 		 				<li>
 		 					<div class="squre squrePurchaseCost"></div>
@@ -104,7 +104,7 @@
 		 				</li>
 	 				</ul>
 	 			</div>
-	 			<div class="right dinline" id="investmentAmountCart"></div>
+	 			<div class="right dinline width_50pe" id="investmentAmountCart"></div>
 	 		</div> 		
 		</div>
 		<!-- END Investment Amount -->
@@ -117,35 +117,35 @@
 	 		<h3 class="sectionTitle">Key Deal Points</h3>
 			<div ng-if="marketingData.KDPTitle1 != ''" class="width_100pe">
 				<div class="v width_20pe left"></div>
-				<div class="width_80pe left">
+				<div class="width_85pe left">
 					<h4>{{marketingData.KDPTitle1}}</h4>
 					<p>{{marketingData.KDPValue1}}</p>
 				</div>
 			</div>
 			<div ng-if="marketingData.KDPTitle2 != ''" class="width_100pe">
 				<div class="v width_20pe left"></div>
-				<div class="width_80pe left">
+				<div class="width_85pe left">
 					<h4>{{marketingData.KDPTitle2}}</h4>
 					<p>{{marketingData.KDPValue2}}</p>
 				</div>
 			</div>
 			<div ng-if="marketingData.KDPTitle3 != ''" class="width_100pe">
 				<div class="v width_20pe left"></div>
-				<div class="width_80pe left">
+				<div class="width_85pe left">
 					<h4>{{marketingData.KDPTitle3}}</h4>
 					<p>{{marketingData.KDPValue3}}</p>
 				</div>
 			</div>
 			<div ng-if="marketingData.KDPTitle4 != ''" class="width_100pe">
 				<div class="v width_20pe left"></div>
-				<div class="width_80pe left">
+				<div class="width_85pe left">
 					<h4>{{marketingData.KDPTitle4}}</h4>
 					<p>{{marketingData.KDPValue4}}</p>
 				</div>
 			</div>
 			<div ng-if="marketingData.KDPTitle5 != ''" class="width_100pe">
 				<div class="v width_20pe left"></div>
-				<div class="width_80pe left">
+				<div class="width_85pe left">
 					<h4>{{marketingData.KDPTitle5}}</h4>
 					<p>{{marketingData.KDPValue5}}</p>
 				</div>
@@ -157,8 +157,8 @@
 	
 	<div ng-show="!isMarketingDetailsLoading"> 		
 	 	<div class="section">
-			<h3 class="sectionTitle">Sensitivity Analysis</h3>
-	 		<canvas id="myChart" width="340" height="800"></canvas>
+			<h3 class="">Sensitivity Analysis</h3>
+	 		<canvas id="myChart" width="320" height="800" style="margin-left: -5px;"></canvas>
 	 	</div> 
 	 	
 	 	<hr class="propertyDetails">

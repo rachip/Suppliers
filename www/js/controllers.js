@@ -911,7 +911,7 @@ function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, in
 function drawSensitivityAnalysisCart(buySum, saleSum) {
 	var income = saleSum - buySum;
 	var data = {
-		    labels: ["-20%", "-15%", "-10%", "-5%", "Base", "5%", "10%", "15%", "20%"],
+		    labels: ["  -20%", "  -15%", "  -10%", "  -5%",  "   Base ", " 5%", " 10%", " 15%", " 20%"],
 		    datasets: [
 		        {
 		            label: "buySum",
@@ -950,10 +950,9 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var option = { scaleShowGridLines : false, 
 				       scaleOverride : true,
-		        	   scaleSteps : 5,
+		        	   scaleSteps : 6,
 		               scaleStepWidth : 5000000,
 		               scaleStartValue : 0,
-		               
 		               showTooltips: false,
 		               onAnimationComplete: function () {
 
@@ -965,7 +964,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 
 		                   this.datasets.forEach(function (dataset) {
 		                       dataset.bars.forEach(function (bar) {
-		                    	   ctx.fillText(Math.round( bar.value /1000000) + " M", bar.x+5, bar.y+5);
+		                    	   ctx.fillText(Math.round( bar.value /1000000) + "M", bar.x+5, bar.y+7);
 		                       });
 		                   })
 		               }

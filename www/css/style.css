@@ -4,6 +4,7 @@
 .right-2pe { margin-right: 2%; }
 .bottom-20 { margin-bottom: 20px;}
 .bottom-26 { margin-bottom: 26px;}
+.bottom-28 { margin-bottom: 28px;}
 .left-30 { margin-left: 30px; }
 .left-50 { margin-left: 50px; }
 .calign { text-align: center; }
@@ -12,6 +13,7 @@
 .width_48pe { width: 48%; }
 .width_50pe { width: 50%; }
 .width_80pe { width: 80%; }
+.width_85pe { width: 85%; }
 .width_100pe { width: 100%; }
 .line_2 { line-height: 2; }
 .line_40 { line-height: 40px; }
@@ -745,6 +747,10 @@ ul.marketingDetails li {
   height: 400px;
 }
 
+#myChart {
+	width: 100% !important;
+}
+
 .btnDiv {
 	width: 95%;
 	margin: 15px 5%;	
@@ -953,7 +959,11 @@ polyline {
 } 
 
 svg text.percent {
-	fill:white;
-	text-anchor:middle;
-	font-size:12px;
+	fill: white;
+	text-anchor: middle;
+	font-size: 12px;
+}
+
+#investmentAmountCart svg {
+	margin-top: -9px;
 }
