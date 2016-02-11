@@ -160,6 +160,8 @@ angular.module('starter.controllers', ['firebase'])
 .controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate) {
 	$scope.MailObj = {};
 	
+	$rootScope.isPropertyDetailsLoading = true;
+	
 	$scope.$on( "marketingDetails", function(event, data) {
 		propertyId = data.marketingPropertyId;
 		getAllMarketingPropertyImages(propertyId, $scope, $http);
