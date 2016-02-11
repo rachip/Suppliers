@@ -967,3 +967,18 @@ svg text.percent {
 #investmentAmountCart svg {
 	margin-top: -9px;
 }
+.close_chat_box {	
+	float: right;
+    display: block;
+    width: initial;
+    background: #C10000;
+    border-radius: 50%;
+    width: 30px !important;
+    text-align: center;
+    line-height: 11px;
+    height: 30px;
+    font-weight: bold;
+    corsor: pointer;
+    cursor: pointer;
+    margin: -2% 2% 0px;
+}
