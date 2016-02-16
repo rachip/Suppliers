@@ -894,6 +894,8 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
 			$scope.marketingData = resp.data[0];
+			
+			$scope.marketingData["Price"] = numberWithCommas($scope.marketingData["Price"]);			
 			investmentAmount = $scope.marketingData["BuyPrice"];
 			salePrice = $scope.marketingData["SalePrice"];
 			salePrice = $scope.marketingData["SalePrice"];
@@ -912,6 +914,44 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			drawRating(rating);
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			darwGoogleMap(address);
+		} 
+	}, function(err) {
+	    console.error('ERR', err);
+	})
+}
+
+function getMarketSummaryImage(propertyId, $scope, $http) {
+	return $http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getMarketSummaryImage', 
+	    method: "GET",
+	    params:  {index:propertyId}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
+			$scope.summaryImage = resp.data[0];
+			
+			$scope.summaryFileName = resp.data[0]["FileName"];
+			
+			//console.log("summaryImage", $scope.summaryImage);
+		} 
+	}, function(err) {
+	    console.error('ERR', err);
+	})
+}
+
+function getEntrepreneurImage(propertyId, $scope, $http) {
+	return $http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getEntrepreneurImage', 
+	    method: "GET",
+	    params:  {index:propertyId}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
+			$scope.entrepreneurImage = resp.data[0];
+			
+			$scope.entrepreneurFileName = resp.data[0]["FileName"];
+			
+			//console.log("entrepreneurImage", $scope.entrepreneurImage);
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
@@ -1179,6 +1219,8 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 			$scope.specialPropertyImage = [];
 			$scope.specialPropertyImage = resp.data;
 	
+			console.log("$scope.specialPropertyImage", $scope.specialPropertyImage);
+			
 			addClass($scope.specialPropertyImage);
 			
 		}, function(err) {
@@ -1189,7 +1231,9 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 
 function getMarketingDetailsPageData(propertyId, $scope, $http, $q) {
 	return $q.all([getAllMarketingPropertyImages(propertyId, $scope, $http),
-	               getMarketingPropertyInfo(propertyId, $scope, $http)]).
+	               getMarketingPropertyInfo(propertyId, $scope, $http),
+	               getMarketSummaryImage(propertyId, $scope, $http),
+	               getEntrepreneurImage(propertyId, $scope, $http)]).
 	                then(function(results) {
 		$scope.isMarketingDetailsLoading = false;
 	});

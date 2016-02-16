@@ -9,20 +9,20 @@
    <hr>
    <ion-spinner icon="bubbles" ng-if='isRouteLoading' class="spinner"></ion-spinner>
    <div ng-if='!isRouteLoading'>  
-	   <div id="rochester" ng-if="showRochester == 1 && (selectedBranch == 1 || !selectedBranch)">
+	   <div id="columbus" ng-if="showColumbus == 1 && (selectedBranch == 3 || !selectedBranch)">
 	   	<div class="animated fadeInLeft title">COLLECTIONS</div>
-	   	<div class="animated fadeInLeft subTitle">Rochester properties</div>
-	   	<div ng-repeat="property in rochesterProperties" class="animated fadeInLeft col {{property.class}}" 
+	   	<div class="animated fadeInLeft subTitle">Columbus properties</div>
+	   	<div ng-repeat="property in columbusProperties" class="animated fadeInLeft col {{property.class}}" 
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
-	    	ng-if="$index <= 3 || selectedBranch == 1" ng-click="marketingDetails(property.PropertyId)">
+	    	ng-if="$index <= 3 || selectedBranch == 3" ng-click="marketingDetails(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
 	    	<div class="price">{{property.Price}}</div>
 	    	<div class="address">{{property.Address}}</div>
 	   	</div>
 	   	
 	   	<div class="seeAllDiv">
-	   		<button class="seeAll" ng-click="seeMore(1)" ng-show="selectedBranch != 1">See All in commerical</button>
-	   		<button class="seeAll" ng-click="back()" ng-show="selectedBranch == 1 ">Back</button>
+	   		<button class="seeAll" ng-click="seeMore(3)" ng-show="selectedBranch != 3">See All in commerical</button>
+	   		<button class="seeAll" ng-click="back()" ng-show="selectedBranch == 3 ">Back</button>
 	   	</div>
 	   </div>
 	   
@@ -42,20 +42,20 @@
 	   	</div>
 	   </div>
 	   
-	   <div id="columbus" ng-if="showColumbus == 1 && (selectedBranch == 3 || !selectedBranch)">
+	   <div id="rochester" ng-if="showRochester == 1 && (selectedBranch == 1 || !selectedBranch)">
 	   	<div class="animated fadeInLeft title">COLLECTIONS</div>
-	   	<div class="animated fadeInLeft subTitle">Columbus properties</div>
-	   	<div ng-repeat="property in columbusProperties" class="animated fadeInLeft col {{property.class}}" 
+	   	<div class="animated fadeInLeft subTitle">Rochester properties</div>
+	   	<div ng-repeat="property in rochesterProperties" class="animated fadeInLeft col {{property.class}}" 
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
-	    	ng-if="$index <= 3 || selectedBranch == 3" ng-click="marketingDetails(property.PropertyId)">
+	    	ng-if="$index <= 3 || selectedBranch == 1" ng-click="marketingDetails(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
 	    	<div class="price">{{property.Price}}</div>
 	    	<div class="address">{{property.Address}}</div>
 	   	</div>
 	   	
 	   	<div class="seeAllDiv">
-	   		<button class="seeAll" ng-click="seeMore(3)" ng-show="selectedBranch != 3">See All in commerical</button>
-	   		<button class="seeAll" ng-click="back()" ng-show="selectedBranch == 3 ">Back</button>
+	   		<button class="seeAll" ng-click="seeMore(1)" ng-show="selectedBranch != 1">See All in commerical</button>
+	   		<button class="seeAll" ng-click="back()" ng-show="selectedBranch == 1 ">Back</button>
 	   	</div>
 	   </div>
 	   
