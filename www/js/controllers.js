@@ -196,17 +196,15 @@ angular.module('starter.controllers', ['firebase'])
         console.log("propId : " + propID);
 
         if (isLoggedin == "true") {
-                    var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
-                    var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
-                    $cordovaSocialSharing.share(massage, "Me app", null, uri);
+        	var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
+        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
+        	$cordovaSocialSharing.share(massage, "Me app", null, uri);
         }
         else {
-                    var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
-                    $cordovaSocialSharing.share("Me app", null, uri);
-        	}
-		}
-
-
+        	var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
+        	$cordovaSocialSharing.share("Me app", null, uri);
+        }
+	}
 	
 	$scope.buy = function() {
 		$ionicScrollDelegate.scrollBottom();
