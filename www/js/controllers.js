@@ -895,7 +895,6 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 		if (resp.data.length != 0) {
 			$scope.marketingData = resp.data[0];
 			
-			$scope.marketingData["Price"] = numberWithCommas($scope.marketingData["Price"]);			
 			investmentAmount = $scope.marketingData["BuyPrice"];
 			salePrice = $scope.marketingData["SalePrice"];
 			salePrice = $scope.marketingData["SalePrice"];
@@ -906,13 +905,14 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			financing = $scope.marketingData["Financing"];
 			address = $scope.marketingData["Address"];
 			rating = $scope.marketingData["Rating"];
+			$scope.marketingData["BuyPrice"] = numberWithCommas($scope.marketingData["BuyPrice"]);			
 			
 			console.log($scope.marketingData);
 
+			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawSensitivityAnalysisCart(investmentAmount, salePrice);
 			drawRating(rating);
-			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			darwGoogleMap(address);
 		} 
 	}, function(err) {

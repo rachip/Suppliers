@@ -17,10 +17,19 @@
 		<h4 class="bold calign top-15">{{marketingData.PropertyName}}</h4>
 		<h5 class="calign">{{marketingData.Address}}, {{marketingData.CityAndState}}, {{marketingData.Neighborhood}}</h5>
 		<div class="left-30 status">{{marketingData.Status}}</div>
-		<div class="propertyPrice lightBlue">$ {{marketingData.Price}}</div>
+		<div class="propertyPrice lightBlue">$ {{marketingData.BuyPrice}}</div>
 		<div class="left-30 bottom-26">Potential annual return  {{marketingData.PotentialReturn}}%</div>
 		
 		<hr class="propertyDetails">	
+		
+		<!-- START Investment Summary -->
+		<div class="section"> 
+	 		<h3 class="sectionTitle">Investment Summary</h3>
+			<p>{{marketingData.InvestmentSummary}}</p>		     
+	 	</div> 
+	 	<!-- END Investment Summary -->
+	 	
+	 	<hr class="propertyDetails">
 		
 		<!-- START Investment Details -->
 		<div class="section"> 
@@ -61,47 +70,38 @@
 	 	<!-- END Investment Details -->
 		
 		<hr class="propertyDetails">
-		
-		<!-- START Investment Summary -->
-		<div class="section"> 
-	 		<h3 class="sectionTitle">Investment Summary</h3>
-			<p>{{marketingData.InvestmentSummary}}</p>		     
-	 	</div> 
-	 	<!-- END Investment Summary -->
-	 	
-	 	<hr class="propertyDetails">
 	 </div>	
 	 
 	 <div ng-show="!isMarketingDetailsLoading">
 	 	<!-- START Investment Amount -->
 	 	<div class="section"> 
-	 		<h3 class="sectionTitle">Investment Amount</h3>
+	 		<h3 class="sectionTitle">Investment Structure</h3>
 	 		<div> 			
 	 			<div class="left dinline height_200px width_50pe">
 	 				<ul class="marketingDetails">
 		 				<li>
 		 					<div class="squre squrePurchaseCost"></div>
-		 					<span class="investmentAmountSpan">Purchase Cost</span>
+		 					<span class="investmentAmountSpan">Purchase Cost - {{purchaseCostTotalPercent}}%</span>
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreClosingCost"></div>
-		 					<span class="investmentAmountSpan">Closing Cost</span>
+		 					<span class="investmentAmountSpan">Closing Cost - {{closingCostTotalPercent}}%</span>
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreSoftCost"></div>
-		 					<span class="investmentAmountSpan">Soft Cost</span>
+		 					<span class="investmentAmountSpan">Soft Cost - {{softCostTotalPercent}}%</span>
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreInvestmentME"></div>
-		 					<span class="investmentAmountSpan">Investment ME</span>
+		 					<span class="investmentAmountSpan">Investment ME - {{investmentMETotalPercent}}%</span>
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreFinancing"></div>
-		 					<span class="investmentAmountSpan">Financing</span>
+		 					<span class="investmentAmountSpan">Financing - {{financingTotalPercent}}%</span>
 		 				</li>
 	 				</ul>
 	 			</div>

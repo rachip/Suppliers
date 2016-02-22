@@ -16,8 +16,8 @@
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-if="$index <= 3 || selectedBranch == 3" ng-click="marketingDetails(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
-	    	<div class="price">{{property.Price}}</div>
-	    	<div class="address">{{property.Address}}</div>
+	    	<div class="price">{{property.BuyPrice}}</div>
+	    	<div class="address">{{property.PropertyName}}</div>
 	   	</div>
 	   	
 	   	<div class="seeAllDiv">
@@ -33,8 +33,8 @@
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-if="$index <= 3 || selectedBranch == 2" ng-click="marketingDetails(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
-	    	<div class="price">{{property.Price}}</div>
-	    	<div class="address">{{property.Address}}</div>	
+	    	<div class="price">{{property.BuyPrice}}</div>
+	    	<div class="address">{{property.PropertyName}}</div>	
 	   	</div>
 	   	<div class="seeAllDiv">
 	   		<button class="seeAll" ng-click="seeMore(2)" ng-show="selectedBranch != 2">See All in commerical</button>
@@ -49,8 +49,8 @@
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-if="$index <= 3 || selectedBranch == 1" ng-click="marketingDetails(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
-	    	<div class="price">{{property.Price}}</div>
-	    	<div class="address">{{property.Address}}</div>
+	    	<div class="price">{{property.BuyPrice}}</div>
+	    	<div class="address">{{property.PropertyName}}</div>
 	   	</div>
 	   	
 	   	<div class="seeAllDiv">
@@ -66,8 +66,8 @@
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-if="$index <= 3 || selectedBranch == 4" ng-click="marketingDetails(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
-	    	<div class="price">{{property.Price}}</div>
-	    	<div class="address">{{property.Address}}</div>
+	    	<div class="price">{{property.BuyPrice}}</div>
+	    	<div class="address">{{property.PropertyName}}</div>
 	   	</div>
 	   	<div class="seeAllDiv">
 	   		<button class="seeAll" ng-click="seeMore(4)" ng-show="selectedBranch != 4">See All in commerical</button>
