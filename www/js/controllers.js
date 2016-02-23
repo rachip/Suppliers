@@ -765,10 +765,17 @@ function addClass(data) {
 	
 	//----------------------
 	//add desaturate class
-	for(i = 0; i < data.length; i++) {
+	for(var i = 0; i < data.length; i++) {
 		if(data[i]["IsSoled"] == 1) {
 			data[i].class += " desaturate";
 		}
+	}
+}
+
+// Add comma to each property price
+function addCommaToPrice(data) {
+	for(var i = 0; i < data.length; i++) {			
+		data[i]["BuyPrice"] = numberWithCommas(data[i]["BuyPrice"]);
 	}
 }
 
@@ -788,6 +795,7 @@ function getRochesterProperties($scope, $http) {
 			$scope.showRochester = 0;
 		}
 		addClass($scope.rochesterProperties);
+		addCommaToPrice($scope.rochesterProperties);
 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -809,6 +817,7 @@ function getClevelandProperties($scope, $http) {
 			$scope.showCleveland = 0;
 		}
 		addClass($scope.clevelandProperties);
+		addCommaToPrice($scope.clevelandProperties);
 	
 	}, function(err) {
 	    console.error('ERR', err);
@@ -831,6 +840,7 @@ function getColumbusProperties($scope, $http) {
 			$scope.showColumbus = 0;
 		}
 		addClass($scope.columbusProperties);
+		addCommaToPrice($scope.columbusProperties);
 	
 	}, function(err) {
 	    console.error('ERR', err);
@@ -852,6 +862,7 @@ function getJacksonvilleProperties($scope, $http) {
 			$scope.showJacksonviller = 0;
 		}
 		addClass($scope.jacksonvilleProperties);
+		addCommaToPrice($scope.jacksonvilleProperties);
 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -1214,9 +1225,14 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 	
+			$scope.showScopeSection = true;
 			$scope.specialPropertyImage = [];
 			$scope.specialPropertyImage = resp.data;
 	
+			if(resp.data.length == 0) {
+				$scope.showScopeSection = false;
+			}
+			
 			console.log("$scope.specialPropertyImage", $scope.specialPropertyImage);
 			
 			addClass($scope.specialPropertyImage);

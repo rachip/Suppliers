@@ -48,11 +48,11 @@
 	    <!-- END Your properties section -->
 	    
 	    <!-- START Special deals section -->
-	    <div class="overviewTitle">
+	    <div class="overviewTitle" ng-show="showScopeSection">
 	      <h2 class="special">SPECIAL DEALS</h2>
 	      <h4>Similar properties that you invested</h4>
 	    </div>
-	    <div id="SPECIAL_DEALSimg">
+	    <div id="SPECIAL_DEALSimg" ng-show="showScopeSection">
 	    	<div ng-repeat="property in specialPropertyImage" class="animated fadeInLeft col {{property.class}}" 
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-click="gotoMarketing(property.PropertyId)">
