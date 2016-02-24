@@ -71,13 +71,12 @@ body, h2, h4 {
 .updateMeMainScText, .enterMainScText {
     width: 100%;
     display: block;
-    top: 20%;
-    position: absolute;
 }
 
 .updateMeMainScText img {
-    width: 250px;
+	width: 250px;
     margin: 0px auto;
+    margin-top: 10%;
     display: block;
 }
 
@@ -85,13 +84,12 @@ body, h2, h4 {
     width: 100px;
     margin: 0px auto;
     display: block;
-    margin-top: 60px;
+    margin-top: 15px;
 }
 
 .loginForm {
     width: 100%;
     top: 43%;
-    position: absolute;
 }
 
 input::-webkit-input-placeholder {
@@ -106,6 +104,42 @@ input::-webkit-input-placeholder {
     background-color: rgba(251, 241, 241, 0.3);
 }
 
+.investReturnBox {
+	background: rgba(0, 0, 0, 0.51);
+    width: 60%;
+    margin: 40px auto;
+    padding: 7%;
+}
+
+
+.investReturnBox span {
+	color: white;
+    text-align: center;
+    display: block;
+    margin: 0px auto;
+    padding-bottom: 20px;
+	
+}
+
+.investMeImg {
+	
+	width: 88%;
+	display: block;
+	margin: 0px auto;
+	
+	
+}
+
+.investReturnBox .enter {
+	
+	width: 40%;
+	margin: 8px auto;
+	display: block;
+	
+	
+}
+
+
 .loginForm button {
     width: 78%;
     margin: 12px auto;
@@ -116,6 +150,17 @@ input::-webkit-input-placeholder {
     border: none;
     font-weight: bold;
     background: rgba(12, 10, 10, 0.9);
+}
+
+.login_massage {
+	
+	display: block;
+    text-align: center;
+    margin-top: 3%;
+    font-size: 17px;
+    color: white;
+	
+	
 }
 
 .loginForm button[disabled] {

@@ -5,8 +5,12 @@
 			<span class="updateMeMainScText">
 				<img src="css/img/updateme.png">
 			</span>
+			
+			<span ng-show="loginClick===1" class="login_massage">Registered users only.</span>
 
 			<form name="login_form" class="loginForm" ng-submit="submit()" method="post" novalidate ng-cloak ng-show="loginClick===1">
+			
+			
 
 				<input name="user_email" ng-class="{'animated fadeInDown': loginClick===1}" type="email" ng-model="userDetail.email" placeholder="Username" required>
 				<input name="user_password" ng-class="{'animated fadeInDown': loginClick===1}" type="password" ng-model="userDetail.password" placeholder="Password" required>
@@ -18,6 +22,17 @@
                 </button>
 
 		   </form>
+		   
+		   <div ng-show="loginClick===1" ng-class="{'animated fadeInDown': loginClick===1}" class="investReturnBox">
+		   
+		   		<span> Other users please look at our investments at </span>
+		   	
+		   	<img class="investMeImg" src="css/img/investWhite.png">
+		   	
+		   	<img src="css/img/enter.png" ng-click="investMe()" class="pointer enter" ng-click="updateMe()">
+		   
+		   
+		   </div>
 
 			<span class="enterMainScText" ng-hide="loginClick===1" >
 				<img src="css/img/enter.png" class="pointer" ng-click="updateMe()">
