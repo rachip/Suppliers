@@ -15,10 +15,39 @@
 		</div>	
 	
 		<h4 class="bold calign top-15">{{marketingData.PropertyName}}</h4>
-		<h5 class="calign">{{marketingData.Address}}, {{marketingData.CityAndState}}, {{marketingData.Neighborhood}}</h5>
-		<div class="left-30 status">{{marketingData.Status}}</div>
 		<div class="propertyPrice lightBlue">$ {{marketingData.BuyPrice}}</div>
 		<div class="left-30 bottom-26">Potential annual return  {{marketingData.PotentialReturn}}%</div>
+		
+			<hr class="propertyDetails">
+	 	
+	 	<!-- START Property Summary -->
+		<div class="section"> 
+	 		<h3 class="sectionTitle">Property Summary</h3>
+	 		<p>{{marketingData.PropertySummary}}</p>
+	 		<ul class="marketingDetails">
+				<li>
+					<span>Address</span>	
+					<span class="right brown">{{marketingData.Address}}</span>
+				</li>
+				<li>
+					<span>City & State</span>	
+					<span class="right brown">{{marketingData.CityAndState}}</span>
+				</li>
+				<li>
+					<span>Neighborhood</span>	
+					<span class="right brown">{{marketingData.Neighborhood}}</span>
+				</li>			
+				<li>
+					<span>Product Type</span>	
+					<span class="right brown">{{marketingData.ProductType}}</span>
+				</li>
+				<li>
+					<span>Project Phase</span>	
+					<span class="right brown">{{marketingData.ProjectPhase}}</span>
+				</li>								
+	 		</ul>	
+	 	</div> 
+	 	<!-- END Property Summary-->
 		
 		<hr class="propertyDetails">	
 		
@@ -33,7 +62,7 @@
 		
 		<!-- START Investment Details -->
 		<div class="section"> 
-	 		<h3 class="sectionTitle lightBlue">Investment Details</h3>
+	 		<h3 class="sectionTitle">Investment Details</h3>
 	 		<div> 			
 				<ul class="marketingDetails">
 					<li>
@@ -301,36 +330,7 @@
 	 	</div> 
 	 	<!-- END Property Location -->
 	 	
-	 	<hr class="propertyDetails">
-	 	
-	 	<!-- START Property Summary -->
-		<div class="section"> 
-	 		<h3 class="sectionTitle">Property Summary</h3>
-	 		<p>{{marketingData.PropertySummary}}</p>
-	 		<ul class="marketingDetails">
-				<li>
-					<span>Address</span>	
-					<span class="right brown">{{marketingData.Address}}</span>
-				</li>
-				<li>
-					<span>City & State</span>	
-					<span class="right brown">{{marketingData.CityAndState}}</span>
-				</li>
-				<li>
-					<span>Neighborhood</span>	
-					<span class="right brown">{{marketingData.Neighborhood}}</span>
-				</li>			
-				<li>
-					<span>Product Type</span>	
-					<span class="right brown">{{marketingData.ProductType}}</span>
-				</li>
-				<li>
-					<span>Project Phase</span>	
-					<span class="right brown">{{marketingData.ProjectPhase}}</span>
-				</li>								
-	 		</ul>	
-	 	</div> 
-	 	<!-- END Property Summary-->
+	 
 	 	
 	 	<hr class="propertyDetails">
 	 	
