@@ -18,7 +18,7 @@
 		<div class="propertyPrice lightBlue">$ {{marketingData.BuyPrice}}</div>
 		<div class="left-30 bottom-26">Potential annual return  {{marketingData.PotentialReturn}}%</div>
 		
-			<hr class="propertyDetails">
+		<hr class="propertyDetails">
 	 	
 	 	<!-- START Property Summary -->
 		<div class="section"> 
@@ -29,16 +29,24 @@
 					<span>Address</span>	
 					<span class="right brown">{{marketingData.Address}}</span>
 				</li>
-				<li>
-					<span>City & State</span>	
-					<span class="right brown">{{marketingData.CityAndState}}</span>
+				<li ng-if="marketingData.NumOfUnits != '0'">
+					<span>Number of Units</span>	
+					<span class="right brown">{{marketingData.NumOfUnits}}</span>
+				</li>
+				<li ng-if="marketingData.NumOfBedrooms != '0'">
+					<span>Number of Bedrooms</span>	
+					<span class="right brown">{{marketingData.NumOfBedrooms}}</span>
+				</li>
+				<li ng-if="marketingData.NumOfBathrooms != '0'">
+					<span>Number of Bathrooms</span>	
+					<span class="right brown">{{marketingData.NumOfBathrooms}}</span>
 				</li>
 				<li>
-					<span>Neighborhood</span>	
-					<span class="right brown">{{marketingData.Neighborhood}}</span>
+					<span>Sqft</span>	
+					<span class="right brown">{{marketingData.Sqft}}</span>
 				</li>			
 				<li>
-					<span>Product Type</span>	
+					<span>Investment Type</span>	
 					<span class="right brown">{{marketingData.ProductType}}</span>
 				</li>
 				<li>
@@ -86,8 +94,8 @@
 						<span class="right brown">{{marketingData.MinInvestment}}</span>
 					</li>
 					<li>
-						<span>Investment Size:</span>	
-						<span class="right brown">${{marketingData.InvestmentSize}}</span>
+						<span>Total Investment:</span>	
+						<span class="right brown">${{marketingData.BuyPrice}}</span>
 					</li>
 					<li class="bottom-28">
 						<span>Underlying Security:</span>	
@@ -130,7 +138,7 @@
 		 				
 		 				<li>
 		 					<div class="squre squreFinancing"></div>
-		 					<span class="investmentAmountSpan">Financing - {{financingTotalPercent}}%</span>
+		 					<span class="investmentAmountSpan">Renovation - {{financingTotalPercent}}%</span>
 		 				</li>
 	 				</ul>
 	 			</div>
@@ -225,7 +233,7 @@
 					</li>
 					<li>
 						<span>Type</span>	
-						<span class="right">Financing</span>
+						<span class="right">Renovation</span>
 					</li>
 					<li>
 						<span>Source</span>	
@@ -425,6 +433,12 @@
 						<span>Meeting schedule </span>
 						<label class="item item-input">
 							<input class="" type="text" placeholder="yyyy-mm-dd" ng-model="MailObj.schedule"/>
+						</label>
+					</li>
+					<li>
+						<span>Bid </span>
+						<label class="item item-input">
+							<input class="" type="text" placeholder="Your Bid" ng-model="MailObj.bid"/>
 						</label>
 					</li>
 					<li>

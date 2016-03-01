@@ -14,7 +14,7 @@
 	   	<div class="animated fadeInLeft subTitle">Columbus properties</div>
 	   	<div ng-repeat="property in columbusProperties" class="animated fadeInLeft col {{property.class}}" 
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
-	    	ng-if="$index <= 3 || selectedBranch == 3" ng-click="marketingDetails(property.PropertyId)">
+	    	ng-if="$index <= 3 || selectedBranch == 3" ng-click="marketingDetails(property.PropertyId, property.Address)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
 	    	<div class="price">{{property.BuyPrice}}</div>
 	    	<div class="address">{{property.PropertyName}}</div>

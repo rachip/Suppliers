@@ -167,22 +167,24 @@ angular.module('starter.controllers', ['firebase'])
 		$scope.selectedBranch = "";
 	}
 	
-	$scope.marketingDetails = function(propertyId) {	
+	$scope.marketingDetails = function(propertyId, propertyName) {	
 		$state.go('invest.marketingDetails');
 		$timeout(function() {
-	    	var unbind = $rootScope.$broadcast( "marketingDetails", {marketingPropertyId:propertyId} );
+	    	var unbind = $rootScope.$broadcast( "marketingDetails", {marketingPropertyId:propertyId, marketingPropertyName: propertyName} );
 	    });
 	};
 })
 
 //propertyDetails ctrl
 .controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
+	var propertyName;
 	$scope.MailObj = {};
 	
 	$rootScope.isMarketingDetailsLoading = true;
 	
 	$scope.$on( "marketingDetails", function(event, data) {
 		propertyId = data.marketingPropertyId;
+		propertyName = data.marketingPropertyName; 
 		var promise = getMarketingDetailsPageData(propertyId, $scope, $http, $q);
 		promise.then(function() {
 		}, function() {
@@ -231,15 +233,17 @@ angular.module('starter.controllers', ['firebase'])
 		$scope.sendMail = 0;
 		
 		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule};
-		console.log(obj);
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
+				   bid: $scope.MailObj.bid, propertyName: propertyName};
+		console.log('mail', obj);
 		
 		// send mail to moshe gmail
 		$http({
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/buy', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule},
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule,
+				   bid: $scope.MailObj.bid, propertyName: propertyName},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -247,12 +251,13 @@ angular.module('starter.controllers', ['firebase'])
 		    console.error('ERR', err);
 		})	
 		
-		// save mail details in contacts leader tbl
+		// save mail details in contacts leads tbl
 		$http({
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule},
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
+				   bid: $scope.MailObj.bid},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -275,7 +280,7 @@ angular.module('starter.controllers', ['firebase'])
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/setMeeting', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   schedule: $scope.MailObj.schedule},
+				   schedule: $scope.MailObj.schedule, propertyName: propertyName},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -779,6 +784,15 @@ function addCommaToPrice(data) {
 	}
 }
 
+//set short name to property, just the street
+function setShortName(data) {
+	if(data) {
+		for(var i = 0; i < data.length; i++) {			
+			data[i]["PropertyName"] = SplitName(data[i]["PropertyName"]);
+		}
+	}
+}
+
 function getRochesterProperties($scope, $http) {
 	// get properties to Rochester branch
 	return $http({
@@ -796,6 +810,7 @@ function getRochesterProperties($scope, $http) {
 		}
 		addClass($scope.rochesterProperties);
 		addCommaToPrice($scope.rochesterProperties);
+		setShortName($scope.rochesterProperties);
 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -818,6 +833,7 @@ function getClevelandProperties($scope, $http) {
 		}
 		addClass($scope.clevelandProperties);
 		addCommaToPrice($scope.clevelandProperties);
+		setShortName($scope.clevelandProperties);
 	
 	}, function(err) {
 	    console.error('ERR', err);
@@ -836,11 +852,13 @@ function getColumbusProperties($scope, $http) {
 
 		$scope.columbusProperties = [];
 		$scope.columbusProperties = resp.data;
+		
 		if(resp.data.length == 0) {
 			$scope.showColumbus = 0;
 		}
 		addClass($scope.columbusProperties);
 		addCommaToPrice($scope.columbusProperties);
+		setShortName($scope.columbusProperties);
 	
 	}, function(err) {
 	    console.error('ERR', err);
@@ -863,6 +881,7 @@ function getJacksonvilleProperties($scope, $http) {
 		}
 		addClass($scope.jacksonvilleProperties);
 		addCommaToPrice($scope.jacksonvilleProperties);
+		setShortName($scope.jacksonvilleProperties);
 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -914,9 +933,10 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			financing = $scope.marketingData["Financing"];
 			address = $scope.marketingData["Address"];
 			rating = $scope.marketingData["Rating"];
-			$scope.marketingData["BuyPrice"] = numberWithCommas($scope.marketingData["BuyPrice"]);			
+			$scope.marketingData["BuyPrice"] = numberWithCommas($scope.marketingData["BuyPrice"]);	
+			$scope.marketingData["Sqft"] = numberWithCommas($scope.marketingData["Sqft"]);
 			
-			console.log($scope.marketingData);
+			console.log('marketing data', $scope.marketingData);
 
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
@@ -1277,6 +1297,11 @@ function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function SplitName(str) {
+	var array = str.split(',');
+	return array[0];
 }
 
 function dateFormat(date) {
