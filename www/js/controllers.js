@@ -219,17 +219,17 @@ angular.module('starter.controllers', ['firebase'])
 	};
 	
 	$scope.closeMailPopup = function() {
-		$ionicScrollDelegate.scrollTop();
+		$ionicScrollDelegate.scrollBottom();
 		$scope.sendMail = 0;
 	};
 	
 	$scope.closeMeetingPopup = function() {
-		$ionicScrollDelegate.scrollTop();
+		$ionicScrollDelegate.scrollBottom();
 		$scope.meet = 0;
 	};
 	
 	$scope.send = function() {
-		$ionicScrollDelegate.scrollTop();	
+		$ionicScrollDelegate.scrollBottom();	
 		$scope.sendMail = 0;
 		
 		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
@@ -1172,8 +1172,9 @@ function getMainBarValues($scope, $http) {
 		$scope.propertyBar = [];
 
 		$scope.propertyBar = resp.data[0];
+		var investmentAmount = resp.data[0]['InvestmentAmount'];
 		
-		var val = resp.data[0]['TotalReturn'] / resp.data[0]['InvestmentAmount'] * 100;
+		var val = (investmentAmount != 0 ) ? resp.data[0]['TotalReturn'] / resp.data[0]['InvestmentAmount'] * 100 : 0;
 		
 		$scope.propertyBar.InvestmentAmount = numberWithCommas($scope.propertyBar.InvestmentAmount);
 		$scope.propertyBar.TotalReturn = numberWithCommas($scope.propertyBar.TotalReturn);
