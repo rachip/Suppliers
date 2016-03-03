@@ -1,4 +1,11 @@
-<ion-content class="content-stable" style="background: #EFEEEE;"> 
+<ion-view>
+ 	<ion-nav-title>
+	
+    </ion-nav-title>
+
+ <ion-pane>
+ 
+<ion-content has-header="true" class="content-stable" style="background: #EFEEEE;"> 
 	<div ng-if="chats">
 		<div ng-repeat="chat in chats" ng-class="{yellow: chat.userid != myId}" ng-if="isEmpty(chat.message)" 
 		class="bubble messages animated fadeIn"> 
@@ -18,4 +25,6 @@
          Send 
        </button> 
      </ion-footer-bar> 
-   </ion-pane> 
+     
+      </ion-pane>
+      </ion-view> 

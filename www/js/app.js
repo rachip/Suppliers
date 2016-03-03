@@ -179,12 +179,12 @@ angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.c
 
  .state('app.chats', {
 	 url: '/chats',
-	 views: {
-	    'menuContent': {
+	    views: {
+	        'menuContent': {
 	    	templateUrl: 'templates/tab-chats.html',
-            controller: 'ChatsCtrl'
+            controller: 'ChatsCtrl'	
+	        }
 	    }
-	 }
   })
 
   // if none of the above states are matched, use this as the fallback

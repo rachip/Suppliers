@@ -200,11 +200,11 @@ angular.module('starter.controllers', ['firebase'])
         if (isLoggedin == "true") {
         	var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
         	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
-        	$cordovaSocialSharing.share(massage, "Me app", null, uri);
+        	$cordovaSocialSharing.share(massage, "me app", null, uri)
         }
         else {
         	var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
-        	$cordovaSocialSharing.share("Me app", null, uri);
+        	$cordovaSocialSharing.share(null, "me app", null, uri)
         }
 	}
 	
@@ -306,15 +306,26 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //Chats Ctrl
-.controller('ChatsCtrl', function($scope, $ionicHistory, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
+.controller('ChatsCtrl', function($scope, $ionicHistory, $location, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 	
- 	$scope.myGoBack = function() { 
- 		$ionicHistory.goBack(); 
- 		$scope.show_chat_bu = true;
- 		
-    }; 
 	
 	$scope.show_chat_bu = true;
+	
+	$scope.myBackBU = function() {
+		
+			
+	$scope.show_chat_bu = true;
+
+		
+		$ionicHistory.goBack();
+
+		
+	}
+
+	
+
+	
+
 	
 	$scope.hide_chat_box = function() {
 		
@@ -324,8 +335,7 @@ angular.module('starter.controllers', ['firebase'])
 
 	$scope.branchToChat = function (BranchName) { 
 		TheBranchName = BranchName;	
-	 	$scope.chatSelected = false; 
-	 	$scope.show_chat_bu = false;	 
+	 	$scope.chatSelected = false;  
 	 	$state.go('app.chats'); 
 	} 
  
@@ -333,9 +343,8 @@ angular.module('starter.controllers', ['firebase'])
  		if ($rootScope.propertyCnt > 1 ) { 
  			$scope.chatSelected = true; 
  		} else { 
- 			TheBranchName = $rootScope.TheBranchName; 
+ 			TheBranchName = $rootScope.TheBranchName;
  			$state.go('app.chats'); 
- 			$scope.show_chat_bu = false;
  		} 
  	}  
 
@@ -380,7 +389,12 @@ angular.module('starter.controllers', ['firebase'])
 }) 
 
 //OverviewProperties Ctrl - logged in user
-.controller('OverviewPropertiesCtrl', function($scope, $http, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
+.controller('OverviewPropertiesCtrl', function($scope, $http, $location, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
+
+		
+		$scope.show_chat_bu = true;
+		
+		
     var id; 
     $scope.isOverviewLoading = true;    
     

@@ -1,8 +1,8 @@
 <div class="cloas_cahtc_box">
 <ion-side-menus enable-menu-with-back-views="false"> 
    <ion-side-menu-content> 
-     <ion-nav-bar class="bar-stable"> 
-       <ion-nav-back-button ng-click="myGoBack()"> 
+     <ion-nav-bar class="bar-stable" ng-clock="myBackBU()"> 
+       <ion-nav-back-button> 
        </ion-nav-back-button> 
  
  
@@ -63,7 +63,7 @@
 	<!-- Button Ends --> 
  
   <!-- Button Starts --> 
-   <div class="float-button" ng-show="show_chat_bu" ng-click="selectChat()"> 
+   <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()"> 
      <span class="height-fix"> 
          <a class="content"> 
            <i class="ion-ios-chatboxes"> </i> 
