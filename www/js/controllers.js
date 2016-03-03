@@ -939,7 +939,6 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			
 			investmentAmount = $scope.marketingData["BuyPrice"];
 			salePrice = $scope.marketingData["SalePrice"];
-			salePrice = $scope.marketingData["SalePrice"];
 			purchaseCost = $scope.marketingData["PurchaseCost"];
 			closingCost = $scope.marketingData["ClosingCost"];
 			softCost= $scope.marketingData["SoftCost"];
@@ -947,6 +946,8 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			financing = $scope.marketingData["Financing"];
 			address = $scope.marketingData["Address"];
 			rating = $scope.marketingData["Rating"];
+			numOfUnits = $scope.marketingData["NumOfUnits"];
+			$scope.marketingData["MinInvestment"] = numberWithCommas($scope.marketingData["MinInvestment"]);	
 			$scope.marketingData["BuyPrice"] = numberWithCommas($scope.marketingData["BuyPrice"]);	
 			$scope.marketingData["Sqft"] = numberWithCommas($scope.marketingData["Sqft"]);
 			
@@ -954,7 +955,7 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
-			drawSensitivityAnalysisCart(investmentAmount, salePrice);
+			drawSensitivityAnalysisCart(investmentAmount, salePrice, numOfUnits);
 			drawRating(rating);
 			darwGoogleMap(address);
 		} 
@@ -1022,7 +1023,7 @@ function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, in
 			], 70, 90, 70, 70, 0, 0.6);
 }
 
-function drawSensitivityAnalysisCart(buySum, saleSum) {
+function drawSensitivityAnalysisCart(buySum, saleSum, numOfUnits) {
 	var income = saleSum - buySum;
 	
 	var data = {
@@ -1030,10 +1031,10 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		    datasets: [		        
 		        {
 		            label: "Market Changes",
-		            fillColor: ["rgba(220,220,220,0.5)", "rgba(235,136,0,0.5)"],
+		            fillColor: "rgba(73,159,206,0.75)",
 		            //strokeColor: "rgba(163,126,100,0.8)",
-		            highlightFill: "rgba(163,126,100,0.75)",
-		            highlightStroke: "rgba(163,126,100,1)",
+		            highlightFill: "rgba(73,159,206,0)",
+		            highlightStroke: "rgba(73,159,206,0)",
 		            data: [calcPercent(income, 20, "minus"), calcPercent(income, 15, "minus"), calcPercent(income, 10, "minus"), calcPercent(income, 5, "minus"), 
 		                   income, 
 		                   calcPercent(income, 5, "plus"), calcPercent(income, 10, "plus"), calcPercent(income, 15, "plus") , calcPercent(income, 20, "plus")]
@@ -1045,26 +1046,57 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var option = { scaleShowGridLines : false, 
 				       scaleOverride : true,
-		        	   scaleSteps : 7,
-		               scaleStepWidth : 1500000,
+		        	   scaleSteps : 10,
+		               scaleStepWidth : calcStepWidth(numOfUnits),
 		               scaleStartValue : 0,
 		               showTooltips: false,
 		               onAnimationComplete: function () {
 
 		                   var ctx = this.chart.ctx;
 		                   ctx.font = this.scale.font;
-		                   ctx.fillStyle = this.scale.textColor
+		                   ctx.fillStyle = "black";
 		                   ctx.textAlign = "left";
 		                   ctx.textBaseline = "bottom";
 
 		                   this.datasets.forEach(function (dataset) {
 		                       dataset.bars.forEach(function (bar) {
-		                    	   ctx.fillText(numberWithCommas(Math.round( bar.value /1000)) + "K", bar.x+5, bar.y+7);
+		                    	   ctx.fillText(numberWithCommas(Math.round( bar.value )) + "", bar.x/2, bar.y+7);
 		                       });
 		                   })
 		               }
 		             }	
-		var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+		//var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+		window.myObjBar = new Chart(ctx).HorizontalBar(data, option);
+
+	    //new colors
+	    myObjBar.datasets[0].bars[0].fillColor = "rgba(255, 153, 0, 1)"; //bar 1
+	    myObjBar.datasets[0].bars[0].strokeColor = "rgba(255, 153, 0, 1)"; //bar 1
+	    
+	    myObjBar.datasets[0].bars[1].fillColor = "rgba(255, 153, 0, 0.75)"; //bar 2
+	    myObjBar.datasets[0].bars[1].strokeColor = "rgba(255, 153, 0, 0)"; //bar 2
+	    
+	    myObjBar.datasets[0].bars[2].fillColor = "rgba(255, 153, 0, 0.5)"; //bar 3
+	    myObjBar.datasets[0].bars[2].strokeColor = "rgba(255, 153, 0, 0)"; //bar 3	    
+	    
+	    myObjBar.datasets[0].bars[3].strokeColor = "rgba(255, 153, 0, 0)"; //bar 4
+	    myObjBar.datasets[0].bars[3].fillColor = "rgba(255, 153, 0, 0.25)"; //bar 4
+	    
+	    myObjBar.datasets[0].bars[4].strokeColor = "rgba(220,220,220,0)"; //bar 5
+	    myObjBar.datasets[0].bars[4].fillColor = "rgba(220,220,220,0.5)"; //bar 5
+	    
+	    myObjBar.datasets[0].bars[5].fillColor = "rgba(102, 153, 0, 0.25)"; //bar 6
+	    myObjBar.datasets[0].bars[5].strokeColor = "rgba(102, 153, 0, 0)"; //bar 6
+	    
+	    myObjBar.datasets[0].bars[6].fillColor = "rgba(102, 153, 0, 0.5)"; //bar 7
+	    myObjBar.datasets[0].bars[6].strokeColor = "rgba(102, 153, 0, 0)"; //bar 7
+	    
+	    myObjBar.datasets[0].bars[7].fillColor = "rgba(102, 153, 0, 0.75)"; //bar 8
+	    myObjBar.datasets[0].bars[7].strokeColor = "rgba(102, 153, 0, 0)"; //bar 8
+	    
+	    myObjBar.datasets[0].bars[8].fillColor = "rgba(102, 153, 0, 1)"; //bar 9
+	    myObjBar.datasets[0].bars[8].strokeColor = "rgba(102, 153, 0, 0)"; //bar 9
+	    
+	    myObjBar.update();
 }
 
 function drawRating(rating) {
@@ -1100,6 +1132,13 @@ function capitalStructure($scope, investmentAmount, purchaseCost, closingCost, s
 		$scope.investmentMEAmount = $scope.investmentMETotalPercent * investmentAmount / 100;
 		$scope.financingAmount = $scope.financingTotalPercent * investmentAmount / 100;
 		$scope.totalAmount = $scope.purchaseCostAmount + $scope.closingCostAmount + $scope.softCostAmount + $scope.investmentMEAmount + $scope.financingAmount;
+		//add commas
+		$scope.purchaseCostAmount = numberWithCommas($scope.purchaseCostAmount);
+		$scope.closingCostAmount = numberWithCommas($scope.closingCostAmount);
+		$scope.softCostAmount = numberWithCommas($scope.softCostAmount);
+		$scope.investmentMEAmount = numberWithCommas($scope.investmentMEAmount);
+		$scope.financingAmount = numberWithCommas($scope.financingAmount);
+		$scope.totalAmount = numberWithCommas($scope.totalAmount);
 	}
 }
 
@@ -1312,4 +1351,14 @@ function calcPercent(sum, percent, operator) {
 	} else {
 		return val = sum * ((100 + percent) / 100);
 	}
+}
+
+// see different x axis values according the number of units
+function calcStepWidth(units) {
+	if(units < 3)
+		return 2000;
+	else if(units < 8)
+		return 6000;
+		else
+			return 2000000;
 }
