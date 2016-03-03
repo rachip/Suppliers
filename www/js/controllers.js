@@ -1008,11 +1008,12 @@ function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, in
 			  {label:"aaa", value:val5, color:"#7F8354"}
 			], 70, 90, 70, 70, 0, 0.6);
 }
-
+var data;
+var option;
 function drawSensitivityAnalysisCart(buySum, saleSum, numOfUnits) {
 	var income = saleSum - buySum;
 	
-	var data = {
+	data = {
 		    labels: ["  -20%", "  -15%", "  -10%", "  -5%",  "   Base ", " 5%", " 10%", " 15%", " 20%"],
 		    datasets: [		        
 		        {
@@ -1030,7 +1031,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum, numOfUnits) {
 
 		// Get the context of the canvas element we want to select
 		var ctx = document.getElementById("myChart").getContext("2d");
-		var option = { scaleShowGridLines : false, 
+		option = { scaleShowGridLines : false, 
 				       scaleOverride : true,
 		        	   scaleSteps : 10,
 		               scaleStepWidth : calcStepWidth(numOfUnits),
@@ -1051,7 +1052,21 @@ function drawSensitivityAnalysisCart(buySum, saleSum, numOfUnits) {
 		                   })
 		               }
 		             }	
-		var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+		//var myBarChart = new Chart(ctx).HorizontalBar(data,  option);
+		window.myObjBar = new Chart(ctx).HorizontalBar(data, option);
+
+	    //nuevos colores
+	    myObjBar.datasets[0].bars[0].fillColor = "rgba(224, 0, 0, 1)"; //bar 1
+	    myObjBar.datasets[0].bars[1].fillColor = "rgba(224, 0, 0, 0.75)"; //bar 2
+	    myObjBar.datasets[0].bars[2].fillColor = "rgba(224, 0, 0, 0.5)"; //bar 3
+	    myObjBar.datasets[0].bars[3].fillColor = "rgba(224, 0, 0, 0.25)"; //bar 4
+	    myObjBar.datasets[0].bars[4].fillColor = "rgba(220,220,220,0.5)"; //bar 5
+	    myObjBar.datasets[0].bars[5].fillColor = "rgba(102, 153, 0, 0.25)"; //bar 6
+	    myObjBar.datasets[0].bars[6].fillColor = "rgba(102, 153, 0, 0.5)"; //bar 7
+	    myObjBar.datasets[0].bars[7].fillColor = "rgba(102, 153, 0, 0.75)"; //bar 8
+	    myObjBar.datasets[0].bars[8].fillColor = "rgba(102, 153, 0, 1)"; //bar 9
+	    
+	    myObjBar.update();
 }
 
 function drawRating(rating) {
@@ -1317,3 +1332,14 @@ function calcStepWidth(units) {
 		else
 			return 2000000;
 }
+
+/*window.onload = function(){
+    var ctx = document.getElementById("myChart").getContext("2d");
+    window.myObjBar = new Chart(ctx).HorizontalBar(data, option);
+
+    //nuevos colores
+    myObjBar.datasets[0].bars[0].fillColor = "green"; //bar 1
+    myObjBar.datasets[0].bars[1].fillColor = "orange"; //bar 2
+    myObjBar.datasets[0].bars[2].fillColor = "red"; //bar 3
+    myObjBar.update();
+}*/
