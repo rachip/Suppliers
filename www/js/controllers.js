@@ -1010,32 +1010,13 @@ function drawInvestmentCostsCart(buySum, purchaseCost, closingCost, softCost, in
 
 function drawSensitivityAnalysisCart(buySum, saleSum) {
 	var income = saleSum - buySum;
+	
 	var data = {
 		    labels: ["  -20%", "  -15%", "  -10%", "  -5%",  "   Base ", " 5%", " 10%", " 15%", " 20%"],
-		    datasets: [
+		    datasets: [		        
 		        {
-		            label: "buySum",
-		            fillColor: "rgba(73,159,206,0.75)",
-		           // strokeColor: "rgba(73,159,206,0.8)",
-		            highlightFill: "rgba(73,159,206,0.75)",
-		            highlightStroke: "rgba(73,159,206,1)",
-		            data: [calcPercent(buySum, 20, "minus"), calcPercent(buySum, 15, "minus"), calcPercent(buySum, 10, "minus"), calcPercent(buySum, 5, "minus"), 
-		                   buySum, 
-		                   calcPercent(buySum, 5, "plus"), calcPercent(buySum, 10, "plus"), calcPercent(buySum, 15, "plus"), calcPercent(buySum, 20, "plus")]
-		        },
-		        {
-		            label: "saleSum",
-		            fillColor: "rgba(27,74,100,0.75)",
-		           // strokeColor: "rgba(27,74,100,0.8)",
-		            highlightFill: "rgba(27,74,100,0.75)",
-		            highlightStroke: "rgba(27,74,100,1)",
-		            data: [calcPercent(saleSum, 20, "minus"), calcPercent(saleSum, 15, "minus"), calcPercent(saleSum, 10, "minus"), calcPercent(saleSum, 5, "minus"), 
-		                   saleSum, 
-		                   calcPercent(saleSum, 5, "plus"), calcPercent(saleSum, 10, "plus"), calcPercent(saleSum, 15, "plus"), calcPercent(saleSum, 20, "plus")]
-		        },
-		        {
-		            label: "incomeSum",
-		            fillColor: "rgba(163,126,100,0.75)",
+		            label: "Market Changes",
+		            fillColor: ["rgba(220,220,220,0.5)", "rgba(235,136,0,0.5)"],
 		            //strokeColor: "rgba(163,126,100,0.8)",
 		            highlightFill: "rgba(163,126,100,0.75)",
 		            highlightStroke: "rgba(163,126,100,1)",
@@ -1050,8 +1031,8 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var option = { scaleShowGridLines : false, 
 				       scaleOverride : true,
-		        	   scaleSteps : 6,
-		               scaleStepWidth : 5000000,
+		        	   scaleSteps : 7,
+		               scaleStepWidth : 1500000,
 		               scaleStartValue : 0,
 		               showTooltips: false,
 		               onAnimationComplete: function () {
@@ -1064,7 +1045,7 @@ function drawSensitivityAnalysisCart(buySum, saleSum) {
 
 		                   this.datasets.forEach(function (dataset) {
 		                       dataset.bars.forEach(function (bar) {
-		                    	   ctx.fillText(Math.round( bar.value /1000000) + "M", bar.x+5, bar.y+7);
+		                    	   ctx.fillText(numberWithCommas(Math.round( bar.value /1000)) + "K", bar.x+5, bar.y+7);
 		                       });
 		                   })
 		               }

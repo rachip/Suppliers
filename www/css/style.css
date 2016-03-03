@@ -814,7 +814,8 @@ ul.marketingDetails li {
 }
 
 #myChart {
-	width: 100% !important;
+	width: 90% !important;
+	margin-left: 15px;
 }
 
 .MarketImg {
@@ -889,6 +890,19 @@ ul.marketingDetails li {
     top: -48px;
     left: 97%;
     font-size: 28px;
+}
+
+.yaxisTitle {
+	position: absolute;
+    transform: rotate(-90deg);
+    margin-top: 160px;
+    margin-left: -52px;
+}
+
+.xaxisTitle {
+    position: relative;
+    margin-left: 133px;
+    top: -9px;
 }
 /* -------------- the chats part -------------------- */
 .messages { 
