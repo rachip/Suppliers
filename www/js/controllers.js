@@ -1246,6 +1246,13 @@ function getPropertiesForYourPropertiesSection($scope, $rootScope, $http) {
     		
     		$rootScope.propertyCnt = resp.data.length;
     		
+    		// set default image to property in case that no image attached.
+    		for(var i = 0; i < $scope.propertyImage.length; i++) {
+    			if($scope.propertyImage[i].FileName == null) {
+    				$scope.propertyImage[i].FileName = "defaultProperty.jpg";
+    			}
+    		}
+    		
     		addClass($scope.propertyImage);
     		
     	}, function(err) {
