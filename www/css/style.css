@@ -11,21 +11,24 @@
 .bottom-21 { margin-bottom: 21px;}
 .bottom-26 { margin-bottom: 26px;}
 .bottom-28 { margin-bottom: 28px;}
+.left-15 { margin-left: 15px; }
 .left-30 { margin-left: 30px; }
 .left-50 { margin-left: 50px; }
 .calign { text-align: center; }
 .ralign { text-align: right; }
 .width_20pe { width: 20%; }
+.width_30pe { width: 30%; }
 .width_48pe { width: 48%; }
 .width_50pe { width: 50%; }
 .width_80pe { width: 80%; }
 .width_85pe { width: 85%; }
 .width_100pe { width: 100%; }
+.height_15px { height: 15px }
+.height_200px { height: 200px; }
 .line_2 { line-height: 2; }
 .line_40 { line-height: 40px; }
 .bold { font-weight: bold; }
 .dinline { display: inline-block; }
-.height_200px { height: 200px; }
 .clearb { clear: both; }
 .lightBlue { color: #499FCE }
 .blue { color: #1B4A64 }
@@ -346,6 +349,17 @@ width: 49.1%;
 .totlaInvestmentTitle, .totalReturnsTitle {
     margin-left: 24px;
     font-size: medium;  
+}
+
+.overviewAddress {
+	position: relative;
+    left: 10px;
+    font-weight: bold;
+    font-size: small;
+    color: white;
+    font-family: 'MuseoSans';
+    text-shadow: 2px 2px #000000;
+    top: 80%;
 }
 
 /* ********************************************** */

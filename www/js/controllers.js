@@ -808,6 +808,7 @@ function getRochesterProperties($scope, $http) {
 		if(resp.data.length == 0) {
 			$scope.showRochester = 0;
 		}
+		
 		addClass($scope.rochesterProperties);
 		addCommaToPrice($scope.rochesterProperties);
 		setShortName($scope.rochesterProperties);
@@ -831,6 +832,7 @@ function getClevelandProperties($scope, $http) {
 		if(resp.data.length == 0) {
 			$scope.showCleveland = 0;
 		}
+		
 		addClass($scope.clevelandProperties);
 		addCommaToPrice($scope.clevelandProperties);
 		setShortName($scope.clevelandProperties);
@@ -856,6 +858,7 @@ function getColumbusProperties($scope, $http) {
 		if(resp.data.length == 0) {
 			$scope.showColumbus = 0;
 		}
+		
 		addClass($scope.columbusProperties);
 		addCommaToPrice($scope.columbusProperties);
 		setShortName($scope.columbusProperties);
@@ -1254,6 +1257,7 @@ function getPropertiesForYourPropertiesSection($scope, $rootScope, $http) {
     		}
     		
     		addClass($scope.propertyImage);
+    		setShortName($scope.propertyImage);
     		
     	}, function(err) {
     	    console.error('ERR', err);
@@ -1284,6 +1288,8 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 			console.log("$scope.specialPropertyImage", $scope.specialPropertyImage);
 			
 			addClass($scope.specialPropertyImage);
+			setShortName($scope.specialPropertyImage);
+			addCommaToPrice($scope.specialPropertyImage);
 			
 		}, function(err) {
 		    console.error('ERR', err);
