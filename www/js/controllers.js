@@ -303,6 +303,19 @@ angular.module('starter.controllers', ['firebase'])
 		$scope.MailObj = {};
 	}
 	
+	$('.qaz').click(function (e)
+	{
+		var container = $(".sendMailPopup");
+
+		if (!container.is(e.target) // if the target of the click isn't the container...
+			&& container.has(e.target).length === 0) // ... nor a descendant of the container
+		{
+			$scope.meet = 0;
+			$scope.sendMail = 0;
+			$ionicScrollDelegate.scrollBottom();				
+		}
+	});
+	
 })
 
 //Chats Ctrl
@@ -561,7 +574,7 @@ function getPropertyChart(propertyId, $scope, $http) {
 		    $scope.month = months <= 0 ? 0 : months;
  
 		    
-		    $scope.currentYield = ($scope.month && investmentAmount) ? (totalReturn / $scope.month * 12 / investmentAmount).toFixed(2) : 0;
+		    $scope.currentYield = ($scope.month && investmentAmount) ? Math.round(totalReturn / $scope.month * 12 / investmentAmount) : 0;
 			var val = (investmentAmount != 0) ? totalReturn / investmentAmount * 100 : 0;
 			
 			$scope.propertyChart.InvestmentAmount = numberWithCommas($scope.propertyChart.InvestmentAmount);
