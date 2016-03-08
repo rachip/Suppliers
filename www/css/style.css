@@ -554,8 +554,8 @@ ul.propertyDetails li span:nth-child(2) {
     font-weight: bold;
 }
 
-.totlaInvestmentDiv2:after, .totalReturnsDiv2:after {
-    content: " $";
+.totlaInvestmentDiv2:before, .totalReturnsDiv2:before {
+    content: "$";
 }
 
 .totlaTime:after {
