@@ -561,7 +561,7 @@ function getPropertyChart(propertyId, $scope, $http) {
 		    $scope.month = months <= 0 ? 0 : months;
  
 		    
-		    $scope.currentYield = ($scope.month && investmentAmount) ? Math.round(totalReturn / $scope.month * 12 / investmentAmount) : 0;
+		    $scope.currentYield = ($scope.month && investmentAmount) ? (totalReturn / $scope.month * 12 / investmentAmount).toFixed(2) : 0;
 			var val = (investmentAmount != 0) ? totalReturn / investmentAmount * 100 : 0;
 			
 			$scope.propertyChart.InvestmentAmount = numberWithCommas($scope.propertyChart.InvestmentAmount);
