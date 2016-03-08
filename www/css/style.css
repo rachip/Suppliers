@@ -334,7 +334,7 @@ width: 49.1%;
     font-family: 'MuseoSans';
 }
 
-.totlaInvestment:after , .totalReturns:after {
+.totlaInvestment:before , .totalReturns:before {
    font-family: 'MuseoSans';
    content: "$";
    color: white;    
