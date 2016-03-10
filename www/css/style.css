@@ -880,6 +880,9 @@ ul.marketingDetails li {
     width: 87.7%;
     margin-bottom: -15px;
     margin-left: 6.3%;
+    position: relative;
+    bottom: -115px;
+    left: -1px;
 }
 
 .sendMailPopup.offer {
@@ -890,7 +893,7 @@ ul.marketingDetails li {
     margin-bottom: -15px;
     margin-left: 6.3%;
     position: relative;
-    bottom: -65px;
+    bottom: -115px;
 }
 
 .sendMailPopup h3 {
