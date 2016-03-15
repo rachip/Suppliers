@@ -4,6 +4,7 @@
 .top-20 { margin-top: 30px; }
 .right-2pe { margin-right: 2%; }
 .right-15 { margin-right: 15px; }
+.right--10 { margin-right: -10px; }
 .bottom-5 { margin-bottom: 5px;}
 .bottom-15 { margin-bottom: 15px;}
 .bottom-17 { margin-bottom: 17px;}
@@ -471,8 +472,9 @@ hr {
 
 .propertyName {
     font-family: 'MuseoSans';
-    font-size: x-large;
+/*     font-size: x-large; */
     font-weight: bolder;
+    text-align: center;
     margin: 30px 30px 20px 30px;
     /*text-shadow: 1px 1px #000000;*/
 }
@@ -544,7 +546,7 @@ ul.propertyDetails li span:nth-child(2) {
 }
 
 .currentYieldTitle {
-    font-size: large;
+/*     font-size: large; */
     font-weight: bold;
 }
 
@@ -877,9 +879,9 @@ ul.marketingDetails li {
     background-color: white;
     border: 1px black solid;
     padding: 20px;
-    width: 87.7%;
+    width: 89%;
     margin-bottom: -15px;
-    margin-left: 6.3%;
+    margin-left: 6%;
     position: relative;
     bottom: -115px;
     left: -1px;
@@ -889,9 +891,9 @@ ul.marketingDetails li {
     background-color: white;
     border: 1px black solid;
     padding: 20px;
-    width: 87.7%;
+    width: 89%;
     margin-bottom: -15px;
-    margin-left: 6.3%;
+    margin-left: 6%;
     position: relative;
     bottom: -115px;
 }

@@ -234,7 +234,7 @@ angular.module('starter.controllers', ['firebase'])
 		
 		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
-				   bid: $scope.MailObj.bid, propertyName: propertyName};
+				   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon};
 		console.log('mail', obj);
 		
 		// send mail to moshe gmail
@@ -243,7 +243,7 @@ angular.module('starter.controllers', ['firebase'])
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule,
-				   bid: $scope.MailObj.bid, propertyName: propertyName},
+				   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -257,7 +257,7 @@ angular.module('starter.controllers', ['firebase'])
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
-				   bid: $scope.MailObj.bid},
+				   bid: $scope.MailObj.bid, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -268,11 +268,11 @@ angular.module('starter.controllers', ['firebase'])
 	}
 	
 	$scope.setMeeting = function() {
-		$ionicScrollDelegate.scrollTop();		
+		$ionicScrollDelegate.scrollBottom();		
 		$scope.meet = 0;
 		
 		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule};
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon};
 		console.log(obj);
 		
 		// send mail to moshe gmail
@@ -280,7 +280,7 @@ angular.module('starter.controllers', ['firebase'])
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/setMeeting', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   schedule: $scope.MailObj.schedule, propertyName: propertyName},
+				   schedule: $scope.MailObj.schedule, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -293,7 +293,7 @@ angular.module('starter.controllers', ['firebase'])
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: '', schedule: $scope.MailObj.schedule},
+				   address: '', schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -301,21 +301,7 @@ angular.module('starter.controllers', ['firebase'])
 		    console.error('ERR', err);
 		})
 		$scope.MailObj = {};
-	}
-	
-	$('.qaz').click(function (e)
-	{
-		var container = $(".sendMailPopup");
-
-		if (!container.is(e.target) // if the target of the click isn't the container...
-			&& container.has(e.target).length === 0) // ... nor a descendant of the container
-		{
-			$scope.meet = 0;
-			$scope.sendMail = 0;
-			$ionicScrollDelegate.scrollBottom();				
-		}
-	});
-	
+	}	
 })
 
 //Chats Ctrl
@@ -360,8 +346,8 @@ angular.module('starter.controllers', ['firebase'])
  	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
  
   	ref.on("child_added", function(date) { 
-	 	$ionicScrollDelegate.scrollBottom(); 
-	 	$ionicScrollDelegate.scrollBottom(); 
+	 	//$ionicScrollDelegate.scrollBottom(); 
+	 	//$ionicScrollDelegate.scrollBottom(); 
  	}); 
  
   	$ionicScrollDelegate.scrollBottom(); 
@@ -380,8 +366,6 @@ angular.module('starter.controllers', ['firebase'])
  		}); 
  		chat.message = ""; 
  	} 
- 
-
     
     $scope.isEmpty = function (obj) {
     	console.log("obj "+ obj);
@@ -405,6 +389,7 @@ angular.module('starter.controllers', ['firebase'])
 		});
 		
 		getMainBarValues($scope, $http);
+		$ionicScrollDelegate.scrollTop();
     }
     
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
@@ -492,7 +477,7 @@ angular.module('starter.controllers', ['firebase'])
 		    	    params:  { id:propertyId, table:i }, 
 		    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		    	}).then(function(resp) {
-		    		
+		    		console.log("sucess request update");
 		    	}, function(err) {
 		    	    console.error('ERR', err);
 		    	})
@@ -522,7 +507,6 @@ angular.module('starter.controllers', ['firebase'])
 		$ionicScrollDelegate.scrollTop();
 	};
 })
-
 
 .controller('DashCtrl', function($scope) {})
 
@@ -744,6 +728,7 @@ function getEvictionDetails(propertyId, $scope, $http) {
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
+			$scope.showEvictionSection = true;
 			
 			$scope.eviction = resp.data[0];
 
@@ -752,6 +737,8 @@ function getEvictionDetails(propertyId, $scope, $http) {
 			
 			$scope.IsHasEvictionFile = $scope.eviction['IsHasFile'] == 1 ? true : false;
 			$scope.showEvictionNote = $scope.eviction['ShowNote'] == 1 ? true : false;
+		} else {
+			$scope.showEvictionSection = false;
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
