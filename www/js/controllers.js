@@ -393,7 +393,7 @@ angular.module('starter.controllers', ['firebase'])
     				}, function(err) {
     				    console.error('ERR', err);
     				})	
-    		   });
+    
     		   
     		}
     		
