@@ -4,6 +4,7 @@
 .top-20 { margin-top: 30px; }
 .right-2pe { margin-right: 2%; }
 .right-15 { margin-right: 15px; }
+.right--10 { margin-right: -10px; }
 .bottom-5 { margin-bottom: 5px;}
 .bottom-15 { margin-bottom: 15px;}
 .bottom-17 { margin-bottom: 17px;}
@@ -11,21 +12,24 @@
 .bottom-21 { margin-bottom: 21px;}
 .bottom-26 { margin-bottom: 26px;}
 .bottom-28 { margin-bottom: 28px;}
+.left-15 { margin-left: 15px; }
 .left-30 { margin-left: 30px; }
 .left-50 { margin-left: 50px; }
 .calign { text-align: center; }
 .ralign { text-align: right; }
 .width_20pe { width: 20%; }
+.width_30pe { width: 30%; }
 .width_48pe { width: 48%; }
 .width_50pe { width: 50%; }
 .width_80pe { width: 80%; }
 .width_85pe { width: 85%; }
 .width_100pe { width: 100%; }
+.height_15px { height: 15px }
+.height_200px { height: 200px; }
 .line_2 { line-height: 2; }
 .line_40 { line-height: 40px; }
 .bold { font-weight: bold; }
 .dinline { display: inline-block; }
-.height_200px { height: 200px; }
 .clearb { clear: both; }
 .lightBlue { color: #499FCE }
 .blue { color: #1B4A64 }
@@ -331,7 +335,7 @@ width: 49.1%;
     font-family: 'MuseoSans';
 }
 
-.totlaInvestment:after , .totalReturns:after {
+.totlaInvestment:before , .totalReturns:before {
    font-family: 'MuseoSans';
    content: "$";
    color: white;    
@@ -346,6 +350,17 @@ width: 49.1%;
 .totlaInvestmentTitle, .totalReturnsTitle {
     margin-left: 24px;
     font-size: medium;  
+}
+
+.overviewAddress {
+	position: relative;
+    left: 10px;
+    font-weight: bold;
+    font-size: small;
+    color: white;
+    font-family: 'MuseoSans';
+    text-shadow: 2px 2px #000000;
+    top: 80%;
 }
 
 /* ********************************************** */
@@ -457,8 +472,9 @@ hr {
 
 .propertyName {
     font-family: 'MuseoSans';
-    font-size: x-large;
+/*     font-size: x-large; */
     font-weight: bolder;
+    text-align: center;
     margin: 30px 30px 20px 30px;
     /*text-shadow: 1px 1px #000000;*/
 }
@@ -530,7 +546,7 @@ ul.propertyDetails li span:nth-child(2) {
 }
 
 .currentYieldTitle {
-    font-size: large;
+/*     font-size: large; */
     font-weight: bold;
 }
 
@@ -540,8 +556,8 @@ ul.propertyDetails li span:nth-child(2) {
     font-weight: bold;
 }
 
-.totlaInvestmentDiv2:after, .totalReturnsDiv2:after {
-    content: " $";
+.totlaInvestmentDiv2:before, .totalReturnsDiv2:before {
+    content: "$";
 }
 
 .totlaTime:after {
@@ -863,20 +879,23 @@ ul.marketingDetails li {
     background-color: white;
     border: 1px black solid;
     padding: 20px;
-    width: 87.7%;
+    width: 89%;
     margin-bottom: -15px;
-    margin-left: 6.3%;
+    margin-left: 6%;
+    position: relative;
+    bottom: -115px;
+    left: -1px;
 }
 
 .sendMailPopup.offer {
     background-color: white;
     border: 1px black solid;
     padding: 20px;
-    width: 87.7%;
+    width: 89%;
     margin-bottom: -15px;
-    margin-left: 6.3%;
+    margin-left: 6%;
     position: relative;
-    bottom: -65px;
+    bottom: -115px;
 }
 
 .sendMailPopup h3 {
@@ -888,7 +907,7 @@ ul.marketingDetails li {
 .sendMailPopup i {
     position: relative;
     top: -48px;
-    left: 97%;
+    left: 98%;
     font-size: 28px;
 }
 

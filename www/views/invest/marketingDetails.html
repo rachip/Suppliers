@@ -1,5 +1,5 @@
 <ion-view title="Invest ME">
-  <ion-content> 
+  <ion-content class="qaz"> 
   	
   	<ion-spinner icon="bubbles" ng-if='isMarketingDetailsLoading' class="spinner"></ion-spinner>
   
@@ -143,7 +143,7 @@
 		 				</li>
 	 				</ul>
 	 			</div>
-	 			<div class="right dinline width_50pe" id="investmentAmountCart"></div>
+	 			<div class="right dinline width_50pe right--10" id="investmentAmountCart"></div>
 	 		</div> 		
 		</div>
 		<!-- END Investment Amount -->
@@ -441,7 +441,13 @@
 					<li>
 						<span>Bid </span>
 						<label class="item item-input">
-							<input class="" type="text" placeholder="Your Bid" ng-model="MailObj.bid"/>
+							$<input class="" type="text" placeholder=" Your Bid" ng-model="MailObj.bid"/>  
+						</label>
+					</li>
+					<li>
+						<span>Code Coupon</span>
+						<label class="item item-input">
+							<input class="" type="text" placeholder="Your Coupon code" ng-model="MailObj.codeCoupon"/>
 						</label>
 					</li>
 					<li>
@@ -484,6 +490,12 @@
 						<span>Meeting schedule </span>
 						<label class="item item-input">
 							<input class="" type="text" placeholder="yyyy-mm-dd" ng-model="MailObj.schedule"/>
+						</label>
+					</li>
+					<li>
+						<span>Code Coupon</span>
+						<label class="item item-input">
+							<input class="" type="text" placeholder="Your Coupon code" ng-model="MailObj.codeCoupon"/>
 						</label>
 					</li>
 					<li>

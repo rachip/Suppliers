@@ -234,7 +234,7 @@ angular.module('starter.controllers', ['firebase'])
 		
 		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
-				   bid: $scope.MailObj.bid, propertyName: propertyName};
+				   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon};
 		console.log('mail', obj);
 		
 		// send mail to moshe gmail
@@ -243,7 +243,7 @@ angular.module('starter.controllers', ['firebase'])
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule,
-				   bid: $scope.MailObj.bid, propertyName: propertyName},
+				   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -257,7 +257,7 @@ angular.module('starter.controllers', ['firebase'])
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
-				   bid: $scope.MailObj.bid},
+				   bid: $scope.MailObj.bid, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -268,11 +268,11 @@ angular.module('starter.controllers', ['firebase'])
 	}
 	
 	$scope.setMeeting = function() {
-		$ionicScrollDelegate.scrollTop();		
+		$ionicScrollDelegate.scrollBottom();		
 		$scope.meet = 0;
 		
 		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule};
+				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon};
 		console.log(obj);
 		
 		// send mail to moshe gmail
@@ -280,7 +280,7 @@ angular.module('starter.controllers', ['firebase'])
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/setMeeting', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   schedule: $scope.MailObj.schedule, propertyName: propertyName},
+				   schedule: $scope.MailObj.schedule, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -293,7 +293,7 @@ angular.module('starter.controllers', ['firebase'])
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
 		    method: "POST",
 		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: '', schedule: $scope.MailObj.schedule},
+				   address: '', schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon},
 		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(resp) {
 			console.log("sucess")
@@ -301,8 +301,7 @@ angular.module('starter.controllers', ['firebase'])
 		    console.error('ERR', err);
 		})
 		$scope.MailObj = {};
-	}
-	
+	}	
 })
 
 //Chats Ctrl
@@ -356,8 +355,8 @@ angular.module('starter.controllers', ['firebase'])
  	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
  
   	ref.on("child_added", function(date) { 
-	 	$ionicScrollDelegate.scrollBottom(); 
-	 	$ionicScrollDelegate.scrollBottom(); 
+	 	//$ionicScrollDelegate.scrollBottom(); 
+	 	//$ionicScrollDelegate.scrollBottom(); 
  	}); 
  
   	$ionicScrollDelegate.scrollBottom(); 
@@ -376,8 +375,6 @@ angular.module('starter.controllers', ['firebase'])
  		}); 
  		chat.message = ""; 
  	} 
- 
-
     
     $scope.isEmpty = function (obj) {
     	console.log("obj "+ obj);
@@ -406,6 +403,7 @@ angular.module('starter.controllers', ['firebase'])
 		});
 		
 		getMainBarValues($scope, $http);
+		$ionicScrollDelegate.scrollTop();
     }
     
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
@@ -493,7 +491,7 @@ angular.module('starter.controllers', ['firebase'])
 		    	    params:  { id:propertyId, table:i }, 
 		    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		    	}).then(function(resp) {
-		    		
+		    		console.log("sucess request update");
 		    	}, function(err) {
 		    	    console.error('ERR', err);
 		    	})
@@ -523,7 +521,6 @@ angular.module('starter.controllers', ['firebase'])
 		$ionicScrollDelegate.scrollTop();
 	};
 })
-
 
 .controller('DashCtrl', function($scope) {})
 
@@ -575,7 +572,7 @@ function getPropertyChart(propertyId, $scope, $http) {
 		    $scope.month = months <= 0 ? 0 : months;
  
 		    
-		    $scope.currentYield = ($scope.month && investmentAmount) ? totalReturn / $scope.month * 12 / investmentAmount : 0;
+		    $scope.currentYield = ($scope.month && investmentAmount) ? Math.round(totalReturn / $scope.month * 12 / investmentAmount) : 0;
 			var val = (investmentAmount != 0) ? totalReturn / investmentAmount * 100 : 0;
 			
 			$scope.propertyChart.InvestmentAmount = numberWithCommas($scope.propertyChart.InvestmentAmount);
@@ -745,6 +742,7 @@ function getEvictionDetails(propertyId, $scope, $http) {
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
+			$scope.showEvictionSection = true;
 			
 			$scope.eviction = resp.data[0];
 
@@ -753,6 +751,8 @@ function getEvictionDetails(propertyId, $scope, $http) {
 			
 			$scope.IsHasEvictionFile = $scope.eviction['IsHasFile'] == 1 ? true : false;
 			$scope.showEvictionNote = $scope.eviction['ShowNote'] == 1 ? true : false;
+		} else {
+			$scope.showEvictionSection = false;
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
@@ -822,6 +822,7 @@ function getRochesterProperties($scope, $http) {
 		if(resp.data.length == 0) {
 			$scope.showRochester = 0;
 		}
+		
 		addClass($scope.rochesterProperties);
 		addCommaToPrice($scope.rochesterProperties);
 		setShortName($scope.rochesterProperties);
@@ -845,6 +846,7 @@ function getClevelandProperties($scope, $http) {
 		if(resp.data.length == 0) {
 			$scope.showCleveland = 0;
 		}
+		
 		addClass($scope.clevelandProperties);
 		addCommaToPrice($scope.clevelandProperties);
 		setShortName($scope.clevelandProperties);
@@ -870,6 +872,7 @@ function getColumbusProperties($scope, $http) {
 		if(resp.data.length == 0) {
 			$scope.showColumbus = 0;
 		}
+		
 		addClass($scope.columbusProperties);
 		addCommaToPrice($scope.columbusProperties);
 		setShortName($scope.columbusProperties);
@@ -1260,7 +1263,15 @@ function getPropertiesForYourPropertiesSection($scope, $rootScope, $http) {
     		
     		$rootScope.propertyCnt = resp.data.length;
     		
+    		// set default image to property in case that no image attached.
+    		for(var i = 0; i < $scope.propertyImage.length; i++) {
+    			if($scope.propertyImage[i].FileName == null) {
+    				$scope.propertyImage[i].FileName = "defaultProperty.jpg";
+    			}
+    		}
+    		
     		addClass($scope.propertyImage);
+    		setShortName($scope.propertyImage);
     		
     	}, function(err) {
     	    console.error('ERR', err);
@@ -1291,6 +1302,8 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 			console.log("$scope.specialPropertyImage", $scope.specialPropertyImage);
 			
 			addClass($scope.specialPropertyImage);
+			setShortName($scope.specialPropertyImage);
+			addCommaToPrice($scope.specialPropertyImage);
 			
 		}, function(err) {
 		    console.error('ERR', err);

@@ -43,7 +43,8 @@
 	    	<div ng-repeat="property in propertyImage" class="animated fadeInLeft col {{property.class}}" 
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-click="showPropertyDetails(property.PropertyId, property.FileName)">
-	    	</div>
+	    		<div class="overviewAddress">{{property.PropertyName}}</div>
+	    	</div>	    	
 	    </div>
 	    <!-- END Your properties section -->
 	    
@@ -57,7 +58,12 @@
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-click="gotoMarketing(property.PropertyId)">
 	    	<div ng-class="{trapezoid: property.IsSoled == 1}"></div>
+	    	<div class="price">{{property.BuyPrice}}</div>
+	    	<div class="address">{{property.PropertyName}}</div>
 	    	</div>
+	    </div>
+	    
+	    <div class="height_15px clearb">
 	    </div>
 	    <!-- END Special deals section -->
 	</div>
