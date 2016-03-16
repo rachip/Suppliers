@@ -321,31 +321,6 @@ angular.module('starter.controllers', ['firebase'])
 		
 	}
 
-	
-
-	
-
-	
-	$scope.hide_chat_box = function() {
-		
-		$scope.chatSelected = false;
-		
-	}
-
-	$scope.branchToChat = function (BranchName) { 
-		TheBranchName = BranchName;	
-	 	$scope.chatSelected = false;  
-	 	$state.go('app.chats'); 
-	} 
- 
- 	$scope.selectChat = function() { 
- 		if ($rootScope.propertyCnt > 1 ) { 
- 			$scope.chatSelected = true; 
- 		} else { 
- 			TheBranchName = $rootScope.TheBranchName;
- 			$state.go('app.chats'); 
- 		} 
- 	}  
 
   	$scope.chatIsActive = false; 
  
@@ -354,16 +329,18 @@ angular.module('starter.controllers', ['firebase'])
  
  	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
  
+ 	
   	ref.on("child_added", function(date) { 
-	 	//$ionicScrollDelegate.scrollBottom(); 
-	 	//$ionicScrollDelegate.scrollBottom(); 
+	 	$ionicScrollDelegate.scrollBottom(); 
+	 	$ionicScrollDelegate.scrollBottom(); 
  	}); 
  
-  	$ionicScrollDelegate.scrollBottom(); 
   
  	$scope.chats = $firebaseArray(ref); 
  
   	var username = localStorage.getItem("ClientName"); 
+  	
+  	$ionicScrollDelegate.scrollBottom(); 
    
  	$scope.sendChat = function(chat) { 
    		$scope.chats.$add({ 
@@ -386,10 +363,69 @@ angular.module('starter.controllers', ['firebase'])
 }) 
 
 //OverviewProperties Ctrl - logged in user
-.controller('OverviewPropertiesCtrl', function($scope, $http, $location, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
+.controller('OverviewPropertiesCtrl', function($scope, $http, $location, $ionicPopup, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
+	
+	
+		
+		$http({
+    	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+    	    method: "GET",
+    	    params:  { index: localStorage.getItem("id")}, 
+    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    	}).then(function(resp) {
+    		if (resp.data.length != 0) {
+    		
+    		text = resp.data[0]['Text'];
+    		NotificationId = resp.data[0]['Id'];
+    		
+    		   var alertPopup = $ionicPopup.alert({
+    			     title: 'New message from ME',
+    			     template: text
+    			   });
+
+    				$http({
+    				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+    				    method: "POST",
+    				    data: { NotificationId: NotificationId},
+    				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    				}).then(function(resp) {
+    					console.log("sucess")
+    				}, function(err) {
+    				    console.error('ERR', err);
+    				})	
+    		   });
+    		   
+    		}
+    		
+    	}, function(err) {
+    	    
+    	});
+
 
 		
 		$scope.show_chat_bu = true;
+
+		
+		$scope.hide_chat_box = function() {
+			
+			$scope.chatSelected = false;
+			
+		}
+
+		$scope.branchToChat = function (BranchName) { 
+			TheBranchName = BranchName;	
+		 	$scope.chatSelected = false;  
+		 	$state.go('app.chats'); 
+		} 
+	 
+	 	$scope.selectChat = function() { 
+	 		if ($rootScope.propertyCnt > 1 ) { 
+	 			$scope.chatSelected = true; 
+	 		} else { 
+	 			TheBranchName = $rootScope.TheBranchName;
+	 			$state.go('app.chats'); 
+	 		} 
+	 	}  
 		
 		
     var id; 
@@ -424,8 +460,32 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //propertyDetails ctrl
-.controller('PropertyDetailsCtrl', function($scope, $ionicScrollDelegate, $http, $rootScope, 
+.controller('PropertyDetailsCtrl', function($scope, $state, $ionicScrollDelegate, $http, $rootScope, 
 			$timeout, $q, $ionicPopup) {
+	
+	
+
+	
+	$scope.hide_chat_box = function() {
+		
+		$scope.chatSelected = false;
+		
+	}
+
+	$scope.branchToChat = function (BranchName) { 
+		TheBranchName = BranchName;	
+	 	$scope.chatSelected = false;  
+	 	$state.go('app.chats'); 
+	} 
+ 
+ 	$scope.selectChat = function() { 
+ 		if ($rootScope.propertyCnt > 1 ) { 
+ 			$scope.chatSelected = true; 
+ 		} else { 
+ 			TheBranchName = $rootScope.TheBranchName;
+ 			$state.go('app.chats'); 
+ 		} 
+ 	}  
 	
 	$scope.showPurchase = 0;
 	$scope.showClosing = 0;
