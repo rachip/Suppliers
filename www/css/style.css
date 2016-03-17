@@ -84,6 +84,17 @@ body, h2, h4 {
     display: block;
 }
 
+@media (max-width: 350px) {
+	
+.updateMeMainScText img {
+    width: 190px;
+    margin: 0px auto;
+    margin-top: 4%;
+    display: block;
+}
+
+}
+
 .enterMainScText img {
     width: 100px;
     margin: 0px auto;
