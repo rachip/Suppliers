@@ -64,33 +64,11 @@ angular.module('starter.controllers', ['firebase'])
 			if(resp.data == "false") {
 				$scope.msg = "The Email or Password incorrect";
 				$scope.errorLogin=1;
-				
-				Ionic.io();
-				// this will give you a fresh user or the previously saved 'current user'
-				var user = Ionic.User.current();
-				user.id = Ionic.User.anonymousId();
 
-				//persist the user
-				user.save();
 			}
 			else {
 				// kick off the platform web client
-				Ionic.io();
-
-				// this will give you a fresh user or the previously saved 'current user'
-				var user = Ionic.User.current();
-
-				// if the user doesn't have an id, you'll need to give it one.
-				if (!user.id) {
-					user.id = Ionic.User.anonymousId();
-					// user.id = 'your-custom-user-id';
-				}
-
-				user.set('name', resp.data["ClientName"]);
-				user.set('userid', resp.data["UserId"]);
-
-				//persist the user
-				user.save();
+			
 				
 				localStorage.setItem("loginUserType", resp.data["Type"]);
 				if(resp.data["Type"] == "user") {
@@ -104,7 +82,6 @@ angular.module('starter.controllers', ['firebase'])
 					localStorage.setItem("isLoggedin", "true");
 				}
 				else {
-					user.set('name', resp.data["ClientName"]);
 					loginUserType = "client";
 					localStorage.setItem("id", resp.data["ClientId"]);
 					localStorage.setItem("ClientName", resp.data["ClientName"]);
@@ -202,12 +179,13 @@ angular.module('starter.controllers', ['firebase'])
 
         if (isLoggedin == "true") {
         	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
-        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount.";
-        	$cordovaSocialSharing.share(massage, "Epic opportunities ", null, uri)
+        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount. coupon code: " + localStorage.getItem("id");
+        	var title = localStorage.getItem("ClientName") + " shared an investment with you";
+        	$cordovaSocialSharing.share(massage, title, null, uri)
         }
         else {
         	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
-        	$cordovaSocialSharing.share(null, "New Property From", null, uri)
+        	$cordovaSocialSharing.share(null, "A dream investment", null, uri)
         }
 	}
 	
