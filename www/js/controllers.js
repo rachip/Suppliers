@@ -2,6 +2,9 @@ var widthArr = [60, 40, 50];
 var loginUserType;
 var TheBranchName;
 localStorage.setItem("isLoggedin", "false");
+localStorage.setItem('msNum', 0);
+
+
 angular.module('starter.controllers', ['firebase'])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
@@ -199,8 +202,8 @@ angular.module('starter.controllers', ['firebase'])
 
         if (isLoggedin == "true") {
         	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
-        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
-        	$cordovaSocialSharing.share(massage, "New Property From", null, uri)
+        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount.";
+        	$cordovaSocialSharing.share(massage, "Epic opportunities ", null, uri)
         }
         else {
         	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
@@ -305,8 +308,26 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //Chats Ctrl
-.controller('ChatsCtrl', function($scope, $ionicHistory, $location, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
+.controller('ChatsCtrl', function($scope, NewChatsService, getAllChats, $ionicHistory, $http, $interval, $location, $state, $ionicPopup, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 	
+	
+	
+
+
+	
+	$scope.branchToChat = function (BranchName) { 
+		TheBranchName = BranchName;	
+	 	$scope.chatSelected = false;  
+	 	$state.go('app.chats'); 
+	} 
+	
+	
+	
+	var userId = localStorage.getItem("id"); 
+	$scope.userId = userId;
+	$scope.RochesterChat = check_new_chatc($firebaseObject ,$firebaseArray, "Rochester", userId);
+	$scope.ClevelandChat = check_new_chatc($firebaseObject ,$firebaseArray, "Cleveland", userId);
+	$scope.ColumbusChat = check_new_chatc($firebaseObject ,$firebaseArray, "Columbus", userId);
 	
 	$scope.show_chat_bu = true;
 	
@@ -330,7 +351,8 @@ angular.module('starter.controllers', ['firebase'])
  	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
  
  	
-  	ref.on("child_added", function(date) { 
+  	ref.limitToLast(1).on("child_added", function(snapshot, prevChildKey) { 
+  		
 	 	$ionicScrollDelegate.scrollBottom(); 
 	 	$ionicScrollDelegate.scrollBottom(); 
  	}); 
@@ -347,14 +369,15 @@ angular.module('starter.controllers', ['firebase'])
  			user: username, 
  			userid: userId, 
  	        message: chat.message, 
- 	        client: 'true', 
+ 	        client: true, 
  	        timestamp: new Date().getTime() 
  		}); 
  		chat.message = ""; 
+ 		
  	} 
     
     $scope.isEmpty = function (obj) {
-    	console.log("obj "+ obj);
+    	//console.log("obj "+ obj);
         if (obj == "") 
         	return false;
         else
@@ -363,8 +386,22 @@ angular.module('starter.controllers', ['firebase'])
 }) 
 
 //OverviewProperties Ctrl - logged in user
-.controller('OverviewPropertiesCtrl', function($scope, $http, $location, $ionicPopup, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
+.controller('OverviewPropertiesCtrl', function($scope, $location, getAllChats, notService, NewChatsService, $http, $location, $ionicPopup, $timeout, $firebaseObject ,$firebaseArray, $rootScope, $state, $q, $ionicScrollDelegate) {
+
+	console.log($location.path());
+	notService.getNewNote();
+
+	$scope.chatsTitle = getAllChats.get();
+
 	
+    $scope.msNum = localStorage.getItem('msNum');
+
+    $scope.setNewM = function(num, value) {
+		if (value == true) {
+			$scope.msNum ++;
+		}        
+    }
+
 	
 		
 		$http({
@@ -400,6 +437,8 @@ angular.module('starter.controllers', ['firebase'])
     	}, function(err) {
     	    
     	});
+		
+	
 
 
 		
@@ -419,11 +458,14 @@ angular.module('starter.controllers', ['firebase'])
 		} 
 	 
 	 	$scope.selectChat = function() { 
+	 		localStorage.setItem('msNum', 0);
+	 		 $scope.msNum = localStorage.getItem('msNum');
+	 
 	 		if ($rootScope.propertyCnt > 1 ) { 
-	 			$scope.chatSelected = true; 
+	 			$state.go('app.chatMain'); 
 	 		} else { 
 	 			TheBranchName = $rootScope.TheBranchName;
-	 			$state.go('app.chats'); 
+	 			$state.go('app.chatMain'); 
 	 		} 
 	 	}  
 		
@@ -457,12 +499,60 @@ angular.module('starter.controllers', ['firebase'])
 	    	var unbind = $rootScope.$broadcast( "marketingDetails", {marketingPropertyId:propertyId} );
 	    });
 	};
+	
+	
+	
 })
 
 //propertyDetails ctrl
-.controller('PropertyDetailsCtrl', function($scope, $state, $ionicScrollDelegate, $http, $rootScope, 
+.controller('PropertyDetailsCtrl', function($scope, getAllChats, $location, $firebaseObject ,$firebaseArray, $ionicPopup, $state, $rootScope, $ionicScrollDelegate, $http, $rootScope, 
 			$timeout, $q, $ionicPopup) {
 	
+	
+	$scope.chatsTitle = getAllChats.get();
+
+	
+    $scope.msNum = localStorage.getItem('msNum');
+
+    $scope.setNewM = function(num, value) {
+		if (value == true) {
+			$scope.msNum ++;
+		}        
+    }
+
+	$http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+	    method: "GET",
+	    params:  { index: localStorage.getItem("id")}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
+		
+		text = resp.data[0]['Text'];
+		NotificationId = resp.data[0]['Id'];
+		
+		   var alertPopup = $ionicPopup.alert({
+			     title: 'New message from ME',
+			     template: text
+			   });
+
+				$http({
+				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+				    method: "POST",
+				    data: { NotificationId: NotificationId},
+				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function(resp) {
+					console.log("sucess")
+				}, function(err) {
+				    console.error('ERR', err);
+				})	
+
+		   
+		}
+		
+	}, function(err) {
+	    
+	});
 	
 
 	
@@ -475,15 +565,17 @@ angular.module('starter.controllers', ['firebase'])
 	$scope.branchToChat = function (BranchName) { 
 		TheBranchName = BranchName;	
 	 	$scope.chatSelected = false;  
-	 	$state.go('app.chats'); 
+	 	$state.go('app.chatMain'); 
 	} 
  
  	$scope.selectChat = function() { 
+ 		localStorage.setItem('msNum', 0);
+ 		 $scope.msNum = localStorage.getItem('msNum');
  		if ($rootScope.propertyCnt > 1 ) { 
- 			$scope.chatSelected = true; 
+ 			$state.go('app.chatMain'); 
  		} else { 
  			TheBranchName = $rootScope.TheBranchName;
- 			$state.go('app.chats'); 
+ 			$state.go('app.chatMain'); 
  		} 
  	}  
 	
@@ -1435,3 +1527,51 @@ function calcStepWidth(units) {
 		else
 			return 2000000;
 }
+
+
+function check_new_chatc($firebaseObject ,$firebaseArray, branchName, thisUserId) {
+	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + branchName + "/" + thisUserId);
+	chats = $firebaseArray(ref);
+
+	return chats;
+}
+
+function get_new_not($http) {
+
+$http({
+    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+    method: "GET",
+    params:  { index: localStorage.getItem("id")}, 
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+}).then(function(resp) {
+	if (resp.data.length != 0) {
+	
+	text = resp.data[0]['Text'];
+	NotificationId = resp.data[0]['Id'];
+	
+	   var alertPopup = $ionicPopup.alert({
+		     title: 'New message from ME',
+		     template: text
+		   });
+
+			$http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+			    method: "POST",
+			    data: { NotificationId: NotificationId},
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				console.log("sucess")
+			}, function(err) {
+			    console.error('ERR', err);
+			})	
+
+	   
+	}
+	
+}, function(err) {
+    
+});
+
+
+}
+

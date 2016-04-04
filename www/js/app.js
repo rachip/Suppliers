@@ -6,40 +6,14 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
+var	is_new;
+
 angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.controllers', 'starter.services', 'firebase', 'ionicLazyLoad', 'starter.controllers'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
- var io = Ionic.io();
-    var push = new Ionic.Push({
-      "onNotification": function(notification) {
-        alert('Received push notification!');
-      },
-      "pluginConfig": {
-        "android": {
-          "iconColor": "#ccc"
-        }
-      }
-    });
-    var user = Ionic.User.current();
-    
-    if (!user.id) {
-      user.id = Ionic.User.anonymousId();
-    }
-    
-    // Just add some dummy data..
-    user.set('name', 'Simon');
-    user.set('bio', 'This is my little bio');
-    user.save();
-   
-    var callback = function(data) {
-        push.addTokenToUser(user);
-        localStorage.setItem("deviceToken", data.token);
-         user.save();
-       };
-    push.register(callback);
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+
+.run(function() {
+	
+	
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -49,7 +23,139 @@ angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.c
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-  });
+
+})
+.service('myService', function ($interval) {
+    this.ChangeTest = function (data) {
+        $interval(function () {
+            if (data.Test == 'Test') data.Test = 'Changed Test';
+            else data.Test = 'Test';
+        },500);
+    }
+})
+
+.service('numOfChatsServ', function () {    	
+        msNum = 0;
+        
+        this.set = function(num, value) {
+    		if (value == true) {
+    			msNum = msNum + num;
+    		}        
+        }
+        
+        this.get = function () {
+        	
+        	return msNum;
+        	
+        }
+
+})
+
+.service('NewChatsService', function () {
+	
+	this.is_new;
+
+    this.set = function (data) {
+    	this.is_new = data;
+        }, 
+        
+        this.get = function() {
+        	
+        	return this.is_new;
+        	
+        }
+        
+
+})
+
+.service('getAllChats', function ($firebaseObject ,$firebaseArray, $interval, $rootScope, $http) {
+
+
+    this.get = function (UserId) {
+
+    	var chatsTitle = {};
+
+    	var userId = localStorage.getItem("id"); 
+    	userId = userId;
+
+    	 var ref1 = new Firebase("https://updatemeapp.firebaseio.com/messages/Rochester/" + userId);
+    	 var ref2 = new Firebase("https://updatemeapp.firebaseio.com/messages/Columbus/" + userId);
+    	 var ref3 = new Firebase("https://updatemeapp.firebaseio.com/messages/Cleveland/" + userId);
+
+    	   chatsTitle.Rochester = $firebaseArray(ref1);
+    	    chatsTitle.Columbus = $firebaseArray(ref2);
+    	    chatsTitle.Cleveland = $firebaseArray(ref3);
+    	    console.log(chatsTitle);
+    	    
+    	    return chatsTitle;
+    	}
+    	 
+    	
+
+
+})
+
+
+
+
+.service("notService", function($http, $interval, $ionicPopup, $state) {
+	
+	 this.getNewNote = function() {
+		 
+	$interval(function(){
+		
+		if (localStorage.getItem("id") != null ) {
+	
+	$http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+	    method: "GET",
+	    params:  { index: localStorage.getItem("id")}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		
+		
+		if (resp.data.length != 0) {
+		
+		text = resp.data[0]['Text'];
+		NotificationId = resp.data[0]['Id'];
+		
+		
+		
+		  var alertPopup = $ionicPopup.alert({
+			   title: 'New message from ME',
+			     template: text
+			   });
+		  
+		  alertPopup.then(function(res) {
+			  $state
+			   });
+
+				$http({
+				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+				    method: "POST",
+				    data: { NotificationId: NotificationId},
+				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function(resp) {
+					console.log("sucess")
+				}, function(err) {
+				    console.error('ERR', err);
+				})	
+				
+				 $state.go('app.overview');
+		   
+		}
+		
+	}, function(err) {
+	    
+	})
+	
+	}
+	
+	}, 500);
+	
+	 }
+
+
 })
 
 .directive('input', function($timeout) {
@@ -170,10 +276,15 @@ angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.c
   }
   })
 
- .state('chatMain', {
+ .state('app.chatMain', {
     url: '/chatMain',
-      templateUrl: 'templates/chatsMain.html',
-          controller: 'ChatsCtrl'
+    views: {
+       'menuContent': {
+    	   templateUrl: 'templates/chatsMain.html',
+    	   controller: 'ChatsCtrl'
+    		   
+       }
+    }
   })
 
 

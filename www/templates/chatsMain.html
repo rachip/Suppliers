@@ -1,16 +1,71 @@
 <ion-view>
-<ion-content>
-    <button ng-click="branchToChat('Cleveland')" class="button button-block button-dark">
-      Cleveland
-    </button>
-     <button ng-click="branchToChat('Rochester')" class="button button-block button-dark">
-      Rochester
-    </button>
-     <button ng-click="branchToChat('Columbus')" class="button button-block button-dark">
-      Columbus
-    </button>
-     <button ng-click="branchToChat('Jacksonville')" class="button button-block button-dark">
-      Jacksonville
-    </button>
-</ion-content>
-</ion-view>
+ 	<ion-nav-title>
+ 	
+ 		Chats
+	
+    </ion-nav-title>
+
+ <ion-pane>
+ 
+<ion-content has-header="true" class="content-stable chats-main" style="background: #EFEEEE;">
+
+<div class="list">
+
+
+<a ng-class="{'new_mas_class': chatc.userid != userId }" class="item item-avatar" ng-repeat="chatc in ColumbusChat" ng-show="$last" ng-click="branchToChat('Columbus')">
+
+     <img class="avatar_me" src="css/img/columbus.png">
+   	Columbus
+	  <h3>{{chatc.message}}</h3>
+      <p>{{chatc.user}}</p>
+  </a>
+  
+  <a class="item item-avatar" ng-if="ColumbusChat == '' " ng-click="branchToChat('Columbus')">
+      <img class="avatar_me" src="css/img/columbus.png">
+   	Columbus
+	  <h3>Start new chat</h3>
+      <p></p>
+  </a>
+  
+  <a class="item item-avatar" ng-class="{'new_mas_class': chatc.userid != userId }" ng-repeat="chatc in ClevelandChat" ng-show="$last" ng-click="branchToChat('Cleveland')">
+ <img class="avatar_me" src="css/img/cleveland.png">
+    Cleveland 
+	  <h3>{{chatc.message}}</h3>
+      <p>{{chatc.user}}</p>
+  </a>
+  
+    <a class="item item-avatar" ng-if="ClevelandChat == '' " ng-click="branchToChat('Cleveland')">
+ 	<img class="avatar_me" src="css/img/cleveland.png">
+    	Cleveland
+	  <h3>Start new chat</h3>
+      <p></p>
+  </a>
+  
+  
+    <a class="item item-avatar" ng-class="{'new_mas_class': chatc.userid != userId }" ng-repeat="chatc in RochesterChat" ng-show="$last" ng-click="branchToChat('Rochester')">
+     <img class="avatar_me" src="css/img/rochester.png">
+   	Rochester  
+	  <h3>{{chatc.message}}</h3>
+      <p>{{chatc.user}}</p>
+  </a>
+  
+  </div>
+  
+      <a class="item item-avatar" ng-if="RochesterChat == '' " ng-click="branchToChat('Rochester')">
+ 	<img class="avatar_me" src="css/img/rochester.png">   
+	Rochester  
+	  <h3>Start new chat</h3>
+      <p></p>
+      
+  </a>
+  
+  
+
+
+   	</div>
+	
+</ion-content> 
+ 
+     
+      </ion-pane>
+      </ion-view> 
