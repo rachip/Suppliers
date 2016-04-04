@@ -1168,9 +1168,9 @@ function drawSensitivityAnalysisCart(buySum, saleSum, numOfUnits) {
 		            //strokeColor: "rgba(163,126,100,0.8)",
 		            highlightFill: "rgba(73,159,206,0)",
 		            highlightStroke: "rgba(73,159,206,0)",
-		            data: [calcPercent(income, 20, "minus"), calcPercent(income, 15, "minus"), calcPercent(income, 10, "minus"), calcPercent(income, 5, "minus"), 
+		            data: [calcPercent(saleSum, 20, "minus", buySum), calcPercent(saleSum, 15, "minus", buySum), calcPercent(saleSum, 10, "minus", buySum), calcPercent(saleSum, 5, "minus", buySum), 
 		                   income, 
-		                   calcPercent(income, 5, "plus"), calcPercent(income, 10, "plus"), calcPercent(income, 15, "plus") , calcPercent(income, 20, "plus")]
+		                   calcPercent(saleSum, 5, "plus", buySum), calcPercent(saleSum, 10, "plus", buySum), calcPercent(saleSum, 15, "plus", buySum) , calcPercent(saleSum, 20, "plus", buySum)]
 		        }
 		    ]
 		};
@@ -1339,12 +1339,14 @@ function getMainBarValues($scope, $http) {
 		$scope.propertyBar = [];
 
 		$scope.propertyBar = resp.data[0];
+		
 		var investmentAmount = resp.data[0]['InvestmentAmount'];
 		
 		var val = (investmentAmount != 0 ) ? resp.data[0]['TotalReturn'] / resp.data[0]['InvestmentAmount'] * 100 : 0;
+		//var val = (investmentAmount != 0 ) ? totalReturn / investmentAmount * 100 : 0;
 		
-		$scope.propertyBar.InvestmentAmount = numberWithCommas($scope.propertyBar.InvestmentAmount);
-		$scope.propertyBar.TotalReturn = numberWithCommas($scope.propertyBar.TotalReturn);
+		$scope.propertyBar.InvestmentAmount = numberWithCommas(investmentAmount);
+		$scope.propertyBar.TotalReturn = numberWithCommas(resp.data[0]['TotalReturn']);
 		
 		// bar
 		var div1 = d3.select(document.getElementById('div1'));
@@ -1487,12 +1489,12 @@ function dateFormat(date) {
 	return (formattedDate.getMonth() + 1) + '/' + formattedDate.getDate() + '/' +  formattedDate.getFullYear();
 }
 
-function calcPercent(sum, percent, operator) {
+function calcPercent(sum, percent, operator, buySum) {
 	var val;
 	if(operator == 'minus') {
-		return val = sum * ((100 - percent) / 100);
+		return val = sum * ((100 - percent) / 100) - buySum;
 	} else {
-		return val = sum * ((100 + percent) / 100);
+		return val = sum * ((100 + percent) / 100) - buySum;
 	}
 }
 
