@@ -18,7 +18,8 @@
             	  	{{msg}}
             	 </div>
 				<button type="submit" ng-class="{'animated fadeInDown': loginClick===1}" ng-disabled="login_form.user_email.$invalid || login_form.user_password.$invalid">
-				 Log In
+				 Log In 
+				 <ion-spinner icon="dots" ng-show="isLogin==true"></ion-spinner>
                 </button>
 
 		   </form>
