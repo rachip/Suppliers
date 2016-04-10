@@ -1279,7 +1279,8 @@ function getMainBarValues($scope, $http) {
 		//var val = (investmentAmount != 0 ) ? totalReturn / investmentAmount * 100 : 0;
 		
 		$scope.propertyBar.InvestmentAmount = numberWithCommas(investmentAmount);
-		$scope.propertyBar.TotalReturn = numberWithCommas(resp.data[0]['TotalReturn']);
+		var num = parseFloat(resp.data[0]['TotalReturn']).toFixed(2);
+		$scope.propertyBar.TotalReturn = numberWithCommas(num);
 		
 		// bar
 		var div1 = d3.select(document.getElementById('div1'));
