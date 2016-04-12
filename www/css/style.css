@@ -787,6 +787,13 @@ ul.marketingDetails li {
 	line-height: 2.3;
 }
 
+.li li {
+
+list-style-type: disc;	
+	
+	
+}
+
 .rating {
 	border: 0;
     height: 1px;

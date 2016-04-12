@@ -22,10 +22,11 @@
 		<hr class="propertyDetails">
 	 	
 	 	<!-- START Property Summary -->
-		<div class="section"> 
+		<div class="section li"> 
 	 		<h3 class="sectionTitle">Property Summary</h3>
-<!-- 	 		<p>{{marketingData.PropertySummary}}</p> -->
-			<textarea ng-if="marketingData.PropertySummary != ''" ui-tinymce="tinymceOptions" ng-model="marketingData.PropertySummary"></textarea>	     
+	 		<div ng-bind-html="deliberatelyTrustDangerousSnippet(marketingData.PropertySummary)"></div>
+	 		<p ng-bind-html=""></p>
+			<!--textarea ng-if="marketingData.PropertySummary != ''" ui-tinymce="tinymceOptions" ng-model="marketingData.PropertySummary"></textarea!-->	     
 	 		<ul class="marketingDetails">
 				<li class="top-5">
 					<span>Address</span>	

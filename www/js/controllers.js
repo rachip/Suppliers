@@ -4,7 +4,7 @@ var TheBranchName;
 localStorage.setItem("isLoggedin", "false");
 localStorage.setItem('msNum', 0);
 
-angular.module('starter.controllers', ['firebase', 'ui.tinymce'])
+angular.module('starter.controllers', ['firebase', 'ui.tinymce', 'ngSanitize'])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
 
@@ -154,9 +154,11 @@ angular.module('starter.controllers', ['firebase', 'ui.tinymce'])
 })
 
 //propertyDetails ctrl
-.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope,  $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
+.controller('MarketingDetailsCtrl', function($scope, $http, $rootScope, $sce, $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
 	var propertyName;
 	$scope.MailObj = {};
+	
+	
 	
 	tinyMCE.init({
         mode : "textareas",
@@ -172,7 +174,16 @@ angular.module('starter.controllers', ['firebase', 'ui.tinymce'])
         menubar: false,
         statusbar: false,
         content_css : "css/content.css"
+        
     };
+	
+	 $scope.snippet =
+         '<p style="color:blue">an html\n' +
+         '<em onmouseover="this.textContent=\'PWN3D!\'">click here</em>\n' +
+         'snippet</p>';
+       $scope.deliberatelyTrustDangerousSnippet = function(text) {
+         return $sce.trustAsHtml(text);
+       };
 	
 	$rootScope.isMarketingDetailsLoading = true;
 	
