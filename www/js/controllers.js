@@ -2,7 +2,7 @@ var widthArr = [60, 40, 50];
 var loginUserType;
 var TheBranchName;
 localStorage.setItem("isLoggedin", "false");
-angular.module('starter.controllers', ['firebase'])
+angular.module('starter.controllers', ['firebase', 'ui.tinymce'])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
 
@@ -183,6 +183,22 @@ angular.module('starter.controllers', ['firebase'])
 	var propertyName;
 	$scope.MailObj = {};
 	
+	tinyMCE.init({
+        mode : "textareas",
+        theme : "advanced",
+        readonly : true,
+        content_css : "css/content.css"
+	});
+	
+	$scope.tinymceOptions = {
+        resize: false,
+        readonly : true,
+        toolbar: false,
+        menubar: false,
+        statusbar: false,
+        content_css : "css/content.css"
+    };
+	
 	$rootScope.isMarketingDetailsLoading = true;
 	
 	$scope.$on( "marketingDetails", function(event, data) {
@@ -310,20 +326,12 @@ angular.module('starter.controllers', ['firebase'])
 //Chats Ctrl
 .controller('ChatsCtrl', function($scope, $ionicHistory, $location, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 	
-	
 	$scope.show_chat_bu = true;
 	
-	$scope.myBackBU = function() {
-		
-			
-	$scope.show_chat_bu = true;
-
-		
+	$scope.myBackBU = function() {			
+		$scope.show_chat_bu = true;
 		$ionicHistory.goBack();
-
-		
 	}
-
 
   	$scope.chatIsActive = false; 
  
@@ -332,13 +340,11 @@ angular.module('starter.controllers', ['firebase'])
  
  	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
  
- 	
   	ref.on("child_added", function(date) { 
 	 	$ionicScrollDelegate.scrollBottom(); 
 	 	$ionicScrollDelegate.scrollBottom(); 
  	}); 
  
-  
  	$scope.chats = $firebaseArray(ref); 
  
   	var username = localStorage.getItem("ClientName"); 
@@ -368,68 +374,59 @@ angular.module('starter.controllers', ['firebase'])
 //OverviewProperties Ctrl - logged in user
 .controller('OverviewPropertiesCtrl', function($scope, $http, $location, $ionicPopup, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
 	
-	
+	$http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+	    method: "GET",
+	    params:  { index: localStorage.getItem("id")}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
 		
-		$http({
-    	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
-    	    method: "GET",
-    	    params:  { index: localStorage.getItem("id")}, 
-    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    	}).then(function(resp) {
-    		if (resp.data.length != 0) {
-    		
-    		text = resp.data[0]['Text'];
-    		NotificationId = resp.data[0]['Id'];
-    		
-    		   var alertPopup = $ionicPopup.alert({
-    			     title: 'New message from ME',
-    			     template: text
-    			   });
-
-    				$http({
-    				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
-    				    method: "POST",
-    				    data: { NotificationId: NotificationId},
-    				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    				}).then(function(resp) {
-    					console.log("sucess")
-    				}, function(err) {
-    				    console.error('ERR', err);
-    				})	
-    
-    		   
-    		}
-    		
-    	}, function(err) {
-    	    
-    	});
-
-
+		text = resp.data[0]['Text'];
+		NotificationId = resp.data[0]['Id'];
 		
-		$scope.show_chat_bu = true;
+		   var alertPopup = $ionicPopup.alert({
+			     title: 'New message from ME',
+			     template: text
+			   });
 
+				$http({
+				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+				    method: "POST",
+				    data: { NotificationId: NotificationId},
+				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function(resp) {
+					console.log("sucess")
+				}, function(err) {
+				    console.error('ERR', err);
+				})	
+
+		   
+		}    		
+	}, function(err) {
+	    
+	});
 		
-		$scope.hide_chat_box = function() {
-			
-			$scope.chatSelected = false;
-			
-		}
+	$scope.show_chat_bu = true;
+		
+	$scope.hide_chat_box = function() {			
+		$scope.chatSelected = false;			
+	}
 
-		$scope.branchToChat = function (BranchName) { 
-			TheBranchName = BranchName;	
-		 	$scope.chatSelected = false;  
-		 	$state.go('app.chats'); 
-		} 
+	$scope.branchToChat = function (BranchName) { 
+		TheBranchName = BranchName;	
+	 	$scope.chatSelected = false;  
+	 	$state.go('app.chats'); 
+	} 
 	 
-	 	$scope.selectChat = function() { 
-	 		if ($rootScope.propertyCnt > 1 ) { 
-	 			$scope.chatSelected = true; 
-	 		} else { 
-	 			TheBranchName = $rootScope.TheBranchName;
-	 			$state.go('app.chats'); 
-	 		} 
-	 	}  
-		
+ 	$scope.selectChat = function() { 
+ 		if ($rootScope.propertyCnt > 1 ) { 
+ 			$scope.chatSelected = true; 
+ 		} else { 
+ 			TheBranchName = $rootScope.TheBranchName;
+ 			$state.go('app.chats'); 
+ 		} 
+ 	}  		
 		
     var id; 
     $scope.isOverviewLoading = true;    
@@ -466,13 +463,8 @@ angular.module('starter.controllers', ['firebase'])
 .controller('PropertyDetailsCtrl', function($scope, $state, $ionicScrollDelegate, $http, $rootScope, 
 			$timeout, $q, $ionicPopup) {
 	
-	
-
-	
-	$scope.hide_chat_box = function() {
-		
-		$scope.chatSelected = false;
-		
+	$scope.hide_chat_box = function() {		
+		$scope.chatSelected = false;		
 	}
 
 	$scope.branchToChat = function (BranchName) { 
@@ -919,7 +911,6 @@ function getClevelandProperties($scope, $http) {
 	});
 } 
 
-
 function getColumbusProperties($scope, $http) {
 	// get properties to columbus branch
 	return $http({
@@ -994,6 +985,8 @@ function getAllMarketingPropertyImages(propertyId, $scope, $http) {
 function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	var investmentAmount, salePrice, purchaseCost, closingCost, softCost, investmentME, financing, address;
 	
+	
+	
 	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getMarketingId', 
 	    method: "GET",
@@ -1028,6 +1021,15 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	}, function(err) {
 	    console.error('ERR', err);
 	})
+	
+	/* $scope.tinymceOptions = {
+        resize: false,
+        width: 400,  // I *think* its a number and not '400' string
+        height: 300,
+        plugins: 'print textcolor',
+        toolbar: "undo redo styleselect bold italic print forecolor backcolor"
+
+    };*/
 }
 
 function getMarketSummaryImage(propertyId, $scope, $http) {
