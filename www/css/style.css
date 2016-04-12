@@ -1,5 +1,6 @@
 .left { float: left; }
 .right { float: right; }
+.top-5 { margin-top: 5px; }
 .top-15 { margin-top: 15px; }
 .top-20 { margin-top: 30px; }
 .right-2pe { margin-right: 2%; }
@@ -933,6 +934,35 @@ ul.marketingDetails li {
     position: relative;
     margin-left: 133px;
     top: -9px;
+}
+
+/*tinymce plugin*/
+
+#mceu_0 {
+	border-width: 0px !important;
+	border: 0 solid #ffffff !important;
+}
+
+.mce-edit-area .mce-container .mce-panel .mce-first .mce-last .mce-stack-layout-item {
+	border-width: 0px !important;
+	border: 0 solid #ffffff !important;
+}
+
+.mce-panel {
+    border: 0 solid #ffffff !important;
+}
+
+body#tinymce.mce-content-body {
+	margin: 0px;
+	font-family: 'MuseoSans';
+}
+
+.mce-content-body {
+    margin: 0px;
+}
+
+#tinymce .mceContentBody p {
+   font-family: 'MuseoSans' !important; 
 }
 /* -------------- the chats part -------------------- */
 .messages { 

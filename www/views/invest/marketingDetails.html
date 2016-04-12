@@ -24,9 +24,10 @@
 	 	<!-- START Property Summary -->
 		<div class="section"> 
 	 		<h3 class="sectionTitle">Property Summary</h3>
-	 		<p>{{marketingData.PropertySummary}}</p>
+<!-- 	 		<p>{{marketingData.PropertySummary}}</p> -->
+			<textarea ng-if="marketingData.PropertySummary != ''" ui-tinymce="tinymceOptions" ng-model="marketingData.PropertySummary"></textarea>	     
 	 		<ul class="marketingDetails">
-				<li>
+				<li class="top-5">
 					<span>Address</span>	
 					<span class="right brown">{{marketingData.Address}}</span>
 				</li>
@@ -63,7 +64,8 @@
 		<!-- START Investment Summary -->
 		<div class="section"> 
 	 		<h3 class="sectionTitle">Investment Summary</h3>
-			<p>{{marketingData.InvestmentSummary}}</p>		     
+<!-- 	 		<p>{{marketingData.InvestmentSummary}}</p> -->
+			<textarea ng-if="marketingData.InvestmentSummary != ''" ui-tinymce="tinymceOptions" ng-model="marketingData.InvestmentSummary"></textarea>	     
 	 	</div> 
 	 	<!-- END Investment Summary -->
 	 	
