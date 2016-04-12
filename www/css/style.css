@@ -1130,21 +1130,16 @@ svg text.percent {
 }
 
 .avatar_me {
-	
     max-width: 50px !important;
     max-height: 50px !important;
     left: 10px !important;
-	
 }
 
 .chats-main {
-	
 	font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
-	
 }
 
 .msNum {
-	
 	width: 25px;
     background: #EA0707;
     font-size: 15px;
@@ -1154,20 +1149,25 @@ svg text.percent {
     line-height: 27px;
     top: -18px;
     right: -2px;
-	
-	
-	
 }
 
 .new_mas_class {
-	
 	background: #EA7C7C;
     color: #ffffff !important;
-
 }
 
-.new_mas_class p,  .new_mas_class h3{
+.new_mas_class p,  .new_mas_class h3 {
     color: #ffffff !important;
-
 }
 
+.spinner {
+	position: absolute;
+    top: -3px;
+}
+
+.spinner svg {
+  width: 28px;
+  height: 28px;
+  stroke: #444;
+  fill: white;
+}

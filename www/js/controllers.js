@@ -2,10 +2,7 @@ var widthArr = [60, 40, 50];
 var loginUserType;
 var TheBranchName;
 localStorage.setItem("isLoggedin", "false");
-localStorage.setItem('msNum', 0);
-
-
-angular.module('starter.controllers', ['firebase'])
+angular.module('starter.controllers', ['firebase', 'ui.tinymce'])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
 
@@ -52,7 +49,8 @@ angular.module('starter.controllers', ['firebase'])
 		$scope.userDetail.password = localStorage.getItem("password");
 	}
 
-	$scope.submit = function() {    
+	$scope.submit = function() {
+	$scope.isLogin = true;
 	   $http({
 		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Login', 
 		    method: "POST",
@@ -62,13 +60,36 @@ angular.module('starter.controllers', ['firebase'])
 		    
 		}).then(function(resp) {
 			if(resp.data == "false") {
+				$scope.isLogin = false;	
 				$scope.msg = "The Email or Password incorrect";
 				$scope.errorLogin=1;
+				
+				Ionic.io();
+				// this will give you a fresh user or the previously saved 'current user'
+				var user = Ionic.User.current();
+				user.id = Ionic.User.anonymousId();
 
+				//persist the user
+				user.save();
 			}
 			else {
 				// kick off the platform web client
-			
+				Ionic.io();
+
+				// this will give you a fresh user or the previously saved 'current user'
+				var user = Ionic.User.current();
+
+				// if the user doesn't have an id, you'll need to give it one.
+				if (!user.id) {
+					user.id = Ionic.User.anonymousId();
+					// user.id = 'your-custom-user-id';
+				}
+
+				user.set('name', resp.data["ClientName"]);
+				user.set('userid', resp.data["UserId"]);
+
+				//persist the user
+				user.save();
 				
 				localStorage.setItem("loginUserType", resp.data["Type"]);
 				if(resp.data["Type"] == "user") {
@@ -82,6 +103,7 @@ angular.module('starter.controllers', ['firebase'])
 					localStorage.setItem("isLoggedin", "true");
 				}
 				else {
+					user.set('name', resp.data["ClientName"]);
 					loginUserType = "client";
 					localStorage.setItem("id", resp.data["ClientId"]);
 					localStorage.setItem("ClientName", resp.data["ClientName"]);
@@ -105,11 +127,12 @@ angular.module('starter.controllers', ['firebase'])
 
 						});
 				}
-					
+				$scope.isLogin = false;	
 				$state.go('app.overview');
 			}
 		
 		}, function(err) {
+			$scope.isLogin = false;	
 		    $scope.msg = err;
 		    console.error('ERR', err);
 		})
@@ -160,6 +183,22 @@ angular.module('starter.controllers', ['firebase'])
 	var propertyName;
 	$scope.MailObj = {};
 	
+	tinyMCE.init({
+        mode : "textareas",
+        theme : "advanced",
+        readonly : true,
+        content_css : "css/content.css"
+	});
+	
+	$scope.tinymceOptions = {
+        resize: false,
+        readonly : true,
+        toolbar: false,
+        menubar: false,
+        statusbar: false,
+        content_css : "css/content.css"
+    };
+	
 	$rootScope.isMarketingDetailsLoading = true;
 	
 	$scope.$on( "marketingDetails", function(event, data) {
@@ -178,14 +217,13 @@ angular.module('starter.controllers', ['firebase'])
         console.log("propId : " + propID);
 
         if (isLoggedin == "true") {
-        	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
-        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount. coupon code: " + localStorage.getItem("id");
-        	var title = localStorage.getItem("ClientName") + " shared an investment with you";
-        	$cordovaSocialSharing.share(massage, title, null, uri)
+        	var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
+        	var massage = localStorage.getItem("ClientName") + " wanted to share with you a very interesting investment he thought you might be interested in and grant you with a 5% discount….";
+        	$cordovaSocialSharing.share(massage, "me app", null, uri)
         }
         else {
-        	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
-        	$cordovaSocialSharing.share(null, "A dream investment", null, uri)
+        	var uri = "http://54.213.146.142/wordpress/?page_id=5639&prop=" + propID; 
+        	$cordovaSocialSharing.share(null, "me app", null, uri)
         }
 	}
 	
@@ -286,40 +324,14 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 //Chats Ctrl
-.controller('ChatsCtrl', function($scope, NewChatsService, getAllChats, $ionicHistory, $http, $interval, $location, $state, $ionicPopup, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
-	
-	
-	
-
-
-	
-	$scope.branchToChat = function (BranchName) { 
-		TheBranchName = BranchName;	
-	 	$scope.chatSelected = false;  
-	 	$state.go('app.chats'); 
-	} 
-	
-	
-	
-	var userId = localStorage.getItem("id"); 
-	$scope.userId = userId;
-	$scope.RochesterChat = check_new_chatc($firebaseObject ,$firebaseArray, "Rochester", userId);
-	$scope.ClevelandChat = check_new_chatc($firebaseObject ,$firebaseArray, "Cleveland", userId);
-	$scope.ColumbusChat = check_new_chatc($firebaseObject ,$firebaseArray, "Columbus", userId);
+.controller('ChatsCtrl', function($scope, $ionicHistory, $location, $state, $rootScope, $firebaseObject ,$firebaseArray, $ionicScrollDelegate, $rootScope ) { 
 	
 	$scope.show_chat_bu = true;
 	
-	$scope.myBackBU = function() {
-		
-			
-	$scope.show_chat_bu = true;
-
-		
+	$scope.myBackBU = function() {			
+		$scope.show_chat_bu = true;
 		$ionicHistory.goBack();
-
-		
 	}
-
 
   	$scope.chatIsActive = false; 
  
@@ -328,14 +340,11 @@ angular.module('starter.controllers', ['firebase'])
  
  	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + TheBranchName + "/" + userId); 
  
- 	
-  	ref.limitToLast(1).on("child_added", function(snapshot, prevChildKey) { 
-  		
+  	ref.on("child_added", function(date) { 
 	 	$ionicScrollDelegate.scrollBottom(); 
 	 	$ionicScrollDelegate.scrollBottom(); 
  	}); 
  
-  
  	$scope.chats = $firebaseArray(ref); 
  
   	var username = localStorage.getItem("ClientName"); 
@@ -347,15 +356,14 @@ angular.module('starter.controllers', ['firebase'])
  			user: username, 
  			userid: userId, 
  	        message: chat.message, 
- 	        client: true, 
+ 	        client: 'true', 
  	        timestamp: new Date().getTime() 
  		}); 
  		chat.message = ""; 
- 		
  	} 
     
     $scope.isEmpty = function (obj) {
-    	//console.log("obj "+ obj);
+    	console.log("obj "+ obj);
         if (obj == "") 
         	return false;
         else
@@ -364,89 +372,61 @@ angular.module('starter.controllers', ['firebase'])
 }) 
 
 //OverviewProperties Ctrl - logged in user
-.controller('OverviewPropertiesCtrl', function($scope, $location, getAllChats, notService, NewChatsService, $http, $location, $ionicPopup, $timeout, $firebaseObject ,$firebaseArray, $rootScope, $state, $q, $ionicScrollDelegate) {
-
-	console.log($location.path());
-	notService.getNewNote();
-
-	$scope.chatsTitle = getAllChats.get();
-
+.controller('OverviewPropertiesCtrl', function($scope, $http, $location, $ionicPopup, $timeout, $rootScope, $state, $q, $ionicScrollDelegate) {
 	
-    $scope.msNum = localStorage.getItem('msNum');
-
-    $scope.setNewM = function(num, value) {
-		if (value == true) {
-			$scope.msNum ++;
-		}        
-    }
-
-	
+	$http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+	    method: "GET",
+	    params:  { index: localStorage.getItem("id")}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
 		
-		$http({
-    	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
-    	    method: "GET",
-    	    params:  { index: localStorage.getItem("id")}, 
-    	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    	}).then(function(resp) {
-    		if (resp.data.length != 0) {
-    		
-    		text = resp.data[0]['Text'];
-    		NotificationId = resp.data[0]['Id'];
-    		
-    		   var alertPopup = $ionicPopup.alert({
-    			     title: 'New message from ME',
-    			     template: text
-    			   });
-
-    				$http({
-    				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
-    				    method: "POST",
-    				    data: { NotificationId: NotificationId},
-    				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    				}).then(function(resp) {
-    					console.log("sucess")
-    				}, function(err) {
-    				    console.error('ERR', err);
-    				})	
-    
-    		   
-    		}
-    		
-    	}, function(err) {
-    	    
-    	});
+		text = resp.data[0]['Text'];
+		NotificationId = resp.data[0]['Id'];
 		
-	
+		   var alertPopup = $ionicPopup.alert({
+			     title: 'New message from ME',
+			     template: text
+			   });
 
+				$http({
+				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+				    method: "POST",
+				    data: { NotificationId: NotificationId},
+				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function(resp) {
+					console.log("sucess")
+				}, function(err) {
+				    console.error('ERR', err);
+				})	
 
+		   
+		}    		
+	}, function(err) {
+	    
+	});
 		
-		$scope.show_chat_bu = true;
-
+	$scope.show_chat_bu = true;
 		
-		$scope.hide_chat_box = function() {
-			
-			$scope.chatSelected = false;
-			
-		}
+	$scope.hide_chat_box = function() {			
+		$scope.chatSelected = false;			
+	}
 
-		$scope.branchToChat = function (BranchName) { 
-			TheBranchName = BranchName;	
-		 	$scope.chatSelected = false;  
-		 	$state.go('app.chats'); 
-		} 
+	$scope.branchToChat = function (BranchName) { 
+		TheBranchName = BranchName;	
+	 	$scope.chatSelected = false;  
+	 	$state.go('app.chats'); 
+	} 
 	 
-	 	$scope.selectChat = function() { 
-	 		localStorage.setItem('msNum', 0);
-	 		 $scope.msNum = localStorage.getItem('msNum');
-	 
-	 		if ($rootScope.propertyCnt > 1 ) { 
-	 			$state.go('app.chatMain'); 
-	 		} else { 
-	 			TheBranchName = $rootScope.TheBranchName;
-	 			$state.go('app.chatMain'); 
-	 		} 
-	 	}  
-		
+ 	$scope.selectChat = function() { 
+ 		if ($rootScope.propertyCnt > 1 ) { 
+ 			$scope.chatSelected = true; 
+ 		} else { 
+ 			TheBranchName = $rootScope.TheBranchName;
+ 			$state.go('app.chats'); 
+ 		} 
+ 	}  		
 		
     var id; 
     $scope.isOverviewLoading = true;    
@@ -477,83 +457,28 @@ angular.module('starter.controllers', ['firebase'])
 	    	var unbind = $rootScope.$broadcast( "marketingDetails", {marketingPropertyId:propertyId} );
 	    });
 	};
-	
-	
-	
 })
 
 //propertyDetails ctrl
-.controller('PropertyDetailsCtrl', function($scope, getAllChats, $location, $firebaseObject ,$firebaseArray, $ionicPopup, $state, $rootScope, $ionicScrollDelegate, $http, $rootScope, 
+.controller('PropertyDetailsCtrl', function($scope, $state, $ionicScrollDelegate, $http, $rootScope, 
 			$timeout, $q, $ionicPopup) {
 	
-	
-	$scope.chatsTitle = getAllChats.get();
-
-	
-    $scope.msNum = localStorage.getItem('msNum');
-
-    $scope.setNewM = function(num, value) {
-		if (value == true) {
-			$scope.msNum ++;
-		}        
-    }
-
-	$http({
-	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
-	    method: "GET",
-	    params:  { index: localStorage.getItem("id")}, 
-	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-	}).then(function(resp) {
-		if (resp.data.length != 0) {
-		
-		text = resp.data[0]['Text'];
-		NotificationId = resp.data[0]['Id'];
-		
-		   var alertPopup = $ionicPopup.alert({
-			     title: 'New message from ME',
-			     template: text
-			   });
-
-				$http({
-				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
-				    method: "POST",
-				    data: { NotificationId: NotificationId},
-				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-				}).then(function(resp) {
-					console.log("sucess")
-				}, function(err) {
-				    console.error('ERR', err);
-				})	
-
-		   
-		}
-		
-	}, function(err) {
-	    
-	});
-	
-
-	
-	$scope.hide_chat_box = function() {
-		
-		$scope.chatSelected = false;
-		
+	$scope.hide_chat_box = function() {		
+		$scope.chatSelected = false;		
 	}
 
 	$scope.branchToChat = function (BranchName) { 
 		TheBranchName = BranchName;	
 	 	$scope.chatSelected = false;  
-	 	$state.go('app.chatMain'); 
+	 	$state.go('app.chats'); 
 	} 
  
  	$scope.selectChat = function() { 
- 		localStorage.setItem('msNum', 0);
- 		 $scope.msNum = localStorage.getItem('msNum');
  		if ($rootScope.propertyCnt > 1 ) { 
- 			$state.go('app.chatMain'); 
+ 			$scope.chatSelected = true; 
  		} else { 
  			TheBranchName = $rootScope.TheBranchName;
- 			$state.go('app.chatMain'); 
+ 			$state.go('app.chats'); 
  		} 
  	}  
 	
@@ -986,7 +911,6 @@ function getClevelandProperties($scope, $http) {
 	});
 } 
 
-
 function getColumbusProperties($scope, $http) {
 	// get properties to columbus branch
 	return $http({
@@ -1061,6 +985,8 @@ function getAllMarketingPropertyImages(propertyId, $scope, $http) {
 function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	var investmentAmount, salePrice, purchaseCost, closingCost, softCost, investmentME, financing, address;
 	
+	
+	
 	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getMarketingId', 
 	    method: "GET",
@@ -1095,6 +1021,15 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	}, function(err) {
 	    console.error('ERR', err);
 	})
+	
+	/* $scope.tinymceOptions = {
+        resize: false,
+        width: 400,  // I *think* its a number and not '400' string
+        height: 300,
+        plugins: 'print textcolor',
+        toolbar: "undo redo styleselect bold italic print forecolor backcolor"
+
+    };*/
 }
 
 function getMarketSummaryImage(propertyId, $scope, $http) {
@@ -1346,7 +1281,8 @@ function getMainBarValues($scope, $http) {
 		//var val = (investmentAmount != 0 ) ? totalReturn / investmentAmount * 100 : 0;
 		
 		$scope.propertyBar.InvestmentAmount = numberWithCommas(investmentAmount);
-		$scope.propertyBar.TotalReturn = numberWithCommas(resp.data[0]['TotalReturn']);
+		var num = parseFloat(resp.data[0]['TotalReturn']).toFixed(2);
+		$scope.propertyBar.TotalReturn = numberWithCommas(num);
 		
 		// bar
 		var div1 = d3.select(document.getElementById('div1'));
@@ -1507,51 +1443,3 @@ function calcStepWidth(units) {
 		else
 			return 2000000;
 }
-
-
-function check_new_chatc($firebaseObject ,$firebaseArray, branchName, thisUserId) {
-	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + branchName + "/" + thisUserId);
-	chats = $firebaseArray(ref);
-
-	return chats;
-}
-
-function get_new_not($http) {
-
-$http({
-    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
-    method: "GET",
-    params:  { index: localStorage.getItem("id")}, 
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-}).then(function(resp) {
-	if (resp.data.length != 0) {
-	
-	text = resp.data[0]['Text'];
-	NotificationId = resp.data[0]['Id'];
-	
-	   var alertPopup = $ionicPopup.alert({
-		     title: 'New message from ME',
-		     template: text
-		   });
-
-			$http({
-			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
-			    method: "POST",
-			    data: { NotificationId: NotificationId},
-			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).then(function(resp) {
-				console.log("sucess")
-			}, function(err) {
-			    console.error('ERR', err);
-			})	
-
-	   
-	}
-	
-}, function(err) {
-    
-});
-
-
-}
-
