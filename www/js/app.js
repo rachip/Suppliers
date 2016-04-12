@@ -8,7 +8,7 @@
 
 var	is_new;
 
-angular.module('starter', ['ionic','ionic.service.core', 'ngCordova', 'starter.controllers', 'starter.services', 'firebase', 'ionicLazyLoad', 'starter.controllers'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'firebase', 'ionicLazyLoad', 'starter.controllers'])
 
 
 .run(function() {
