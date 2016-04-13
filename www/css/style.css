@@ -26,12 +26,14 @@
 .width_85pe { width: 85%; }
 .width_100pe { width: 100%; }
 .height_15px { height: 15px }
+.height_100px { height: 100px; }
 .height_200px { height: 200px; }
 .line_2 { line-height: 2; }
 .line_40 { line-height: 40px; }
 .bold { font-weight: bold; }
 .dinline { display: inline-block; }
 .clearb { clear: both; }
+.hidden_overflow { overflow: hidden; }
 .lightBlue { color: #499FCE }
 .blue { color: #1B4A64 }
 .brown { color: #A37E64 }
@@ -787,11 +789,20 @@ ul.marketingDetails li {
 	line-height: 2.3;
 }
 
-.li li {
+.li ul li {
+	list-style-type: disc;	
+}
 
-list-style-type: disc;	
-	
-	
+.li ol li {
+	list-style-type: decimal;	
+}
+
+.li em {
+	font-style: italic;
+}
+
+.li ol, .li ul {
+    margin-left: 15px;
 }
 
 .rating {
@@ -943,34 +954,6 @@ list-style-type: disc;
     top: -9px;
 }
 
-/*tinymce plugin*/
-
-#mceu_0 {
-	border-width: 0px !important;
-	border: 0 solid #ffffff !important;
-}
-
-.mce-edit-area .mce-container .mce-panel .mce-first .mce-last .mce-stack-layout-item {
-	border-width: 0px !important;
-	border: 0 solid #ffffff !important;
-}
-
-.mce-panel {
-    border: 0 solid #ffffff !important;
-}
-
-body#tinymce.mce-content-body {
-	margin: 0px;
-	font-family: 'MuseoSans';
-}
-
-.mce-content-body {
-    margin: 0px;
-}
-
-#tinymce .mceContentBody p {
-   font-family: 'MuseoSans' !important; 
-}
 /* -------------- the chats part -------------------- */
 .messages { 
 	background: #E4E4E4; 

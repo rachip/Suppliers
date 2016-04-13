@@ -22,11 +22,11 @@
 		<hr class="propertyDetails">
 	 	
 	 	<!-- START Property Summary -->
-		<div class="section li"> 
+		<div class="section"> 
 	 		<h3 class="sectionTitle">Property Summary</h3>
-	 		<div ng-bind-html="deliberatelyTrustDangerousSnippet(marketingData.PropertySummary)"></div>
-	 		<p ng-bind-html=""></p>
+	 		<div id="propertySummary" class="li hidden_overflow" ng-bind-html="deliberatelyTrustDangerousSnippet('propertySummary', marketingData.PropertySummary, 'PS')"></div>
 			<!--textarea ng-if="marketingData.PropertySummary != ''" ui-tinymce="tinymceOptions" ng-model="marketingData.PropertySummary"></textarea!-->	     
+	 		<div id="showMorePS" ng-show="moreTextPS" class="bold calign top-5" ng-click="moreTextClick('propertySummary', 'showMorePS', 'PS')">Show More</div>
 	 		<ul class="marketingDetails">
 				<li class="top-5">
 					<span>Address</span>	
@@ -65,8 +65,8 @@
 		<!-- START Investment Summary -->
 		<div class="section"> 
 	 		<h3 class="sectionTitle">Investment Summary</h3>
-<!-- 	 		<p>{{marketingData.InvestmentSummary}}</p> -->
-			<textarea ng-if="marketingData.InvestmentSummary != ''" ui-tinymce="tinymceOptions" ng-model="marketingData.InvestmentSummary"></textarea>	     
+			<div id="investmentSummary" class="li hidden_overflow" ng-bind-html="deliberatelyTrustDangerousSnippet('investmentSummary', marketingData.InvestmentSummary, 'IS')"></div>
+	 		<div id="showMoreIS" ng-show="moreTextIS" class="bold calign top-5" ng-click="moreTextClick('investmentSummary', 'showMoreIS', 'IS')">Show More</div>
 	 	</div> 
 	 	<!-- END Investment Summary -->
 	 	
@@ -325,15 +325,16 @@
 	 	
 	 	<hr class="propertyDetails">
 	 	
-	 	<!-- START Fundrise Rating -->
+	 	<!-- START ME Rating -->
 		<div class="section"> 
 	 		<h3 class="sectionTitle">ME Rating</h3>
 			<div>
 				<div class="ratingImg"></div> 
-				<div>{{marketingData.RatingSummary}}</div>			
+				<div id="ratingSummary" class="li hidden_overflow" ng-bind-html="deliberatelyTrustDangerousSnippet('ratingSummary', marketingData.RatingSummary, 'RS')"></div>
+	 			<div id="showMoreRS" ng-show="moreTextRS" class="bold calign top-5" ng-click="moreTextClick('ratingSummary', 'showMoreRS', 'RS')">Show More</div>	
 			</div>     
 	 	</div> 
-	 	<!-- END Fundrise Rating-->
+	 	<!-- END ME Rating-->
 	 		 	
 	 	<hr class="propertyDetails">
 	 	
@@ -343,9 +344,7 @@
 	 		<div id="map" data-tap-disabled="true"></div>
 	 	</div> 
 	 	<!-- END Property Location -->
-	 	
-	 
-	 	
+	 		 	
 	 	<hr class="propertyDetails">
 	 	
 	 	<!-- START market Summary -->
@@ -354,7 +353,8 @@
 	 		<div class="animated fadeInLeft MarketImg bottom-15" 
 		    	ng-style="{'background-image':'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/' + summaryFileName + ')'}">		    
 		    </div>
-	 		<p class="bottom-15">{{marketingData.MarketSummary}}</p>
+	 		<div id="marketSummary" class="li hidden_overflow" ng-bind-html="deliberatelyTrustDangerousSnippet('marketSummary', marketingData.MarketSummary, 'MS')"></div>
+	 		<div id="showMoreMS" ng-show="moreTextMS" class="bold calign top-5" ng-click="moreTextClick('marketSummary', 'showMoreMS', 'MS')">Show More</div>
 	 	</div> 
 	 	<!-- END market Summary-->
 	 	
@@ -374,7 +374,8 @@
 	 				<span>{{marketingData.EntrepreneurTitle}}</span>
 	 			</div>
 	 		</div>
-	 		<p class="clearb bottom-21">{{marketingData.EntrepreneurDescription}}</p>
+	 		<div id="entrepreneurSummary" class="li hidden_overflow clearb" ng-bind-html="deliberatelyTrustDangerousSnippet('entrepreneurSummary', marketingData.EntrepreneurDescription, 'ES')"></div>
+	 		<div id="showMoreES" ng-show="moreTextES" class="bold calign top-5" ng-click="moreTextClick('entrepreneurSummary', 'showMoreES', 'ES')">Show More</div>	
 	 	</div> 
 	 	<!-- END About the Entrepreneur-->
 	 	

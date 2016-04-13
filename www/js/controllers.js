@@ -4,7 +4,7 @@ var TheBranchName;
 localStorage.setItem("isLoggedin", "false");
 localStorage.setItem('msNum', 0);
 
-angular.module('starter.controllers', ['firebase', 'ui.tinymce', 'ngSanitize'])
+angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 
 .controller('AuthCtrl', function($scope, $ionicConfig) {
 
@@ -157,33 +157,39 @@ angular.module('starter.controllers', ['firebase', 'ui.tinymce', 'ngSanitize'])
 .controller('MarketingDetailsCtrl', function($scope, $http, $rootScope, $sce, $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
 	var propertyName;
 	$scope.MailObj = {};
+	$scope.moreTextPS; //Property Summary
+	$scope.moreTextIS; //Investment Summary
+	$scope.moreTextMS; //Market Summary
+	$scope.moreTextRS; //Rating Summary
+	$scope.moreTextES; //Entrepreneur Summary
+	$scope.offsetHeightPS;
+	$scope.offsetHeightIS;
+	$scope.offsetHeightMS;
+	$scope.offsetHeightRS;
+	$scope.offsetHeightES;
 	
-	
-	
-	tinyMCE.init({
-        mode : "textareas",
-        theme : "advanced",
-        readonly : true,
-        content_css : "css/content.css"
-	});
-	
-	$scope.tinymceOptions = {
-        resize: false,
-        readonly : true,
-        toolbar: false,
-        menubar: false,
-        statusbar: false,
-        content_css : "css/content.css"
-        
+	$scope.deliberatelyTrustDangerousSnippet = function(divId, text, section) {		
+		console.log("deliberatelyTrustDangerousSnippet func");
+		if(document.getElementById(divId).offsetHeight > 100) {			
+			$scope['moreText' + section] = true;
+			$scope['offsetHeight' + section] = document.getElementById(divId).offsetHeight;
+			$("#"+divId).addClass('height_100px');
+			document.getElementById(divId).style.overflow = "hidden";
+		}
+		return $sce.trustAsHtml(text);
     };
-	
-	 $scope.snippet =
-         '<p style="color:blue">an html\n' +
-         '<em onmouseover="this.textContent=\'PWN3D!\'">click here</em>\n' +
-         'snippet</p>';
-       $scope.deliberatelyTrustDangerousSnippet = function(text) {
-         return $sce.trustAsHtml(text);
-       };
+    
+    $scope.moreTextClick = function(parentDivId, showMoreDiveId, section) {
+    	if($("#"+showMoreDiveId).text() == "Show More") {
+    		$("#"+parentDivId).animate({height:$scope['offsetHeight' + section]}, 1000);
+    		$("#"+showMoreDiveId).text("Show Less");
+    	}
+    	else {
+    		$("#"+parentDivId).animate({height:'100'}, 1000);
+    		$("#"+showMoreDiveId).text("Show More");
+    		$scope['moreText'+ section] = false;
+    	}
+    }
 	
 	$rootScope.isMarketingDetailsLoading = true;
 	
