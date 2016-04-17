@@ -1085,15 +1085,6 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 	}, function(err) {
 	    console.error('ERR', err);
 	})
-	
-	/* $scope.tinymceOptions = {
-        resize: false,
-        width: 400,  // I *think* its a number and not '400' string
-        height: 300,
-        plugins: 'print textcolor',
-        toolbar: "undo redo styleselect bold italic print forecolor backcolor"
-
-    };*/
 }
 
 function getMarketSummaryImage(propertyId, $scope, $http) {
