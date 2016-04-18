@@ -1,7 +1,7 @@
 <ion-view title="Update ME">
   <ion-content lazy-scroll has-header="true"> 
 	
-	<ion-spinner icon="bubbles" ng-if='isPropertyDetailsLoading' class="spinner"></ion-spinner>
+	<ion-spinner icon="bubbles" ng-if='isPropertyDetailsLoading' class="spinnerMarketing"></ion-spinner>
 	
 	<div ng-if="!isPropertyDetailsLoading">
 		<div>
@@ -51,6 +51,61 @@
 	</div>
 		
 	<div ng-if="!isPropertyDetailsLoading">	
+		
+		<!-- START Maintenance -->
+		<div class="section" ng-click="click(0)">
+			<h4 class="sectionTitle bold" ng-class="showMaintenance == 1 ? 'lightBlue' : ''">Maintenance</h4>
+			<i class="icon pointer arrow" 
+			ng-class="showMaintenance == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i> 
+			<div ng-if="showMaintenance == 1" ng-class="showMaintenance == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
+				<ul class="propertyDetails">
+					<li>
+						<span>Maintenance</span>
+						<p class="note">{{maintenance['Maintenance']}}</p>	
+					</li>
+					<li>
+						<span>Details</span>
+						<p class="note">{{maintenance['Details']}}</p>	
+					</li>
+					<li>
+						<span>Date</span>
+						<span>{{maintenance['Date']}}</span>
+					</li>
+					<li>
+						<span>Estimate Cost</span>
+						<span>${{maintenance['EstimateCost']}}</span>
+					</li>
+					<li>
+						<span>Need Approval</span>
+						<span>{{maintenance['NeedApproval'] == 1 ? "Yes" : "No"}}</span>
+					</li>
+					<li>
+						<span>Client's Approval</span>
+						<span>{{maintenance['ClientApproval'] == 1 ? "Yes" : "No"}}</span>
+					</li>
+					<li>
+						<span>Urgency</span>
+						<span>{{maintenance['Urgency']}}</span>
+					</li>
+					<li>
+						<span>Complete</span>
+						<span>{{maintenance['IsComplete'] == 1 ? "Yes" : "No"}}</span>						
+					</li>
+					<li>
+						<span>Complete Date</span>
+						<span>{{maintenance['CompleteDate']}}</span>						
+					</li>
+					<li>
+						<span>Final Cost</span>
+						<span>${{maintenance['FinalCost']}}</span>						
+					</li>
+				</ul>					
+			</div>
+		</div>
+		<!-- END Maintenance -->
+		
+		<hr class="propertyDetails">
+		
 		<!-- START Purchase -->
 		<div class="section" ng-click="click(1)">
 			<h4 class="sectionTitle bold" ng-class="showPurchase == 1 ? 'lightBlue' : ''">Purchase And Sale</h4>

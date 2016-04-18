@@ -546,6 +546,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
  		} 
  	}  
 	
+	$scope.showMaintenance = 0;
 	$scope.showPurchase = 0;
 	$scope.showClosing = 0;
 	$scope.showRenovation = 0;
@@ -570,6 +571,9 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	
 	$scope.click = function(section) {		
 		switch(section){
+			case 0:
+				$scope.showMaintenance = ($scope.showMaintenance) ? 0 : 1;
+				break;
 			case 1:
 				$scope.showPurchase = ($scope.showPurchase) ? 0 : 1;
 				break;
@@ -722,6 +726,35 @@ function getPropertyChart(propertyId, $scope, $http) {
 			            .value(val)
 			            .render();
 			}
+		} 		
+	}, function(err) {
+	    console.error('ERR', err);
+	})
+}
+
+function getMaintenanceDetails(propertyId, $scope, $http) {	
+	return $http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Maintenance', 
+	    method: "GET",
+	    params:  {index: propertyId}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
+			
+			$scope.maintenance = resp.data[0];
+			console.log($scope.maintenance);
+			
+			$scope.maintenance['Date'] = dateFormat($scope.maintenance['Date']);
+			$scope.maintenance['CompleteDate'] = dateFormat($scope.maintenance['CompleteDate']);
+			/*$scope.purchaseAndSale['ClosignDate'] = dateFormat($scope.purchaseAndSale['ClosignDate']);
+			$scope.purchaseAndSale['Closed'] = dateFormat($scope.purchaseAndSale['Closed']);
+			
+			$scope.isHasPurchaseFile = $scope.purchaseAndSale['IsHasFile'] == 1 ? true : false;
+			$scope.IsBuyerFile = $scope.purchaseAndSale['IsBuyerFile'] == 1 ? true : false;
+			$scope.IsSignedDocsFile = $scope.purchaseAndSale['IsSignedDocsFile'] == 1 ? true : false;
+			$scope.IsBalanceFile = $scope.purchaseAndSale['IsBalanceFile'] == 1 ? true : false;
+			$scope.IsFilesTo = $scope.purchaseAndSale['IsFilesToS‌ignFile'] == 1 ? true : false;
+			$scope.showPurchaseNote = $scope.purchaseAndSale['ShowNote'] == 1 ? true : false;*/
 		} 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -1455,6 +1488,7 @@ function getOverviewPageData($scope, $rootScope, $http, $q) {
 function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
 	return $q.all([getPropertyImage(propertyId, $scope, $http),
 	               getPropertyChart(propertyId, $scope, $http),
+	               getMaintenanceDetails(propertyId, $scope, $http),
 	               getPurchaseDetails(propertyId,$scope, $http), 
 	               getClosingDetails(propertyId, $scope, $http),
 	               getRenovationDetails(propertyId, $scope, $http), 

@@ -469,11 +469,18 @@ hr {
 .spinner svg {
     height: 80px;
     width: 50%;
-    margin: 0 auto;
+    margin-top: 5%;
+    margin-left: 15%;
+/*     margin: 0 auto; */
+/*     margin-top: 55%; */
+/*     display: block; */
+}
+
+.spinnerMarketing svg {
+	margin: 0 auto; 
     margin-top: 55%;
     display: block;
 }
-
 /* ********************************************** */
 /* Property details page */
 
@@ -1180,14 +1187,19 @@ svg text.percent {
     color: #ffffff !important;
 }
 
-.spinner {
+.spinner.spinnerLogin {
 	position: absolute;
     top: -3px;
 }
 
+.spinner.spinnerLogin svg {
+	fill: white;
+}
+
 .spinner svg {
-  width: 28px;
-  height: 28px;
+  width: 50px;
+  height: 50px;
   stroke: #444;
-  fill: white;
+/* 	fill: #5E667A; */
+	fill: black;
 }
