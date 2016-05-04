@@ -54,7 +54,13 @@
 		
 		<!-- START Maintenance -->
 		<div class="section" ng-click="click(0)">
-			<h4 class="sectionTitle bold" ng-class="showMaintenance == 1 ? 'lightBlue' : ''">Maintenance</h4>
+			<h4 class="sectionTitle bold" ng-class="showMaintenance == 1 ? 'lightBlue' : ''">Maintenance
+				<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientMaintenance">Updated</span>
+				    </a> 
+			  	</span>
+			</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showMaintenance == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i> 
 			<div ng-if="showMaintenance == 1" ng-class="showMaintenance == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
@@ -108,7 +114,13 @@
 		
 		<!-- START Purchase -->
 		<div class="section" ng-click="click(1)">
-			<h4 class="sectionTitle bold" ng-class="showPurchase == 1 ? 'lightBlue' : ''">Purchase And Sale</h4>
+			<h4 class="sectionTitle bold" ng-class="showPurchase == 1 ? 'lightBlue' : ''">Purchase And Sale
+				<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientPurchase">Updated</span>
+				    </a> 
+			  	</span> 
+			</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showPurchase == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i> 
 			<div ng-if="showPurchase == 1" ng-class="showPurchase == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
@@ -154,7 +166,13 @@
 		
 		<!-- START Closing -->
 	 	<div class="section" ng-click="click(2)">
-	 		<h4 class="sectionTitle bold" ng-class="showClosing == 1 ? 'lightBlue' : ''">Closing</h4>
+	 		<h4 class="sectionTitle bold" ng-class="showClosing == 1 ? 'lightBlue' : ''">Closing
+	 			<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientClosing">Updated</span>
+				    </a> 
+			  	</span>
+	 		</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showClosing == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
 	
@@ -185,7 +203,13 @@
 		
 	 	<!-- START Renovation --> 
 	 	<div class="section" ng-click="click(3)"> 
-	 		<h4 class="sectionTitle bold" ng-class="showRenovation == 1 ? 'lightBlue' : ''">Renovation</h4>
+	 		<h4 class="sectionTitle bold" ng-class="showRenovation == 1 ? 'lightBlue' : ''">Renovation
+	 			<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientRenovation">Updated</span>
+				    </a> 
+			  	</span>
+	 		</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showRenovation == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
 	
@@ -244,7 +268,13 @@
 		
 	 	<!-- START Leasing --> 
 	 	<div class="section" ng-click="click(4)"> 
-	 		<h4 class="sectionTitle bold" ng-class="showLeasing == 1 ? 'lightBlue' : ''">Leasing</h4>
+	 		<h4 class="sectionTitle bold" ng-class="showLeasing == 1 ? 'lightBlue' : ''">Leasing
+	 			<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientLeasing">Updated</span>
+				    </a> 
+			  	</span>
+	 		</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showLeasing == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
 			<div ng-if="showLeasing == 1" ng-class="showLeasing == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
@@ -290,7 +320,13 @@
 		
 	 	<!-- START Occupied --> 
 	 	<div class="section" ng-click="click(5)">
-	 		<h4 class="sectionTitle bold" ng-class="showOccupied == 1 ? 'lightBlue' : ''">Occupied Property</h4>
+	 		<h4 class="sectionTitle bold" ng-class="showOccupied == 1 ? 'lightBlue' : ''">Occupied Property
+	 			<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientOccupied">Updated</span>
+				    </a> 
+			  	</span>
+	 		</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showOccupied == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>   
 	
@@ -345,7 +381,13 @@
 		
 	 	<!-- START Eviction --> 
 	 	<div class="section" ng-click="click(6)" ng-show="showEvictionSection"> 	 		
-	 		<h4 class="sectionTitle bold" ng-class="showEviction == 1 ? 'lightBlue' : ''">Eviction</h4>
+	 		<h4 class="sectionTitle bold" ng-class="showEviction == 1 ? 'lightBlue' : ''">Eviction
+	 			<span class="height-fix"> 
+					<a class="content"> 
+				    	<span class="updateClientCircle" ng-if="showUpdateClientEviction">Updated</span>
+				    </a> 
+			  	</span>
+	 		</h4>
 			<i class="icon pointer arrow" 
 			ng-class="showEviction == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>   
 			<div ng-if="showEviction == 1" ng-class="showEviction == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
@@ -400,6 +442,13 @@
 			</div>
 			<ul class="propertyDetails">
 				<li>
+					<span>Maintenance</span>	
+					<span class="checkboxFive">
+						<input type="checkbox" id="checkboxFiveInput0" ng-model="Info.Maintenance"/>
+						<label for="checkboxFiveInput0"></label>
+					</span>
+				</li>
+				<li>
 					<span>Purchase and Sale</span>	
 					<span class="checkboxFive">
 						<input type="checkbox" id="checkboxFiveInput" ng-model="Info.PurchasesAndSales"/>
@@ -443,7 +492,7 @@
 				</li>
 				<li>
 					<div class="calign">
-						<button class="seeAll" ng-click="sendRequestInfo()">save</button>
+						<button class="seeAll" ng-click="sendRequestInfo()">Send</button>
 					</div>
 				</li>
 			</ul>
@@ -474,14 +523,14 @@
   
 
   </ion-content>
-       <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()">
-
+       
+  <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()">
      <span class="height-fix"> 
          <a class="content"> 
-         <span class="msNum" ng-if="msNum != 0"> {{msNum}} </span>
-           <i class="ion-ios-chatboxes"> </i> 
+         	<span class="msNum" ng-if="msNum != 0"> {{msNum}} </span>
+            <i class="ion-ios-chatboxes"> </i> 
          </a> 
-       </span> 
-       </div>
+  	</span> 
+  </div>
 </ion-view>
 

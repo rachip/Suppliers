@@ -109,44 +109,50 @@
 			</div>
 		</div>
 	 	<!-- END Investment Details -->
-		
-		<hr class="propertyDetails">
 	 </div>	
 	 
 	 <div ng-show="!isMarketingDetailsLoading">
 	 	<!-- START Investment Amount -->
+	 	
+	 	<hr class="propertyDetails">
+	 	
 	 	<div class="section"> 
 	 		<h3 class="sectionTitle">Investment Structure</h3>
 	 		<div> 			
-	 			<div class="left dinline height_200px width_50pe">
+	 			<div class="left dinline height_185px width_52pe">
 	 				<ul class="marketingDetails">
 		 				<li>
 		 					<div class="squre squrePurchaseCost"></div>
-		 					<span class="investmentAmountSpan">Purchase Cost - {{purchaseCostTotalPercent}}%</span>
+		 					<span class="investmentAmountSpan">Purchase Cost</span>
+<!-- 		 					<span class="investmentAmountSpan">Purchase Cost - {{purchaseCostTotalPercent}}%</span> -->
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreClosingCost"></div>
-		 					<span class="investmentAmountSpan">Closing Cost - {{closingCostTotalPercent}}%</span>
+		 					<span class="investmentAmountSpan">Closing Cost</span>
+<!-- 		 					<span class="investmentAmountSpan">Closing Cost - {{closingCostTotalPercent}}%</span> -->
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreSoftCost"></div>
-		 					<span class="investmentAmountSpan">Soft Cost - {{softCostTotalPercent}}%</span>
+		 					<span class="investmentAmountSpan">Soft Cost</span>
+<!-- 		 					<span class="investmentAmountSpan">Soft Cost - {{softCostTotalPercent}}%</span> -->
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreInvestmentME"></div>
-		 					<span class="investmentAmountSpan">Investment ME - {{investmentMETotalPercent}}%</span>
+		 					<span class="investmentAmountSpan">Investment ME</span>
+<!-- 		 					<span class="investmentAmountSpan">Investment ME - {{investmentMETotalPercent}}%</span> -->
 		 				</li>
 		 				
 		 				<li>
 		 					<div class="squre squreFinancing"></div>
-		 					<span class="investmentAmountSpan">Renovation - {{financingTotalPercent}}%</span>
+		 					<span class="investmentAmountSpan">Renovation</span>
+<!-- 		 					<span class="investmentAmountSpan">Renovation - {{financingTotalPercent}}%</span> -->
 		 				</li>
 	 				</ul>
 	 			</div>
-	 			<div class="right dinline width_50pe right--10" id="investmentAmountCart"></div>
+	 			<div class="right dinline width_48pe right--10" id="investmentAmountCart"></div>
 	 		</div> 		
 		</div>
 		<!-- END Investment Amount -->
@@ -311,11 +317,13 @@
 				</div>
 			</div>
 	 	</div> 
-	 	<!-- END Key Deal Points-->
-	 	<hr class="propertyDetails">		 	
+	 	<!-- END Key Deal Points-->	 		 	
 	</div>
 	
 	<div ng-show="!isMarketingDetailsLoading"> 		
+	 	
+	 	<hr class="propertyDetails">	
+	 	
 	 	<div class="section">
 			<h3 class="">Sensitivity Analysis</h3>
 	 		<span class="yaxisTitle">Market Changes</span>
@@ -413,8 +421,9 @@
 					<li>
 						<span>Name </span>
 						<label class="item item-input">	
-							<input class="" type="text" placeholder="Your Name" ng-model="MailObj.name">	
+							<input class="" type="text" placeholder="Your Name" ng-model="MailObj.name">							
 						</label>
+						<div ng-show="requiredUser" class="red">This filed is required!</div>	
 					</li>
 					
 					<li>
@@ -422,6 +431,8 @@
 						<label class="item item-input">	
 							<input class="" type="text" placeholder="Your Email" ng-model="MailObj.mail">	
 						</label>
+						<div ng-show="requiredMail" class="red">This filed is required!</div>
+						<div ng-show="validMail" class="red">The mail address is not valid!</div>
 					</li>
 					<li>
 						<span>Phone </span>
@@ -475,6 +486,7 @@
 						<label class="item item-input">	
 							<input class="" type="text" placeholder="Your Name" ng-model="MailObj.name">	
 						</label>
+						<div ng-show="requiredUser" class="red">This filed is required!</div>
 					</li>
 					
 					<li>
@@ -482,6 +494,8 @@
 						<label class="item item-input">	
 							<input class="" type="text" placeholder="Your Email" ng-model="MailObj.mail">	
 						</label>
+						<div ng-show="requiredMail" class="red">This filed is required!</div>
+						<div ng-show="validMail" class="red">The mail address is not valid!</div>
 					</li>
 					<li>
 						<span>Phone </span>

@@ -153,7 +153,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	};
 })
 
-//propertyDetails ctrl
+//MarketingDetailsCtrl ctrl
 .controller('MarketingDetailsCtrl', function($scope, $http, $rootScope, $sce, $ionicScrollDelegate, $cordovaSocialSharing, $ionicPopup, $q) {
 	var propertyName;
 	$scope.MailObj = {};
@@ -168,8 +168,11 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	$scope.offsetHeightRS;
 	$scope.offsetHeightES;
 	
-	$scope.deliberatelyTrustDangerousSnippet = function(divId, text, section) {		
-		console.log("deliberatelyTrustDangerousSnippet func");
+	$scope.requiredUser = false;
+	$scope.requiredMail = false;
+	$scope.validMail = false;	
+	
+	$scope.deliberatelyTrustDangerousSnippet = function(divId, text, section) {	
 		if(document.getElementById(divId).offsetHeight > 100) {			
 			$scope['moreText' + section] = true;
 			$scope['offsetHeight' + section] = document.getElementById(divId).offsetHeight;
@@ -233,87 +236,156 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	$scope.closeMailPopup = function() {
 		$ionicScrollDelegate.scrollBottom();
 		$scope.sendMail = 0;
+		$scope.MailObj = {};
+		$scope.requiredUser = false;
+		$scope.requiredMail = false;
+		$scope.validMail = false;
 	};
 	
 	$scope.closeMeetingPopup = function() {
 		$ionicScrollDelegate.scrollBottom();
 		$scope.meet = 0;
+		$scope.MailObj = {};
+		$scope.requiredUser = false;
+		$scope.requiredMail = false;
+		$scope.validMail = false;
 	};
 	
 	$scope.send = function() {
-		$ionicScrollDelegate.scrollBottom();	
-		$scope.sendMail = 0;
+		if($scope.MailObj.name == undefined) {
+			$scope.requiredUser = true;
+		} else {
+			$scope.requiredUser = false;
+		}
+		if($scope.MailObj.mail == undefined) {
+			$scope.requiredMail = true;
+		} else {
+			var validEmail = validateEmail($scope.MailObj.mail);
+			if(!validEmail) {
+				$scope.requiredMail = false;
+				$scope.validMail = true;
+			} else {
+				$scope.validMail = false;
+				$scope.requiredMail = false;
+			}			
+		}
 		
-		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
-				   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon};
-		console.log('mail', obj);
-		
-		// send mail to moshe gmail
-		$http({
-		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/buy', 
-		    method: "POST",
-		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule,
-				   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
-		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}).then(function(resp) {
-			console.log("sucess")
-		}, function(err) {
-		    console.error('ERR', err);
-		})	
-		
-		// save mail details in contacts leads tbl
-		$http({
-		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
-		    method: "POST",
-		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
-				   bid: $scope.MailObj.bid, codeCoupon: $scope.MailObj.codeCoupon},
-		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}).then(function(resp) {
-			console.log("sucess")
-		}, function(err) {
-		    console.error('ERR', err);
-		})	
-		$scope.MailObj = {};
+		if($scope.requiredUser == false && $scope.requiredMail == false && $scope.validMail == false) {
+			$ionicScrollDelegate.scrollBottom();	
+			$scope.sendMail = 0;
+			
+			var date = new Date();
+			var dd = date.getDate();
+			var mm = date.getMonth()+1; //January is 0!
+			var yyyy = date.getFullYear();
+			var joinDate = yyyy + '-' + mm + '-' + dd;
+			
+			var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+					   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
+					   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon};
+			console.log('mail', obj);
+			
+			// send mail to moshe gmail
+			$http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/buy', 
+			    method: "POST",
+			    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+					   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule,
+					   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				console.log("sucess")
+			}, function(err) {
+			    console.error('ERR', err);
+			})	
+			
+			// save mail details in contacts leads tbl
+			$http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeads', 
+			    method: "POST",
+			    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+					   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
+					   bid: $scope.MailObj.bid, codeCoupon: $scope.MailObj.codeCoupon, joinDate: joinDate},
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				console.log("sucess")
+			}, function(err) {
+			    console.error('ERR', err);
+			})	
+			// set default values for the next time
+			$scope.MailObj = {};
+			$scope.requiredUser = false;
+			$scope.requiredMail = false;
+			$scope.validMail = false;
+		}
 	}
 	
 	$scope.setMeeting = function() {
-		$ionicScrollDelegate.scrollBottom();		
-		$scope.meet = 0;
+		if($scope.MailObj.name == undefined) {
+			$scope.requiredUser = true;
+		} else {
+			$scope.requiredUser = false;
+		}
+		if($scope.MailObj.mail == undefined) {
+			$scope.requiredMail = true;
+		} else {
+			var validEmail = validateEmail($scope.MailObj.mail);
+			if(!validEmail) {
+				$scope.requiredMail = false;
+				$scope.validMail = true;
+			} else {
+				$scope.validMail = false;
+				$scope.requiredMail = false;
+			}			
+		}
 		
-		var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon};
-		console.log(obj);
-		
-		// send mail to moshe gmail
-		$http({
-		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/setMeeting', 
-		    method: "POST",
-		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   schedule: $scope.MailObj.schedule, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
-		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}).then(function(resp) {
-			console.log("sucess")
-		}, function(err) {
-		    console.error('ERR', err);
-		})	
-		
-		// save mail details in contacts leader tbl
-		$http({
-		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeader', 
-		    method: "POST",
-		    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
-				   address: '', schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon},
-		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}).then(function(resp) {
-			console.log("sucess")
-		}, function(err) {
-		    console.error('ERR', err);
-		})
-		$scope.MailObj = {};
-	}	
+		if($scope.requiredUser == false && $scope.requiredMail == false && $scope.validMail == false) {
+			$ionicScrollDelegate.scrollBottom();		
+			$scope.meet = 0;
+			
+			var date = new Date();
+			var dd = date.getDate();
+			var mm = date.getMonth()+1; //January is 0!
+			var yyyy = date.getFullYear();
+			var joinDate = yyyy + '-' + mm + '-' + dd;
+			
+			var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+					   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon,
+					   joinDate: joinDate};
+			console.log(obj);
+			
+			// send mail to moshe gmail
+			$http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/setMeeting', 
+			    method: "POST",
+			    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+					   schedule: $scope.MailObj.schedule, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				console.log("sucess")
+			}, function(err) {
+			    console.error('ERR', err);
+			})	
+			
+			// save mail details in contacts leads tbl
+			$http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Email/addContactLeads', 
+			    method: "POST",
+			    data: {name: $scope.MailObj.name, email: $scope.MailObj.mail, phone: $scope.MailObj.phone,
+					   address: '', schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon, joinDate: joinDate},
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				console.log("sucess")
+			}, function(err) {
+			    console.error('ERR', err);
+			})
+			//set default values for the next time
+			$scope.MailObj = {};
+			$scope.requiredUser = false;
+			$scope.requiredMail = false;
+			$scope.validMail = false;
+		}
+	}
 })
 
 //Chats Ctrl
@@ -573,24 +645,38 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 		switch(section){
 			case 0:
 				$scope.showMaintenance = ($scope.showMaintenance) ? 0 : 1;
+				$scope.showUpdateClientMaintenance = false;
+				updateClientRead($http, propertyId, 'Maintenance');
 				break;
 			case 1:
 				$scope.showPurchase = ($scope.showPurchase) ? 0 : 1;
+				$scope.showUpdateClientPurchase = false;
+				updateClientRead($http, propertyId, 'PurchaseAndSale');				
 				break;
 			case 2:
 				$scope.showClosing = ($scope.showClosing) ? 0 : 1;
+				$scope.showUpdateClientClosing = false;
+				updateClientRead($http, propertyId, 'Closing');
 				break;
 			case 3:
 				$scope.showRenovation = ($scope.showRenovation) ? 0 : 1;
+				$scope.showUpdateClientRenovation = false;
+				updateClientRead($http, propertyId, 'Renovation');
 				break;
 			case 4:
 				$scope.showLeasing = ($scope.showLeasing) ? 0 : 1;
+				$scope.showUpdateClientLeasing = false;
+				updateClientRead($http, propertyId, 'Leasing');
 				break;
 			case 5:
 				$scope.showOccupied = ($scope.showOccupied) ? 0 : 1;
+				$scope.showUpdateClientOccupied = false;
+				updateClientRead($http, propertyId, 'Occupied');
 				break;
 			case 6:
 				$scope.showEviction = ($scope.showEviction) ? 0 : 1;
+				$scope.showUpdateClientEviction = false;
+				updateClientRead($http, propertyId, 'Eviction');
 				break;
 		}		
 	};
@@ -755,6 +841,9 @@ function getMaintenanceDetails(propertyId, $scope, $http) {
 			$scope.IsBalanceFile = $scope.purchaseAndSale['IsBalanceFile'] == 1 ? true : false;
 			$scope.IsFilesTo = $scope.purchaseAndSale['IsFilesToS‌ignFile'] == 1 ? true : false;
 			$scope.showPurchaseNote = $scope.purchaseAndSale['ShowNote'] == 1 ? true : false;*/
+			if($scope.maintenance['UpdateClient'] == 1) {
+				$scope.showUpdateClientMaintenance = true;				
+			}
 		} 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -762,7 +851,6 @@ function getMaintenanceDetails(propertyId, $scope, $http) {
 }
 
 function getPurchaseDetails(propertyId, $scope, $http) {
-	console.log("getPurchaseDetails function");
 	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PurchaseAndSale', 
 	    method: "GET",
@@ -782,6 +870,10 @@ function getPurchaseDetails(propertyId, $scope, $http) {
 			$scope.IsBalanceFile = $scope.purchaseAndSale['IsBalanceFile'] == 1 ? true : false;
 			$scope.IsFilesTo = $scope.purchaseAndSale['IsFilesToS‌ignFile'] == 1 ? true : false;
 			$scope.showPurchaseNote = $scope.purchaseAndSale['ShowNote'] == 1 ? true : false;
+			
+			if($scope.purchaseAndSale['UpdateClient'] == 1) {
+				$scope.showUpdateClientPurchase = true;				
+			}
 		} 		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -804,6 +896,10 @@ function getClosingDetails(propertyId, $scope, $http) {
 			$scope.IsInsuranceFile = $scope.closing['IsInsuranceFile'] == 1 ? true : false;
 			$scope.IsClosingDocsFile = $scope.closing['IsClosingDocsFile'] == 1 ? true : false;
 			$scope.showClosingNote = $scope.closing['ShowNote'] == 1 ? true : false;
+			
+			if($scope.closing['UpdateClient'] == 1) {
+				$scope.showUpdateClientClosing = true;				
+			}
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
@@ -833,6 +929,10 @@ function getRenovationDetails(propertyId, $scope, $http) {
 			$scope.IsPayment3File = $scope.renovation['IsPayment3File'] == 1 ? true : false;
 			$scope.IsCOFOFile = $scope.renovation['IsCOFOFile'] == 1 ? true : false;
 			$scope.showRenovationNote = $scope.renovation['ShowNote'] == 1 ? true : false;
+			
+			if($scope.renovation['UpdateClient'] == 1) {
+				$scope.showUpdateClientRenovation = true;				
+			}
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
@@ -858,6 +958,10 @@ function getLeasingDetails(propertyId, $scope, $http) {
 			$scope.IsApplicationFile = $scope.leasing['IsApplicationFile'] == 1 ? true : false;
 			$scope.IsLeaseFile = $scope.leasing['IsLeaseFile'] == 1 ? true : false;
 			$scope.showLeasingNote = $scope.leasing['ShowNote'] == 1 ? true : false;
+			
+			if($scope.leasing['UpdateClient'] == 1) {
+				$scope.showUpdateClientLeasing = true;				
+			}
 		}		
 	}, function(err) {
 	    console.error('ERR', err);
@@ -880,6 +984,10 @@ function getOccupiedDetails(propertyId, $scope, $http) {
 			$scope.IsHasOccupiedFile = $scope.occupied['IsHasFile'] == 1 ? true : false;
 			$scope.IsMaintanenceFile = $scope.occupied['IsMaintanenceFile'] == 1 ? true : false;
 			$scope.showOccupiedNote = $scope.occupied['ShowNote'] == 1 ? true : false;
+			
+			if($scope.occupied['UpdateClient'] == 1) {
+				$scope.showUpdateClientOccupied = true;				
+			}
 		}
 	}, function(err) {
 	    console.error('ERR', err);
@@ -903,6 +1011,10 @@ function getEvictionDetails(propertyId, $scope, $http) {
 			
 			$scope.IsHasEvictionFile = $scope.eviction['IsHasFile'] == 1 ? true : false;
 			$scope.showEvictionNote = $scope.eviction['ShowNote'] == 1 ? true : false;
+			
+			if($scope.eviction['UpdateClient'] == 1) {
+				$scope.showUpdateClientEviction = true;				
+			}
 		} else {
 			$scope.showEvictionSection = false;
 		} 
@@ -1489,7 +1601,7 @@ function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
 	return $q.all([getPropertyImage(propertyId, $scope, $http),
 	               getPropertyChart(propertyId, $scope, $http),
 	               getMaintenanceDetails(propertyId, $scope, $http),
-	               getPurchaseDetails(propertyId,$scope, $http), 
+	               getPurchaseDetails(propertyId, $scope, $http), 
 	               getClosingDetails(propertyId, $scope, $http),
 	               getRenovationDetails(propertyId, $scope, $http), 
 	               getLeasingDetails(propertyId, $scope, $http),
@@ -1533,6 +1645,25 @@ function calcStepWidth(units) {
 			return 2000000;
 }
 
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+function updateClientRead($http, propertyId, section) {
+	$http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/' + section + '/updateClientRead', 
+	    method: "GET",
+	    params:  {index: propertyId}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+			
+	}, function(err) {
+	    console.error('ERR', err);
+	});
+}
+
 function check_new_chatc($firebaseObject ,$firebaseArray, branchName, thisUserId) {
 	var ref = new Firebase("https://updatemeapp.firebaseio.com/messages/" + branchName + "/" + thisUserId);
 	chats = $firebaseArray(ref);
@@ -1541,40 +1672,37 @@ function check_new_chatc($firebaseObject ,$firebaseArray, branchName, thisUserId
 }
 
 function get_new_not($http) {
-
-$http({
-    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
-    method: "GET",
-    params:  { index: localStorage.getItem("id")}, 
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-}).then(function(resp) {
-	if (resp.data.length != 0) {
+	$http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+	    method: "GET",
+	    params:  { index: localStorage.getItem("id")}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
+		
+		text = resp.data[0]['Text'];
+		NotificationId = resp.data[0]['Id'];
+		
+		   var alertPopup = $ionicPopup.alert({
+			     title: 'New message from ME',
+			     template: text
+			   });
 	
-	text = resp.data[0]['Text'];
-	NotificationId = resp.data[0]['Id'];
+				$http({
+				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+				    method: "POST",
+				    data: { NotificationId: NotificationId},
+				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function(resp) {
+					console.log("sucess")
+				}, function(err) {
+				    console.error('ERR', err);
+				})	
 	
-	   var alertPopup = $ionicPopup.alert({
-		     title: 'New message from ME',
-		     template: text
-		   });
-
-			$http({
-			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
-			    method: "POST",
-			    data: { NotificationId: NotificationId},
-			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).then(function(resp) {
-				console.log("sucess")
-			}, function(err) {
-			    console.error('ERR', err);
-			})	
-
-	   
-	}
-	
-}, function(err) {
-    
-});
-
-
+		   
+		}
+		
+	}, function(err) {
+	    
+	});
 }
