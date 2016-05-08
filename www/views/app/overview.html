@@ -3,7 +3,7 @@
 		<img class="investText" src="css/img/updatemeText.png" style="width: 37%;"> 
     </ion-nav-title>
 
- <ion-pane>
+<ion-pane>
   <ion-content lazy-scroll has-header="true" ng-init="init()">
 
 	<div class="overviewMain">    
@@ -68,48 +68,38 @@
 	    <!-- END Special deals section -->
 	</div>
 	
-	<div class=" hide dropdown-menu dropdown-content width-350">
-
-						<ul class="media-list dropdown-content-body">
-
-						<div ng-repeat="chat in chatsTitle" class="userChadInside">
-
-						 <div ng-repeat="(key, value) in chat track by $index"  ng-if="value.user == 'Me office'">
-
-							<li ng-show="$last" class="media" ng-click="getUserId(value.userid)">
-								<div class="media-left" ng-init="setNewM(1, $last)">
-									<img src="<?php echo base_url(); ?>assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
-								</div>
-
-								<div class="media-body">
-									<a href="#" class="media-heading">
-										<span class="text-semibold">{{value.user}}</span>
-									</a>
-
-									<span class="text-muted">{{value.message}}</span>
-
-								</div>
-							</li>
-							</div>
-							</div>							
-						</ul>
-
-					</div>
+	<div class="hide dropdown-menu dropdown-content width-350">
+		<ul class="media-list dropdown-content-body">
+			<div ng-repeat="chat in chatsTitle" class="userChadInside">	
+				<div ng-repeat="(key, value) in chat track by $index" ng-if="value.user == 'Me office'">	
+					<li ng-show="$last" class="media" ng-click="getUserId(value.userid)">
+						<div class="media-left" ng-init="setNewM(1, $last)">
+							<img src="<?php echo base_url(); ?>assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+						</div>
+		
+						<div class="media-body">
+							<a href="#" class="media-heading">
+								<span class="text-semibold">{{value.user}}</span>
+							</a>		
+							<span class="text-muted">{{value.message}}</span>		
+						</div>
+					</li>
+				</div>
+			</div>							
+		</ul>
+	</div>
   
   </ion-content>
-  
- </ion-pane>
-
-  
-   <div class="float-button"  ng-class="{ 'new-message': is_client_m}" ng-if="show_chat_bu" ng-click="selectChat()">
-
-     <span class="height-fix"> 
-         <a class="content"> 
-         <span class="msNum" ng-if="msNum != 0"> {{msNum}} </span>
-           <i class="ion-ios-chatboxes"> </i> 
-         </a> 
-       </span> 
-       </div>
+</ion-pane>
+ 
+	<div class="float-button"  ng-class="{'new-message': is_client_m}" ng-if="show_chat_bu" ng-click="selectChat()">
+		<span class="height-fix"> 
+	        <a class="content"> 
+		        <span class="msNum" ng-if="msNum != 0"> {{msNum}} </span>
+		        <i class="ion-ios-chatboxes"> </i> 
+	        </a> 
+        </span> 
+	</div>
 
  <!-- Button Ends --> 
 </ion-view>

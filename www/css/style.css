@@ -13,6 +13,7 @@
 .bottom-21 { margin-bottom: 21px;}
 .bottom-26 { margin-bottom: 26px;}
 .bottom-28 { margin-bottom: 28px;}
+.left-10 { margin-left: 10px; }
 .left-15 { margin-left: 15px; }
 .left-30 { margin-left: 30px; }
 .left-50 { margin-left: 50px; }
@@ -542,7 +543,7 @@ ul.propertyDetails li span:first-child:after {
     content: " :";
 }
 
-ul.propertyDetails li span:nth-child(2) {
+.details {
     float: right;
     font-weight: bold;
 }

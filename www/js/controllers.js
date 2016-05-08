@@ -14,7 +14,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 .controller('AppCtrl', function($scope, $location, $state, $ionicConfig, $rootScope, $http, $ionicPopup) {
 
 	$scope.selectChat = function() {
-		console.log('click chat ' + $rootScope.propertyCnt);
+		//console.log('click chat ' + $rootScope.propertyCnt);
 		$state.go('chatMain');
 	}  
 })
@@ -98,7 +98,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 					    
 					}).then(function(resp) {
 
-						console.log(resp);
+						//console.log(resp);
 
 						});
 				}
@@ -199,7 +199,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	$scope.$on( "marketingDetails", function(event, data) {
 		propertyId = data.marketingPropertyId;
 		propertyName = data.marketingPropertyName; 
-		var promise = getMarketingDetailsPageData(propertyId, $scope, $http, $q);
+		var promise = getMarketingDetailsPageData(propertyId, $scope, $rootScope, $http, $q);
 		promise.then(function() {
 		}, function() {
 			alert('Failed: ');
@@ -209,7 +209,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	$scope.share = function(propID) {
         var isLoggedin = localStorage.getItem("isLoggedin");
        
-        console.log("propId : " + propID);
+        //console.log("propId : " + propID);
 
         if (isLoggedin == "true") {
         	var uri = "http://www.me-realestate.com/?page_id=499&prop=" + propID; 
@@ -283,7 +283,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 			var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 					   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, 
 					   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon};
-			console.log('mail', obj);
+			//console.log('mail', obj);
 			
 			// send mail to moshe gmail
 			$http({
@@ -294,7 +294,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 					   bid: $scope.MailObj.bid, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
 			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function(resp) {
-				console.log("sucess")
+				//console.log("sucess")
 			}, function(err) {
 			    console.error('ERR', err);
 			})	
@@ -308,7 +308,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 					   bid: $scope.MailObj.bid, codeCoupon: $scope.MailObj.codeCoupon, joinDate: joinDate},
 			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function(resp) {
-				console.log("sucess")
+				//console.log("sucess")
 			}, function(err) {
 			    console.error('ERR', err);
 			})	
@@ -352,7 +352,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 			var obj = {name: $scope.MailObj.name, mail: $scope.MailObj.mail, phone: $scope.MailObj.phone,
 					   address: $scope.MailObj.address, schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon,
 					   joinDate: joinDate};
-			console.log(obj);
+			//console.log(obj);
 			
 			// send mail to moshe gmail
 			$http({
@@ -362,7 +362,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 					   schedule: $scope.MailObj.schedule, propertyName: propertyName, codeCoupon: $scope.MailObj.codeCoupon},
 			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function(resp) {
-				console.log("sucess")
+				//console.log("sucess")
 			}, function(err) {
 			    console.error('ERR', err);
 			})	
@@ -375,7 +375,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 					   address: '', schedule: $scope.MailObj.schedule, codeCoupon: $scope.MailObj.codeCoupon, joinDate: joinDate},
 			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function(resp) {
-				console.log("sucess")
+				//console.log("sucess")
 			}, function(err) {
 			    console.error('ERR', err);
 			})
@@ -440,7 +440,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
  	} 
     
     $scope.isEmpty = function (obj) {
-    	console.log("obj "+ obj);
+    	//console.log("obj "+ obj);
         if (obj == "") 
         	return false;
         else
@@ -485,7 +485,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 				    data: { NotificationId: NotificationId},
 				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(function(resp) {
-					console.log("sucess")
+					//console.log("sucess")
 				}, function(err) {
 				    console.error('ERR', err);
 				})	
@@ -535,7 +535,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
     }
     
 	$scope.showPropertyDetails = function(propertyId, imageURL) {
-		console.log("showDetails function " + propertyId);
+		//console.log("showDetails function " + propertyId);
 		$state.go('app.propertyDetails');
 	    $timeout(function() {
 	    	var unbind = $rootScope.$broadcast( "showDetails", {PropertyId:propertyId, ImageURL:imageURL} );
@@ -543,6 +543,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	};
 	
 	$scope.gotoMarketing = function(propertyId) {
+		$rootScope.marketingPropertyImages = null;
 	    $ionicScrollDelegate.scrollTop();
 		$state.go('invest.marketingDetails');
 		$timeout(function() {
@@ -553,7 +554,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 
 //propertyDetails ctrl
 .controller('PropertyDetailsCtrl', function($scope, getAllChats, $location, $firebaseObject ,$firebaseArray, $ionicPopup, $state, $rootScope, $ionicScrollDelegate, $http, $rootScope, 
-		$timeout, $q, $ionicPopup) {
+		$timeout, $q, $ionicPopup, $ionicModal) {
 	
 	$scope.chatsTitle = getAllChats.get();
 	
@@ -571,30 +572,27 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	    params:  { index: localStorage.getItem("id")}, 
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(function(resp) {
-		if (resp.data.length != 0) {
-		
-		text = resp.data[0]['Text'];
-		NotificationId = resp.data[0]['Id'];
-		
-		   var alertPopup = $ionicPopup.alert({
-			     title: 'New message from ME',
-			     template: text
-			   });
-
-				$http({
-				    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
-				    method: "POST",
-				    data: { NotificationId: NotificationId},
-				    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-				}).then(function(resp) {
-					console.log("sucess")
-				}, function(err) {
-				    console.error('ERR', err);
-				})	
+		if (resp.data.length != 0) {		
+			text = resp.data[0]['Text'];
+			NotificationId = resp.data[0]['Id'];
+			
+			var alertPopup = $ionicPopup.alert({
+			    title: 'New message from ME',
+			    template: text
+		    });
+	
+			$http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/setClientNotificationStatus', 
+			    method: "POST",
+			    data: { NotificationId: NotificationId},
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				//console.log("sucess")
+			}, function(err) {
+			    console.error('ERR', err);
+			})	
 		}
-		
-	}, function(err) {
-	    
+	}, function(err) {	    
 	});
 	
 	$scope.hide_chat_box = function() {		
@@ -640,6 +638,46 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 			alert('Failed: ');
 		});			
 	});
+	
+	$ionicModal.fromTemplateUrl('my-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	  }).then(function(modal) {
+	    $scope.modal = modal;
+	  });
+	  $scope.openModal = function(typeId) {
+		  //var ref = cordova.InAppBrowser.open('http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/thumb_14626903231450773143download.jpg', '_blank', 'location=yes');
+
+		 $scope.modal.show();			  
+		  $http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/GetFiles/getPropertyFile', 
+			    method: "GET",
+			    params:  {propertyId: propertyId, typeId: typeId}, 
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				if (resp.data.length != 0) {					
+					$scope.sliderImg = resp.data;
+				} 		
+			}, function(err) {
+			    console.error('ERR', err);
+			})
+	  };
+	  $scope.closeModal = function() { 
+		  $scope.sliderImg = null;
+		  $scope.modal.hide();
+	  };
+	  // Cleanup the modal when we're done with it!
+	  $scope.$on('$destroy', function() {
+	    $scope.modal.remove();
+	  });
+	  // Execute action on hide modal
+	  $scope.$on('modal.hidden', function() {
+	    // Execute action
+	  });
+	  // Execute action on remove modal
+	  $scope.$on('modal.removed', function() {
+	    // Execute action
+	  });
 	
 	$scope.click = function(section) {		
 		switch(section){
@@ -740,7 +778,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 })
 
 function getPropertyImage(propertyId, $scope, $http) {	
-	console.log("getPropertyImage function" + propertyId);
+	//console.log("getPropertyImage function" + propertyId);
 	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/PropertyImage/getAllPropertyImages', 
 	    method: "GET",
@@ -756,7 +794,7 @@ function getPropertyImage(propertyId, $scope, $http) {
 }
 
 function getPropertyChart(propertyId, $scope, $http) {
-	console.log("getPropertyChart function" + propertyId);
+	//console.log("getPropertyChart function" + propertyId);
 	$http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Property/getPropertyROIChartAPI', 
 	    method: "GET",
@@ -828,7 +866,7 @@ function getMaintenanceDetails(propertyId, $scope, $http) {
 		if (resp.data.length != 0) {
 			
 			$scope.maintenance = resp.data[0];
-			console.log($scope.maintenance);
+			//console.log($scope.maintenance);
 			
 			$scope.maintenance['Date'] = dateFormat($scope.maintenance['Date']);
 			$scope.maintenance['CompleteDate'] = dateFormat($scope.maintenance['CompleteDate']);
@@ -890,7 +928,9 @@ function getClosingDetails(propertyId, $scope, $http) {
 		if (resp.data.length != 0) {
 			
 			$scope.closing = resp.data[0];
-
+			
+			console.log("response closing obj", resp.data[0]);
+			
 			$scope.IsClosingHasFile = $scope.closing['IsHasFile'] == 1 ? true : false;
 			$scope.IsWalkThroghFile = $scope.closing['IsWalkThroghFile'] == 1 ? true : false;
 			$scope.IsInsuranceFile = $scope.closing['IsInsuranceFile'] == 1 ? true : false;
@@ -1176,7 +1216,7 @@ function getProperties($scope, $http, $q) {
 	});
 }
 
-function getAllMarketingPropertyImages(propertyId, $scope, $http) {
+function getAllMarketingPropertyImages(propertyId, $scope, $rootScope, $http) {
 	return $http({
 	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getAllMarketingPropertyImages', 
 	    method: "GET",
@@ -1184,7 +1224,7 @@ function getAllMarketingPropertyImages(propertyId, $scope, $http) {
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(function(resp) {
 		if (resp.data.length != 0) {
-			$scope.marketingPropertyImages = resp.data;
+			$rootScope.marketingPropertyImages = resp.data;
 		} 
 	}, function(err) {
 	    console.error('ERR', err);
@@ -1219,7 +1259,7 @@ function getMarketingPropertyInfo(propertyId, $scope, $http) {
 			$scope.marketingData["BuyPrice"] = numberWithCommas($scope.marketingData["BuyPrice"]);	
 			$scope.marketingData["Sqft"] = numberWithCommas($scope.marketingData["Sqft"]);
 			
-			console.log('marketing data', $scope.marketingData);
+			//console.log('marketing data', $scope.marketingData);
 
 			capitalStructure($scope, investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
 			drawInvestmentCostsCart(investmentAmount, purchaseCost, closingCost, softCost, investmentME, financing);
@@ -1567,7 +1607,7 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 				$scope.showScopeSection = false;
 			}
 			
-			console.log("$scope.specialPropertyImage", $scope.specialPropertyImage);
+			//console.log("$scope.specialPropertyImage", $scope.specialPropertyImage);
 			
 			addClass($scope.specialPropertyImage);
 			setShortName($scope.specialPropertyImage);
@@ -1579,8 +1619,8 @@ function getPropertiesForSpecialDealsSection($scope, $http) {
 	}
 }
 
-function getMarketingDetailsPageData(propertyId, $scope, $http, $q) {
-	return $q.all([getAllMarketingPropertyImages(propertyId, $scope, $http),
+function getMarketingDetailsPageData(propertyId, $scope, $rootScope, $http, $q) {
+	return $q.all([getAllMarketingPropertyImages(propertyId, $scope, $rootScope, $http),
 	               getMarketingPropertyInfo(propertyId, $scope, $http),
 	               getMarketSummaryImage(propertyId, $scope, $http),
 	               getEntrepreneurImage(propertyId, $scope, $http)]).
