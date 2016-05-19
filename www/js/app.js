@@ -12,19 +12,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
 
 .run(function() {
-	
-	
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
 })
+
 .service('myService', function ($interval) {
     this.ChangeTest = function (data) {
         $interval(function () {
@@ -35,20 +32,17 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 })
 
 .service('numOfChatsServ', function () {    	
-        msNum = 0;
+	msNum = 0;
         
-        this.set = function(num, value) {
-    		if (value == true) {
-    			msNum = msNum + num;
-    		}        
-        }
+    this.set = function(num, value) {
+		if (value == true) {
+			msNum = msNum + num;
+		}        
+    }
         
-        this.get = function () {
-        	
-        	return msNum;
-        	
-        }
-
+    this.get = function () {    	
+    	return msNum;    	
+    }
 })
 
 .service('NewChatsService', function () {
@@ -57,46 +51,34 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
     this.set = function (data) {
     	this.is_new = data;
-        }, 
+    }, 
         
-        this.get = function() {
-        	
-        	return this.is_new;
-        	
-        }
-        
-
+    this.get = function() {    	
+    	return this.is_new;    	
+    }
 })
 
 .service('getAllChats', function ($firebaseObject ,$firebaseArray, $interval, $rootScope, $http) {
 
+	this.get = function (UserId) {
 
-    this.get = function (UserId) {
-
-    	var chatsTitle = {};
-
-    	var userId = localStorage.getItem("id"); 
-    	userId = userId;
-
-    	 var ref1 = new Firebase("https://updatemeapp.firebaseio.com/messages/Rochester/" + userId);
-    	 var ref2 = new Firebase("https://updatemeapp.firebaseio.com/messages/Columbus/" + userId);
-    	 var ref3 = new Firebase("https://updatemeapp.firebaseio.com/messages/Cleveland/" + userId);
-
-    	   chatsTitle.Rochester = $firebaseArray(ref1);
-    	    chatsTitle.Columbus = $firebaseArray(ref2);
-    	    chatsTitle.Cleveland = $firebaseArray(ref3);
-    	    console.log(chatsTitle);
-    	    
-    	    return chatsTitle;
-    	}
-    	 
-    	
-
-
+		var chatsTitle = {};
+	
+		var userId = localStorage.getItem("id"); 
+		userId = userId;
+	
+		var ref1 = new Firebase("https://updatemeapp.firebaseio.com/messages/Rochester/" + userId);
+		var ref2 = new Firebase("https://updatemeapp.firebaseio.com/messages/Columbus/" + userId);
+		var ref3 = new Firebase("https://updatemeapp.firebaseio.com/messages/Cleveland/" + userId);
+	
+	    chatsTitle.Rochester = $firebaseArray(ref1);
+	    chatsTitle.Columbus = $firebaseArray(ref2);
+	    chatsTitle.Cleveland = $firebaseArray(ref3);
+	    console.log(chatsTitle);
+	    	    
+		return chatsTitle;
+	}
 })
-
-
-
 
 .service("notService", function($http, $interval, $ionicPopup, $state) {
 	
@@ -118,8 +100,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		
 		text = resp.data[0]['Text'];
 		NotificationId = resp.data[0]['Id'];
-		
-		
 		
 		  var alertPopup = $ionicPopup.alert({
 			   title: 'New message from ME',
@@ -154,8 +134,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	}, 500);
 	
 	 }
-
-
 })
 
 .directive('input', function($timeout) {
@@ -225,12 +203,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   })
   
   //overview
-  .state('app.overview', {
-    url: "/overview",
+  .state('app.properties', {
+    url: "/properties",
     views: {
     	'menuContent': {
-		  templateUrl: "views/app/overview.html",
-		  controller: 'OverviewPropertiesCtrl'
+		  templateUrl: "views/app/properties.html",
+		  controller: 'PropertiesCtrl'
     	}
     }
   })
@@ -245,36 +223,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     	}
     }
   })
-  
-  // setup an abstract state for the tabs directive
-  .state('invest', {
-    url: '/invest',
-    abstract: true,
-    templateUrl: 'views/invest/index.html',
-    controller: 'InvestCtrl'
-  })
-
-  // Each tab has its own nav history stack:
-  .state('invest.marketing', {
-	  url: '/marketing',
-    views: {
-      'menuContent': {
-		  templateUrl: 'views/invest/marketing.html',
-          controller: 'MarketingCtrl'
-    }
-  }
-  })
-  
-   // Each tab has its own nav history stack:
-  .state('invest.marketingDetails', {
-	  url: '/marketingDetails',
-    views: {
-      'menuContent': {
-		  templateUrl: 'views/invest/marketingDetails.html',
-          controller: 'MarketingDetailsCtrl'
-    }
-  }
-  })
 
  .state('app.chatMain', {
     url: '/chatMain',
@@ -286,7 +234,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
        }
     }
   })
-
 
  .state('app.chats', {
 	 url: '/chats',
