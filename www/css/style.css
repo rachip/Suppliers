@@ -43,7 +43,7 @@
 .brown { color: #A37E64 }
 .purple { color: #662756 }
 .green { color: #7F8354 }
-.lightGreen { color: #92D050 }
+.lightGreen { color: #b1cd6e }
 .red { color: red; }
 
 /* svg{width:30%;} */
@@ -197,7 +197,7 @@ input::-webkit-input-placeholder {
 }
 .header-item
 {
-	background-color:#92D050;
+	background-color:#b1cd6e;
 }
 
 .bar-header {
@@ -295,7 +295,7 @@ width: 49.1%;
 
  [nav-bar-transition="ios"] [nav-bar="active"] .bar,
  [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
-    background-color: #92D050 !important; }
+    background-color: #b1cd6e !important; }
 
    
 .padding
@@ -679,10 +679,10 @@ ul.propertyDetails li span:first-child:after {
 }
 .bar-stable bar bar-header
 {
-	 background-color: #92D050;
+	 background-color: #b1cd6e;
 }
 .menu .bar-header {
-   background-color: #92D050;
+   background-color: #b1cd6e;
     height: 99px;
     
 }
