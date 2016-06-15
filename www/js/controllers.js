@@ -222,7 +222,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize','ngFileUpload'])
         $scope.errFiles = errFiles;
         angular.forEach(files, function(file) {
             file.upload = Upload.upload({
-                url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/addPaymentFileApi',
                 data: {file: file}
             });
 
@@ -252,7 +252,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize','ngFileUpload'])
     }
 
 	$http({
-	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
+	   url: 'http: //ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
 	    method: "GET",
 	    params:  { index: localStorage.getItem("id")}, 
 	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
