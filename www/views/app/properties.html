@@ -1,31 +1,28 @@
-<ion-view>
+<ion-view class="navClass">
  	<ion-nav-title>
-		<img class="investText" src="css/img/updatemeText.png" style="width: 37%;"> 
+		<img class="investText paddingTop" src="css/img/PicMe.png" style="width: 27%;"> 
     </ion-nav-title>
-
 <ion-pane>
   <ion-content lazy-scroll has-header="true" ng-init="init()">
 
 	<ion-spinner icon="bubbles" ng-if='isPropertiesLoading' class="spinner"></ion-spinner>
 	<div ng-if='!isPropertiesLoading'> 
-	    
 	    <!-- START Your properties section -->
 	    <div class="overviewTitle">
 	      <h2>PROPERTIES</h2>
 	      <h4>List of your properties</h4>
 	    </div>  
 	    <div id="INVESTMENTSimg">
-	    	<div ng-repeat="property in propertyImage" class="animated fadeInLeft col {{property.class}}" 
+	    	<div ng-repeat="property in propertyImage track by $index" class="animated col {{property.class}}" 
 	    	ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ property.FileName }})'}"
 	    	ng-click="showPropertyDetails(property.PropertyId, property.FileName)">
 	    		<div class="overviewAddress">{{property.PropertyName}}</div>
 	    	</div>	    	
 	    </div>
-	    <!-- END Your properties section -->
 	    
+	    <!-- END Your properties section -->
 	    <div class="height_15px clearb"></div>	   
 	</div>
-	
 	<!-- <div class="hide dropdown-menu dropdown-content width-350">
 		<ul class="media-list dropdown-content-body">
 			<div ng-repeat="chat in chatsTitle" class="userChadInside">	

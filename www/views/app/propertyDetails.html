@@ -1,591 +1,54 @@
-<ion-view title="Update ME">
+<ion-view >
+	<ion-nav-title>
+		<img class="investText paddingTop" src="css/img/PicMe.png" style="width: 37%;"> 
+    </ion-nav-title>
+   
   <ion-content lazy-scroll has-header="true"> 
-	
-	<ion-spinner icon="bubbles" ng-if='isPropertyDetailsLoading' class="spinnerMarketing"></ion-spinner>
-	
-	<div ng-if="!isPropertyDetailsLoading">
-		<div>
-			<ion-slide-box ng-if="allImages">
-		   	<ion-slide ng-repeat="propertyImg in allImages" >
-			    <div class="animated fadeInLeft propertyImg" 
-			    ng-style="{'background-image':'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ propertyImg.FileName }})'}">		    
-			    </div>
-			  </ion-slide>	   	
-		   	</ion-slide-box>
-		</div>
-		
-		<h4 class="propertyName">{{allImages[0].PropertyName}}</h4>
-	</div>	
-	
-	<div ng-show="!isPropertyDetailsLoading">
-		<div class="chart">
-			<div id='outer' >
-			    <div id="main" style="width: 140px;">
-			        <div id="div2"></div>
-			    </div>
+	<!-- START Maintenance -->
+		<div class="section">
+			<h4 class="sectionTitle bold lightGreen">Maintenance</h4>
+			<div  ng-repeat="maintenances in maintenanceObg track by $index" class="animated fadeIn" >
+				<div class="animated fadeInLeft col-20" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{maintenances.FileName}})'}"></div>	 
+		        <i  class="right left-10 ion-chevron-right top-5" ng-click="openModal(29,1,{{maintenances.WorkOrder}})"></i>			
+		    	<button class="right left-10 " >upload</button>
+		    	<ul class="padding paddingTop">
+						<li>
+							<b>{{maintenances.Maintenance}}</b>
+						</li>
+						<li>
+							<span>Work Order:</span>
+							<span>{{maintenances.WorkOrder}}</span>
+						</li>
+						<li>
+							<span>{{maintenances.Date}}</span>
+							
+						</li>
+				</ul>
+				<br><hr><br>
+				</div>
 			</div>
-			
-			<div id="barValueDiv2">
-				<ul>
-					<li>
-						<span class="totlaInvestmentTitleDiv2">Total Investment:</span>
-						<span class="totlaInvestmentDiv2">{{propertyChart.InvestmentAmount}}</span>					
-					</li>
-					<li>
-						<span class="totalReturnsTitleDiv2">Total Returns:</span>
-						<span class="totalReturnsDiv2">{{propertyChart.TotalReturn}}</span>	
-					</li>
-					<li>
-						<span class="totlaTimeTitle">Total Time:</span>
-						<span class="totlaTime">{{month}}</span>					
-					</li>
-					<li>
-						<span class="currentYieldTitle line_40">Yield:</span>
-						<span class="currentYield line_40">{{currentYield}}</span>					
-					</li>				
-				</ul>					
-			</div>
-		</div>
-		
-		<hr class="propertyDetails">
-	</div>
-		
-	<div ng-if="!isPropertyDetailsLoading">	
-		
-		<!-- START Maintenance -->
-		<div class="section" ng-click="click(0)">
-			<h4 class="sectionTitle bold" ng-class="showMaintenance == 1 ? 'lightBlue' : ''">Maintenance
-				<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientMaintenance">Updated</span>
-				    </a> 
-			  	</span>
-			</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showMaintenance == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i> 
-			<div ng-if="showMaintenance == 1" ng-class="showMaintenance == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>Maintenance</span>
-						<p class="note">{{maintenance['Maintenance']}}</p>	
-					</li>
-					<li>
-						<span>Details</span>
-						<p class="note">{{maintenance['Details']}}</p>	
-					</li>
-					<li>
-						<span>Date</span>
-						<span class="details">{{maintenance['Date']}}</span>
-					</li>
-					<li>
-						<span>Estimate Cost</span>
-						<span class="details">${{maintenance['EstimateCost']}}</span>
-					</li>
-					<li>
-						<span>Need Approval</span>
-						<span class="details">{{maintenance['NeedApproval'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Client's Approval</span>
-						<span class="details">{{maintenance['ClientApproval'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Urgency</span>
-						<span class="details">{{maintenance['Urgency']}}</span>
-					</li>
-					<li>
-						<span>Complete</span>
-						<span class="details">{{maintenance['IsComplete'] == 1 ? "Yes" : "No"}}</span>						
-					</li>
-					<li>
-						<span>Complete Date</span>
-						<span class="details">{{maintenance['CompleteDate']}}</span>						
-					</li>
-					<li>
-						<span>Final Cost</span>
-						<span class="details">${{maintenance['FinalCost']}}</span>						
-					</li>
-				</ul>					
-			</div>
-		</div>
-		<!-- END Maintenance -->
-		
-		<hr class="propertyDetails">
-		
-		<!-- START Purchase -->
-		<div class="section" ng-click="click(1)">
-			<h4 class="sectionTitle bold" ng-class="showPurchase == 1 ? 'lightBlue' : ''">Purchase And Sale
-				<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientPurchase">Updated</span>
-				    </a> 
-			  	</span> 
-			  	<span>
-			  		<i ng-show="isHasPurchaseFile && showPurchase == 1" class="icon ion-images left-10"
-			  		   ng-click="openModal(22)"></i>
-			  	</span>
-			</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showPurchase == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i> 
-			<div ng-if="showPurchase == 1" ng-class="showPurchase == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>Buyer Name</span>
-						<span class="right left-10">
-							<i ng-show="IsBuyerFile" class="icon ion-images" ng-click="openModal(2)"></i>
-			  		    </span>
-						<span class="details">{{purchaseAndSale['BuyerName']}}</span>
-					</li>
-					<li>
-						<span>Is Funds In Escrow</span>
-						<span class="details">{{purchaseAndSale['IsFundsInEscrow'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Escrow Attorney</span>
-						<span class="details">{{purchaseAndSale['EscrowAttorney']}}</span>
-					</li>
-					<li>
-						<span>Closing Date</span>
-						<span class="details">{{purchaseAndSale['ClosignDate']}}</span>
-					</li>
-					<li>
-						<span>Layer Name</span>
-						<span class="details">{{purchaseAndSale['LayerName']}}</span>
-					</li>
-					<li ng-show="IsSignedDocsFile">
-						<span>Signed Docs</span>
-						<span class="right left-10">
-							<i ng-show="IsSignedDocsFile" class="icon ion-images" ng-click="openModal(3)"></i>
-			  		    </span>
-						<span class="details"></span>
-					</li>
-					<li>
-						<span>Balance</span>
-						<span class="right left-10">
-							<i ng-show="IsBalanceFile" class="icon ion-images" ng-click="openModal(4)"></i>
-			  		    </span>
-						<span class="details">{{purchaseAndSale['Balance']}}</span>
-					</li>
-					<li ng-show="IsFilesTo">
-						<span>Files To Signed</span>
-						<span class="right left-10">
-							<i ng-show="IsFilesTo" class="icon ion-images" ng-click="openModal(5)"></i>
-			  		    </span>
-						<span class="details"></span>
-					</li>
-					<li>
-						<span>Closed</span>
-						<span class="details">{{purchaseAndSale['Closed']}}</span>
-					</li>
-					<li ng-show="showPurchaseNote" >
-						<span>Note</span>
-						<p class="note">{{purchaseAndSale['Note']}}</p>	
-					</li>
-				</ul>					
-			</div>
-		</div>
-		<!-- END Purchase -->
-		
-		<hr class="propertyDetails">
-		
-		<!-- START Closing -->
-	 	<div class="section" ng-click="click(2)">
-	 		<h4 class="sectionTitle bold" ng-class="showClosing == 1 ? 'lightBlue' : ''">Closing
-	 			<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientClosing">Updated</span>
-				    </a> 
-			  	</span>
-			  	<span>
-			  		<i ng-show="IsClosingHasFile && showClosing == 1" class="icon ion-images left-10"
-			  		   ng-click="openModal(23)"></i>
-			  	</span>
-	 		</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showClosing == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
-	
-			<div ng-if="showClosing == 1" ng-class="showClosing == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>PW File Open</span>
-						<span class="details">{{closing['PWFileOpen'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Walk Throgh</span>
-						<span class="right left-10">
-							<i ng-show="IsWalkThroghFile" class="icon ion-images" ng-click="openModal(6)"></i>
-			  		    </span>
-						<span class="details">{{closing['WalkThrogh'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Insurance</span>
-						<span class="right left-10">
-							<i ng-show="IsInsuranceFile" class="icon ion-images" ng-click="openModal(7)"></i>
-			  		    </span>
-						<span class="details">{{closing['Insurance'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li ng-show="IsClosingDocsFile">
-						<span>Closing Docs</span>
-						<span class="right left-10">
-							<i ng-show="IsClosingDocsFile" class="icon ion-images" ng-click="openModal(8)"></i>
-			  		    </span>
-						<span class="details"></span>
-					</li>
-					<li ng-show="showClosingNote" >
-						<span>Note</span>
-						<p class="note">{{closing['Note']}}</p>
-					</li>
-				</ul>			
-			</div>
-	    </div>     
-	 	<!-- END Closing --> 
-		
-		<hr class="propertyDetails">
+	 <!-- END Maintenance -->
 		
 	 	<!-- START Renovation --> 
-	 	<div class="section" ng-click="click(3)"> 
-	 		<h4 class="sectionTitle bold" ng-class="showRenovation == 1 ? 'lightBlue' : ''">Renovation
-	 			<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientRenovation">Updated</span>
-				    </a> 
-			  	</span>
-			  	<span>
-			  		<i ng-show="IsHasRenovationFile && showRenovation == 1" class="icon ion-images left-10"
-			  		   ng-click="openModal(24)"></i>
-			  	</span>
-	 		</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showRenovation == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
-	
-			<div ng-if="showRenovation == 1" ng-class="showRenovation == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>Is Sent Funds</span>
-						<span class="right left-10">
-							<i ng-show="IsFundsSentFile" class="icon ion-images" ng-click="openModal(9)"></i>
-			  		    </span>
-						<span class="details">{{renovation['IsSentFunds'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Funds Sent</span>
-						<span class="details">{{renovation['FundsSent']}}</span>
-					</li>
-					<li>
-						<span>Work Estimate</span>
-						<span class="right left-10">
-							<i ng-show="IsWorkEstimateFile" class="icon ion-images" ng-click="openModal(10)"></i>
-			  		    </span>
-						<span class="details">{{renovation['WorkEstimate']}}</span>
-					</li>
-					<li>
-						<span>Start Date</span>
-						<span class="details">{{renovation['StartDate']}}</span>
-					</li>
-					<li>
-						<span>End Date</span>
-						<span class="details">{{renovation['FinishDate']}}</span>
-					</li>
-					<li>
-						<span>First Payment</span>
-						<span class="right left-10">
-							<i ng-show="IsPayment1File" class="icon ion-images" ng-click="openModal(11)"></i>
-			  		    </span>
-						<span class="details">{{renovation['Payment1'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Second Payment</span>
-						<span class="right left-10">
-							<i ng-show="IsPayment2File" class="icon ion-images" ng-click="openModal(12)"></i>
-			  		    </span>
-						<span class="details">{{renovation['Payment2'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Third Payment</span>
-						<span class="right left-10">
-							<i ng-show="IsPayment3File" class="icon ion-images" ng-click="openModal(13)"></i>
-			  		    </span>
-						<span class="details">{{renovation['Payment3'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>CofO</span>
-						<span class="right left-10">
-							<i ng-show="IsCOFOFile" class="icon ion-images" ng-click="openModal(14)"></i>
-			  		    </span>
-						<span class="details">{{renovation['CofO'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>CofO Date</span>
-						<span class="details">{{renovation['CofODate']}}</span>
-					</li>
-					<li ng-show="showRenovationNote" >
-						<span>Note</span>
-						<p class="note">{{renovation['Note']}}</p>
-					</li>
-				</ul>			
+	 	<div class="section" > 
+	 		<h4 class="sectionTitle bold lightGreen">Renovation</h4>
+			<div  class="animated fadeIn" ng-if="isRenovation" >
+		        <div class="animated fadeInLeft col-20" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/'+renovationFileName+')'}"></div>	 
+		        <i  class="right left-10 ion-chevron-right top-5" ng-click="openModal(11,2,0)"></i>			
+		    	<button class="right left-10 ">upload</button>
+		    <ul class="padding paddingTop">
+						<li>
+							<b>{{renovation['Description']}}</b>
+							<span></span>
+						</li>
+						<li>
+							<span>{{renovation['StartDate']}}</span>
+						</li>
+				</ul>
 			</div>  
 	 	</div> 
 	 	<!-- END Renovation --> 
 		
-		<hr class="propertyDetails">
-		
-	 	<!-- START Leasing --> 
-	 	<div class="section" ng-click="click(4)"> 
-	 		<h4 class="sectionTitle bold" ng-class="showLeasing == 1 ? 'lightBlue' : ''">Leasing
-	 			<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientLeasing">Updated</span>
-				    </a> 
-			  	</span>
-			  	<span>
-			  		<i ng-show="IsHasLeasingFile && showLeasing == 1" class="icon ion-images left-10"
-			  		   ng-click="openModal(21)"></i>
-			  	</span>
-	 		</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showLeasing == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>  
-			<div ng-if="showLeasing == 1" ng-class="showLeasing == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>Ready To Rent</span>
-						<span class="details">{{leasing['ReadyToRent'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Start Date</span>
-						<span class="details">{{leasing['StartDate']}}</span>
-					</li>
-					<li>
-						<span>Estimate Rent Date</span>
-						<span class="details">{{leasing['EstimateRentDate']}}</span>
-					</li>
-					<li>
-						<span>Listing On Facebook</span>
-						<span class="details">{{leasing['ListingOnFacebook']}}</span>
-					</li>
-					<li>
-						<span>Listing On Craigs list</span>
-						<span class="details">{{leasing['ListingOnCraigslist']}}</span>
-					</li>
-					<li>
-						<span>Application</span>
-						<span class="right left-10">
-							<i ng-show="IsApplicationFile" class="icon ion-images" ng-click="openModal(15)"></i>
-			  		    </span>
-						<span class="details">{{leasing['Application'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Move In Date</span>
-						<span class="details">{{leasing['MoveInDate']}}</span>
-					</li>
-					<li ng-show="IsLeaseFile">
-						<span>Lease</span>
-						<span class="right left-10">
-							<i ng-show="IsLeaseFile" class="icon ion-images" ng-click="openModal(16)"></i>
-			  		    </span>
-						<span class="details"></span>
-					</li>
-					<li ng-show="showLeasingNote" >
-						<span>Note</span>
-						<p class="note">{{leasing['Note']}}</p>
-					</li>
-				</ul>			
-			</div>
-	 	</div> 
-	 	<!-- END Leasing --> 
-		
-		<hr class="propertyDetails">
-		
-	 	<!-- START Occupied --> 
-	 	<div class="section" ng-click="click(5)">
-	 		<h4 class="sectionTitle bold" ng-class="showOccupied == 1 ? 'lightBlue' : ''">Occupied Property
-	 			<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientOccupied">Updated</span>
-				    </a> 
-			  	</span>
-			  	<span>
-			  		<i ng-show="IsHasOccupiedFile && showOccupied == 1" class="icon ion-images left-10"
-			  		   ng-click="openModal(20)"></i>
-			  	</span>
-	 		</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showOccupied == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>   
-	
-			<div ng-if="showOccupied == 1" ng-class="showOccupied == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>Portion</span>
-						<span class="details">{{occupied['Portion']}}</span>
-					</li>
-					<li>
-						<span>Tenants Portion</span>
-						<span class="details">{{occupied['TenantsPortion']}}</span>
-					</li>
-					<li>
-						<span>Payment Status</span>
-						<span class="details">{{occupied['PaymentStatus']}}</span>
-					</li>
-					<li>
-						<span>Outstanding Balance</span>
-						<span class="details">{{occupied['OutstandingBalance']}}</span>
-					</li>
-					<li>
-						<span>Maintanence</span>
-						<span class="right left-10">
-							<i ng-show="IsMaintanenceFile" class="icon ion-images" ng-click="openModal(17)"></i>
-			  		    </span>
-						<span class="details">{{occupied['Maintanence']}}</span>
-					</li>
-					<li>
-						<span>Eviction</span>
-						<span class="details">{{occupied['Eviction'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Eviction Date</span>
-						<span class="details">{{occupied['EvictionDate']}}</span>
-					</li>
-					<li>
-						<span>Eviction Note</span>
-						<p class="evictionNote">{{occupied['EvictionNote']}}</p>
-					</li>
-					<li>
-						<span>Going To Be Vacent</span>
-						<span class="details">{{occupied['GoingToBeVacent']}}</span>
-					</li>
-					<li ng-show="showOccupiedNote">
-						<span>Note</span>
-						<p class="note">{{occupied['Note']}}</p>
-					</li>
-				</ul>			
-			</div>
-	 	</div> 
-	 	<!-- END Occupied --> 
-		
-		<hr class="propertyDetails"  ng-show="showEvictionSection">		
-		
-	 	<!-- START Eviction --> 
-	 	<div class="section" ng-click="click(6)" ng-show="showEvictionSection"> 	 		
-	 		<h4 class="sectionTitle bold" ng-class="showEviction == 1 ? 'lightBlue' : ''">Eviction
-	 			<span class="height-fix"> 
-					<a class="content"> 
-				    	<span class="updateClientCircle" ng-if="showUpdateClientEviction">Updated</span>
-				    </a> 
-			  	</span>
-	 		</h4>
-			<i class="icon pointer arrow" 
-			ng-class="showEviction == 1 ? 'animated fadeIn ion-chevron-up' : 'animated fadeIn ion-chevron-down'"></i>   
-			<div ng-if="showEviction == 1" ng-class="showEviction == 1 ? 'animated fadeIn' : 'animated fadeOutUp'">
-				<ul class="propertyDetails">
-					<li>
-						<span>Tenant Name</span>
-						<span class="details">{{eviction['TenantName']}}</span>
-					</li>
-					<li>
-						<span>Filed</span>
-						<span class="details">{{eviction['Filed'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Published</span>
-						<span class="details">{{eviction['Published'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Is Court Date</span>
-						<span class="details">{{eviction['IsCourtDate'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Court Date</span>
-						<span class="details">{{eviction['CourtDate']}}</span>
-					</li>
-					<li>
-						<span>Outcome And Status</span>
-						<span class="details">{{eviction['OutcomeAndStatus']}}</span>
-					</li>
-					<li>
-						<span>Is Removed</span>
-						<span class="details">{{eviction['IsRemoved'] == 1 ? "Yes" : "No"}}</span>
-					</li>
-					<li>
-						<span>Removed Date</span>
-						<span class="details">{{eviction['RemovedDate']}}</span>
-					</li>
-					<li ng-show="showEvictionNote" >
-						<span>Note</span>
-						<p class="note">{{eviction['Note']}}</p>
-					</li>
-				</ul>			
-			</div>      
-	 	</div> 
-		<!-- END Eviction -->
-	
-		<div id="requestInfo"
-			ng-show="requestPopup == 1" 
-			ng-class="requestPopup == 1 ? 'requestPopup animated fadeIn' : 'requestPopup'">
-			<div>
-				<h3 class="calign">REQUEST INFO</h3>
-				<i class="ralign icon ion-android-cancel" ng-click="closePopup()"></i>
-			</div>
-			<ul class="propertyDetails">
-				<li>
-					<span>Maintenance</span>	
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput0" ng-model="Info.Maintenance"/>
-						<label for="checkboxFiveInput0"></label>
-					</span>
-				</li>
-				<li>
-					<span>Purchase and Sale</span>	
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput" ng-model="Info.PurchasesAndSales"/>
-						<label for="checkboxFiveInput"></label>
-					</span>
-				</li>
-				<li>
-					<span>Closing</span>
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput1" ng-model="Info.Closing">
-						<label for="checkboxFiveInput1"></label>
-					</span>
-				</li>
-				<li>
-					<span>Renovation</span>
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput2" ng-model="Info.Renovations">
-						<label for="checkboxFiveInput2"></label>
-					</span>
-				</li>
-				<li>
-					<span>Leasing</span>
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput3" ng-model="Info.Leasing">
-						<label for="checkboxFiveInput3"></label>
-					</span>
-				</li>
-				<li>
-					<span>Occupied Property</span>
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput4" ng-model="Info.OccupiedProperty">
-						<label for="checkboxFiveInput4"></label>
-					</span>
-				</li>
-				<li>
-					<span>Eviction</span>
-					<span class="checkboxFive">
-						<input type="checkbox" id="checkboxFiveInput5" ng-model="Info.Evictions">
-						<label for="checkboxFiveInput5"></label>
-					</span>
-				</li>
-				<li>
-					<div class="calign">
-						<button class="seeAll" ng-click="sendRequestInfo()">Send</button>
-					</div>
-				</li>
-			</ul>
-		</div>
-		
-		<button class="infoBtn" ng-click="requestInfo()">REQUEST INFO</button>
-	
-	</div>
-	
 	<div class="dropdown-menu dropdown-content width-350">
 		<div ng-repeat="chat in chatsTitle" class="userChadInside">
 			<div ng-repeat="(key, value) in chat track by $index"  ng-if="value.user == 'Me office'">
@@ -595,6 +58,24 @@
 			</div>
 		</div>		
 	</div>
+	
+	 <h4>Upload on file select</h4>
+  <button ngf-select="uploadFiles($files, $invalidFiles)" multiple
+          accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+      Select Files</button>
+  <br><br>
+  Files:
+  <ul>
+    <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
+      <span class="progress" ng-show="f.progress >= 0">
+        <div style="width:{{f.progress}}%"   ng-bind="f.progress + '%'"></div>
+      </span>
+    </li>
+    <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+    </li> 
+  </ul>
+  {{errorMsg}}
+  
   </ion-content>
        
   <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()">
@@ -605,22 +86,26 @@
          </a> 
   	</span> 
   </div>
+   
 </ion-view>
 
 <script id="my-modal.html" type="text/ng-template">
 	<ion-modal-view>
     	<ion-header-bar>
-    		<h1 class="title">My Modal title</h1>
+    		<h1 class="title" id="title">Maintenance</h1>
 			<button class="button button-clear button-primary" ng-click="closeModal()">Cancel</button>	
     	</ion-header-bar>
     	<ion-content>
 			<ion-slide-box ng-if="sliderImg">
 		   		<ion-slide ng-repeat="img in sliderImg">
+				  <b>Title: </b><span>{{img.Title}}</span><br>
+				  <b>Date: </b><span>{{img.Date}}</span><br>
 			  	  <div class="propertyImg" 
 			   	 	ng-style="{'background-image':'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{ img.FileName }})'}">		    
 			   	  </div>
-			  	</ion-slide>	   	
+				</ion-slide>	   	
 		   	</ion-slide-box>
     	</ion-content>
 	</ion-modal-view>
 </script>
+

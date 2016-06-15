@@ -2,9 +2,8 @@ var widthArr = [60, 40, 50];
 var TheBranchName;
 localStorage.setItem("isLoggedin", "false");
 localStorage.setItem('msNum', 0);
-
-angular.module('starter.controllers', ['firebase', 'ngSanitize'])
-
+angular.module('starter.controllers', ['firebase', 'ngSanitize','ngFileUpload'])
+//var app = angular.module('fileUpload', ['ngFileUpload']);
 .controller('AuthCtrl', function($scope, $ionicConfig) {
 
 })
@@ -67,7 +66,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 				localStorage.setItem("password", $scope.userDetail.password);
 				localStorage.setItem("isLoggedin", "true");
 				
-				var deviceToken = localStorage.getItem("deviceToken");
+				//var deviceToken = localStorage.getItem("deviceToken");
 
 				/*$http({
 				    url: 'http://updateme.co.il/index.php/Supplier/api/Login/setDeviceToken', 
@@ -214,9 +213,34 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 })
 
 //propertyDetails ctrl
-.controller('PropertyDetailsCtrl', function($scope, getAllChats, $location, $firebaseObject ,$firebaseArray, $ionicPopup, $state, $rootScope, $ionicScrollDelegate, $http, $rootScope, 
-		$timeout, $q, $ionicPopup, $ionicModal) {
+.controller('PropertyDetailsCtrl',function($scope, getAllChats, $location, $firebaseObject ,$firebaseArray, $ionicPopup, $state, $rootScope, $ionicScrollDelegate, $http, $rootScope, 
+		$timeout, $q, $ionicPopup, $ionicModal,Upload) {
 	
+	//uploud
+    $scope.uploadFiles = function(files, errFiles) {
+        $scope.files = files;
+        $scope.errFiles = errFiles;
+        angular.forEach(files, function(file) {
+            file.upload = Upload.upload({
+                url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                data: {file: file}
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+            });
+        });
+    }
+////	
+	//
 	$scope.chatsTitle = getAllChats.get();
 	
     $scope.msNum = localStorage.getItem('msNum');
@@ -280,6 +304,64 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize'])
 	$rootScope.isPropertyDetailsLoading = true;
 	
 	var propertyId;
+	$scope.$on( "showDetails", function(event, data) {
+		propertyId = data.PropertyId;
+		var promise = getOverviewDetailsPageData(propertyId, $scope, $http, $q);
+		promise.then(function() {
+		}, function() {
+			alert('Failed: ');
+		});				
+	});
+	
+	
+	$ionicModal.fromTemplateUrl('my-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	  }).then(function(modal) {
+	    $scope.modal = modal;
+	  });
+	 $scope.openModal = function(typeId,kind,workOrder) {
+		//var ref = cordova.InAppBrowser.open('http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/thumb_14626903231450773143download.jpg', '_blank', 'location=yes');
+		 $scope.modal.show();	
+		 $http({
+			    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/getPropertyFile', 
+			    method: "GET",
+			    params:  {propertyId: propertyId, typeId: typeId, kind: kind, workOrder: workOrder}, 
+			    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(resp) {
+				console.log(resp);
+				console.log("111");
+				console.log($scope.title);
+				$scope.sliderImg = resp.data;
+				$scope.title = "gudtud";
+				if (resp.data.length != 0) {
+					for(var i = 0; i < $scope.sliderImg.length; i++) {
+						$scope.sliderImg[i].Date = dateFormat($scope.sliderImg[i].Date);
+					}
+					
+					
+				} 		
+			}, function(err) {
+			    console.error('ERR', err);
+			})
+	  };
+	  
+	  $scope.closeModal = function() { 
+		  $scope.sliderImg = null;
+		  $scope.modal.hide();
+	  };
+	  // Cleanup the modal when we're done with it!
+	  $scope.$on('$destroy', function() {
+	    $scope.modal.remove();
+	  });
+	  // Execute action on hide modal
+	  $scope.$on('modal.hidden', function() {
+	    // Execute action
+	  });
+	  // Execute action on remove modal
+	  $scope.$on('modal.removed', function() {
+	    // Execute action
+	  });
 })
 
 function addClass(data) {
@@ -419,3 +501,179 @@ function get_new_not($http) {
 	    
 	});
 }
+	
+	////
+
+function getMaintenanceDetails(propertyId, $scope, $http) {	
+	return $http({
+	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/Maintenance', 
+	    method: "GET",
+	    params:  {index: propertyId}, 
+	    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function(resp) {
+		if (resp.data.length != 0) {
+			$scope.maintenanceObg = [];
+			$scope.maintenanceObg = resp.data;
+			for(var i = 0; i < $scope.maintenanceObg.length; i++) {
+				$scope.maintenanceObg[i].Date = dateFormat($scope.maintenanceObg[i].Date);
+				if($scope.maintenanceObg[i].FileName == null) {
+					$scope.maintenanceObg[i].FileName  = "defaultProperty.jpg";	
+				}
+			}
+			
+		} 		
+	}, function(err) {
+	    console.error('ERR', err);
+	})
+}
+	function getRenovationDetails(propertyId, $scope, $http) {
+		$scope.isRenovation =false;
+		return $http({
+		    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/Renovation', 
+		    method: "GET",
+		    params:  {index:propertyId}, 
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(resp) {
+			if (resp.data.length != 0) {
+				$scope.isRenovation = true;
+				$scope.renovation = resp.data[0];
+			    $scope.renovation['StartDate'] = dateFormat($scope.renovation['StartDate']);
+			    $scope.renovationFileName=$scope.renovation['FileName'];
+			    if($scope.renovation['FileName'] == null) {
+			        $scope.renovationFileName = "defaultProperty.jpg";	
+			       }
+			    console.log($scope.renovationFileName);
+				} 
+		}, function(err) {
+		    console.error('ERR', err);
+		})
+	}
+	
+	function getOverviewDetailsPageData(propertyId, $scope, $http, $q) {
+		return $q.all([getMaintenanceDetails(propertyId, $scope, $http),
+		               getRenovationDetails(propertyId, $scope, $http)]).
+		                then(function(results) {
+			$scope.isPropertyDetailsLoading = false;
+		});
+	}
+	
+	function dateFormat(date) {
+		var formattedDate = new Date(date);
+		return isNaN(formattedDate.getMonth())  ?"": (formattedDate.getMonth() + 1) + '/' + formattedDate.getDate() + '/' +  formattedDate.getFullYear();
+	}
+////////test
+	/*.controller('CameraCtrl', function ($scope) {        
+	     $scope.takePic = function() {
+	        var options =   {
+	            quality: 50,
+	            destinationType: Camera.DestinationType.FILE_URI,
+	            sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+	            encodingType: 0     // 0=JPG 1=PNG
+	        }
+	        navigator.camera.getPicture(onSuccess,onFail,options);
+	    }
+	    var onSuccess = function(FILE_URI) {
+	        console.log(FILE_URI);
+	        $scope.picData = FILE_URI;
+	        $scope.$apply();
+	    };
+	    var onFail = function(e) {
+	        console.log("On fail " + e);
+	    }
+	    $scope.send = function() {   
+	        var myImg = $scope.picData;
+	        var options = new FileUploadOptions();
+	        options.fileKey="post";
+	        options.chunkedMode = false;
+	        var params = {};
+	        params.user_token = localStorage.getItem('auth_token');
+	        params.user_email = localStorage.getItem('email');
+	        options.params = params;
+	        var ft = new FileTransfer();
+	        ft.upload(myImg, encodeURI("https://example.com/posts/"), onUploadSuccess, onUploadFail, options);
+	    }
+	    
+	//////*/
+
+///////getPicture uploud image 
+
+	/*	getPicture: function (options) {
+		    var q = $q.defer();
+		 
+		    navigator.camera.getPicture(function (result) {
+		        // Do any magic you need
+		        q.resolve(result);
+		    }, function (err) {
+		        q.reject(err);
+		    }, options);
+		 
+		    return q.promise;
+		},
+		
+		resizeImage: function (img_path) {
+		    var q = $q.defer();
+		    window.imageResizer.resizeImage(function (success_resp) {
+		        console.log('success, img re-size: ' + JSON.stringify(success_resp));
+		        q.resolve(success_resp);
+		    }, function (fail_resp) {
+		        console.log('fail, img re-size: ' + JSON.stringify(fail_resp));
+		        q.reject(fail_resp);
+		    }, img_path, 200, 0, {
+		        imageDataType: ImageResizer.IMAGE_DATA_TYPE_URL,
+		        resizeType: ImageResizer.RESIZE_TYPE_MIN_PIXEL,
+		        pixelDensity: true,
+		        storeImage: false,
+		        photoAlbum: false,
+		        format: 'jpg'
+		    });
+		 
+		    return q.promise;
+		},
+		
+		toBase64Image: function (img_path) {
+		    var q = $q.defer();
+		    window.imageResizer.resizeImage(function (success_resp) {
+		        console.log('success, img toBase64Image: ' + JSON.stringify(success_resp));
+		        q.resolve(success_resp);
+		    }, function (fail_resp) {
+		        console.log('fail, img toBase64Image: ' + JSON.stringify(fail_resp));
+		        q.reject(fail_resp);
+		    }, img_path, 1, 1, {
+		        imageDataType: ImageResizer.IMAGE_DATA_TYPE_URL,
+		        resizeType: ImageResizer.RESIZE_TYPE_FACTOR,
+		        format: 'jpg'
+		    });
+		 
+		    return q.promise;
+		}
+		savePhotoToParse: function (_params) {
+		    var ImageObject = Parse.Object.extend("ImageInfo");
+		 
+		    // create the parse file object using base64 representation of photo
+		    var imageFile = new Parse.File("mypic.jpg", {base64: _params.photo});
+		 
+		 
+		    // save the parse file object
+		    return imageFile.save().then(function () {
+		 
+		        _params.photo = null;
+		 
+		        // create object to hold caption and file reference
+		        var imageObject = new ImageObject();
+		 
+		        // set object properties
+		        imageObject.set("caption", _params.caption);
+		        imageObject.set("picture", imageFile);
+		 
+		        // save object to parse backend
+		        return imageObject.save();
+		 
+		    }, function (error) {
+		        alert("Error " + JSON.stringify(error, null, 2));
+		        console.log(error);
+		    });
+		 
+		}
+		
+		
+		////////*/
