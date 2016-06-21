@@ -8,7 +8,7 @@
 		<div class="section">
 			<h4 class="sectionTitle bold lightGreen">Maintenance</h4>
 			<div  ng-repeat="maintenances in maintenanceObg track by $index" class="animated fadeIn" >
-				<div class="animated fadeInLeft col-20" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{maintenances.FileName}})'}"></div>	 
+				<div class="animated fadeInLeft col-20" ng-click="openModal(29,1,{{maintenances.WorkOrder}})" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{maintenances.FileName}})'}"></div>	 
 		        <i  class="right left-10 ion-chevron-right top-5" ng-click="openModal(29,1,{{maintenances.WorkOrder}})"></i>			
 		    	<button class="right left-10 " >upload</button>
 		    	<ul class="padding paddingTop">
@@ -33,7 +33,7 @@
 	 	<div class="section" > 
 	 		<h4 class="sectionTitle bold lightGreen">Renovation</h4>
 			<div  class="animated fadeIn" ng-if="isRenovation" >
-		        <div class="animated fadeInLeft col-20" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/'+renovationFileName+')'}"></div>	 
+		        <div class="animated fadeInLeft col-20" ng-click="openModal(11,2,0)" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/'+renovationFileName+')'}"></div>	 
 		        <i  class="right left-10 ion-chevron-right top-5" ng-click="openModal(11,2,0)"></i>			
 		    	<button class="right left-10 ">upload</button>
 		    <ul class="padding paddingTop">
@@ -60,22 +60,10 @@
 	</div>
 	
 	 <h4>Upload on file select</h4>
-  <button ngf-select="uploadFiles($files, $invalidFiles)" multiple
-          accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+  <button ngf-select="uploadFilesTest($files, $invalidFiles)" multiple
+      accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
       Select Files</button>
   <br><br>
-  Files:
-  <ul>
-    <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
-      <span class="progress" ng-show="f.progress >= 0">
-        <div style="width:{{f.progress}}%"   ng-bind="f.progress + '%'"></div>
-      </span>
-    </li>
-    <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
-    </li> 
-  </ul>
-  {{errorMsg}}
-  
   </ion-content>
        
   <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()">

@@ -215,43 +215,15 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize','ngFileUpload'])
 //propertyDetails ctrl
 .controller('PropertyDetailsCtrl',function($scope, getAllChats, $location, $firebaseObject ,$firebaseArray, $ionicPopup, $state, $rootScope, $ionicScrollDelegate, $http, $rootScope, 
 		$timeout, $q, $ionicPopup, $ionicModal,Upload) {
-	
-	//uploud
-    $scope.uploadFiles = function(files, errFiles) {
-        $scope.files = files;
-        $scope.errFiles = errFiles;
-        angular.forEach(files, function(file) {
-            file.upload = Upload.upload({
-                url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/addPaymentFileApi',
-                data: {file: file}
-            });
-
-            file.upload.then(function (response) {
-                $timeout(function () {
-                    file.result = response.data;
-                });
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                file.progress = Math.min(100, parseInt(100.0 * 
-                                         evt.loaded / evt.total));
-            });
-        });
-    }
-////	
-	//
 	$scope.chatsTitle = getAllChats.get();
-	
-    $scope.msNum = localStorage.getItem('msNum');
-
-    $scope.setNewM = function(num, value) {
+	$scope.msNum = localStorage.getItem('msNum');
+$scope.setNewM = function(num, value) {
 		if (value == true) {
 			$scope.msNum ++;
 		}        
     }
-
-	$http({
+/*getClientNotification
+/*	$http({
 	   url: 'http: //ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/api/Marketing/getClientNotification', 
 	    method: "GET",
 	    params:  { index: localStorage.getItem("id")}, 
@@ -278,7 +250,7 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize','ngFileUpload'])
 			})	
 		}
 	}, function(err) {	    
-	});
+	});*/
 	
 	$scope.hide_chat_box = function() {		
 		$scope.chatSelected = false;		
@@ -362,6 +334,60 @@ angular.module('starter.controllers', ['firebase', 'ngSanitize','ngFileUpload'])
 	  $scope.$on('modal.removed', function() {
 	    // Execute action
 	  });
+	//uploud
+
+	  //*****
+	  $scope.uploadFilesTest = function(files, errFiles) {
+	        $scope.files = files;
+	    	$scope.errFiles = errFiles;
+	        angular.forEach(files, function(file) {
+	        	console.log(file);
+	        	$http({
+		        		url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/addPaymentFileApi', 
+					    method: "POST",
+					    data: { fileD: file,filenameD:file.name},
+					    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+					}).then(function(resp) {
+					console.log("sucess")
+				}, function(err) {
+				    console.error('ERR', err);
+				})	
+	           
+	        	});
+	           
+	    }
+	////	
+
+	  //*****
+	 /*	    $scope.uploadFiles = function(files, errFiles) {
+	        $scope.files = files;
+	    	console.log(files);
+	        $scope.errFiles = errFiles;
+	        angular.forEach(files, function(file) {
+	            file.upload = Upload.upload({
+	        	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/addPaymentFileApi',
+	                method: 'POST',
+	        	    data: {
+	        	        file: file,
+	        	        filename: file.name
+	        		},
+	        		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	        		contentType: false,
+	        	});
+	            file.upload.then(function (response) {
+	                $timeout(function () {
+	                    file.result = response.data;
+	                });
+	            }, function (response) {
+	                if (response.status > 0)
+	                    $scope.errorMsg = response.status + ': ' + response.data;
+	            }, function (evt) {
+	                file.progress = Math.min(100, parseInt(100.0 * 
+	                                         evt.loaded / evt.total));
+	            });
+	        });
+	    }
+	////	*/
 })
 
 function addClass(data) {
@@ -561,119 +587,3 @@ function getMaintenanceDetails(propertyId, $scope, $http) {
 		var formattedDate = new Date(date);
 		return isNaN(formattedDate.getMonth())  ?"": (formattedDate.getMonth() + 1) + '/' + formattedDate.getDate() + '/' +  formattedDate.getFullYear();
 	}
-////////test
-	/*.controller('CameraCtrl', function ($scope) {        
-	     $scope.takePic = function() {
-	        var options =   {
-	            quality: 50,
-	            destinationType: Camera.DestinationType.FILE_URI,
-	            sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
-	            encodingType: 0     // 0=JPG 1=PNG
-	        }
-	        navigator.camera.getPicture(onSuccess,onFail,options);
-	    }
-	    var onSuccess = function(FILE_URI) {
-	        console.log(FILE_URI);
-	        $scope.picData = FILE_URI;
-	        $scope.$apply();
-	    };
-	    var onFail = function(e) {
-	        console.log("On fail " + e);
-	    }
-	    $scope.send = function() {   
-	        var myImg = $scope.picData;
-	        var options = new FileUploadOptions();
-	        options.fileKey="post";
-	        options.chunkedMode = false;
-	        var params = {};
-	        params.user_token = localStorage.getItem('auth_token');
-	        params.user_email = localStorage.getItem('email');
-	        options.params = params;
-	        var ft = new FileTransfer();
-	        ft.upload(myImg, encodeURI("https://example.com/posts/"), onUploadSuccess, onUploadFail, options);
-	    }
-	    
-	//////*/
-
-///////getPicture uploud image 
-
-	/*	getPicture: function (options) {
-		    var q = $q.defer();
-		 
-		    navigator.camera.getPicture(function (result) {
-		        // Do any magic you need
-		        q.resolve(result);
-		    }, function (err) {
-		        q.reject(err);
-		    }, options);
-		 
-		    return q.promise;
-		},
-		
-		resizeImage: function (img_path) {
-		    var q = $q.defer();
-		    window.imageResizer.resizeImage(function (success_resp) {
-		        console.log('success, img re-size: ' + JSON.stringify(success_resp));
-		        q.resolve(success_resp);
-		    }, function (fail_resp) {
-		        console.log('fail, img re-size: ' + JSON.stringify(fail_resp));
-		        q.reject(fail_resp);
-		    }, img_path, 200, 0, {
-		        imageDataType: ImageResizer.IMAGE_DATA_TYPE_URL,
-		        resizeType: ImageResizer.RESIZE_TYPE_MIN_PIXEL,
-		        pixelDensity: true,
-		        storeImage: false,
-		        photoAlbum: false,
-		        format: 'jpg'
-		    });
-		 
-		    return q.promise;
-		},
-		
-		toBase64Image: function (img_path) {
-		    var q = $q.defer();
-		    window.imageResizer.resizeImage(function (success_resp) {
-		        console.log('success, img toBase64Image: ' + JSON.stringify(success_resp));
-		        q.resolve(success_resp);
-		    }, function (fail_resp) {
-		        console.log('fail, img toBase64Image: ' + JSON.stringify(fail_resp));
-		        q.reject(fail_resp);
-		    }, img_path, 1, 1, {
-		        imageDataType: ImageResizer.IMAGE_DATA_TYPE_URL,
-		        resizeType: ImageResizer.RESIZE_TYPE_FACTOR,
-		        format: 'jpg'
-		    });
-		 
-		    return q.promise;
-		}
-		savePhotoToParse: function (_params) {
-		    var ImageObject = Parse.Object.extend("ImageInfo");
-		 
-		    // create the parse file object using base64 representation of photo
-		    var imageFile = new Parse.File("mypic.jpg", {base64: _params.photo});
-		 
-		 
-		    // save the parse file object
-		    return imageFile.save().then(function () {
-		 
-		        _params.photo = null;
-		 
-		        // create object to hold caption and file reference
-		        var imageObject = new ImageObject();
-		 
-		        // set object properties
-		        imageObject.set("caption", _params.caption);
-		        imageObject.set("picture", imageFile);
-		 
-		        // save object to parse backend
-		        return imageObject.save();
-		 
-		    }, function (error) {
-		        alert("Error " + JSON.stringify(error, null, 2));
-		        console.log(error);
-		    });
-		 
-		}
-		
-		
-		////////*/
