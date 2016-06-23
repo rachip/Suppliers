@@ -1,8 +1,5 @@
-<ion-view >
-	<ion-nav-title>
-		<img class="investText paddingTop" src="css/img/PicMe.png" style="width: 37%;"> 
-    </ion-nav-title>
-   
+<ion-view title="Pic ME" class="navClass">
+	
   <ion-content lazy-scroll has-header="true"> 
 	<!-- START Maintenance -->
 		<div class="section">
@@ -10,7 +7,10 @@
 			<div  ng-repeat="maintenances in maintenanceObg track by $index" class="animated fadeIn" >
 				<div class="animated fadeInLeft col-20" ng-click="openModal(29,1,{{maintenances.WorkOrder}})" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/{{maintenances.FileName}})'}"></div>	 
 		        <i  class="right left-10 ion-chevron-right top-5" ng-click="openModal(29,1,{{maintenances.WorkOrder}})"></i>			
-		    	<button class="right left-10 " >upload</button>
+		    	
+		    	<button class="right left-10 " ngf-select="uploadFiles($files, $invalidFiles,1,{{maintenances.WorkOrder}})" 
+		    	multiple accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">upload</button>
+		    	
 		    	<ul class="padding paddingTop">
 						<li>
 							<b>{{maintenances.Maintenance}}</b>
@@ -35,7 +35,9 @@
 			<div  class="animated fadeIn" ng-if="isRenovation" >
 		        <div class="animated fadeInLeft col-20" ng-click="openModal(11,2,0)" ng-style="{'background-image': 'url(http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/uploads/'+renovationFileName+')'}"></div>	 
 		        <i  class="right left-10 ion-chevron-right top-5" ng-click="openModal(11,2,0)"></i>			
-		    	<button class="right left-10 ">upload</button>
+		    	<button class="right left-10 " ngf-select="uploadFiles($files, $invalidFiles,2,0)" 
+		    	multiple accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">upload</button>
+		    
 		    <ul class="padding paddingTop">
 						<li>
 							<b>{{renovation['Description']}}</b>
@@ -58,12 +60,6 @@
 			</div>
 		</div>		
 	</div>
-	
-	 <h4>Upload on file select</h4>
-  <button ngf-select="uploadFilesTest($files, $invalidFiles)" multiple
-      accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-      Select Files</button>
-  <br><br>
   </ion-content>
        
   <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()">

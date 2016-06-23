@@ -1,8 +1,7 @@
-<ion-view class="navClass">
- 	<ion-nav-title>
-		<img class="investText paddingTop" src="css/img/PicMe.png" style="width: 27%;"> 
-    </ion-nav-title>
-<ion-pane>
+
+<ion-view title="Pic ME" class="navClass">
+	
+ 
   <ion-content lazy-scroll has-header="true" ng-init="init()">
 
 	<ion-spinner icon="bubbles" ng-if='isPropertiesLoading' class="spinner"></ion-spinner>
@@ -43,6 +42,14 @@
 			</div>							
 		</ul>
 	</div> -->
+	 <div class="float-button" ng-if="show_chat_bu" ng-click="selectChat()">
+     <span class="height-fix"> 
+         <a class="content"> 
+         	<span class="msNum" ng-if="msNum != 0"> {{msNum}} </span>
+            <i class="ion-ios-chatboxes"> </i> 
+         </a> 
+  	</span> 
+  </div>
   
   </ion-content>
 </ion-pane>

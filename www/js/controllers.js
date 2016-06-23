@@ -337,7 +337,7 @@ $scope.setNewM = function(num, value) {
 	//uploud
 
 	  //*****
-	  $scope.uploadFilesTest = function(files, errFiles) {
+	 /* $scope.uploadFilesTest = function(files, errFiles) {
 	        $scope.files = files;
 	    	$scope.errFiles = errFiles;
 	        angular.forEach(files, function(file) {
@@ -356,23 +356,21 @@ $scope.setNewM = function(num, value) {
 	        	});
 	           
 	    }
-	////	
+	////	*/
 
-	  //*****
-	 /*	    $scope.uploadFiles = function(files, errFiles) {
+	  //*****/
+	    $scope.uploadFiles = function(files, errFiles,kind,workOrder) {
 	        $scope.files = files;
 	    	console.log(files);
+	    	console.log(propertyId);
+	    	console.log(workOrder);
 	        $scope.errFiles = errFiles;
 	        angular.forEach(files, function(file) {
 	            file.upload = Upload.upload({
-	        	    url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/addPaymentFileApi',
-	                method: 'POST',
-	        	    data: {
-	        	        file: file,
-	        	        filename: file.name
-	        		},
-	        		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-	        		contentType: false,
+	            	url: 'http://ec2-52-32-92-71.us-west-2.compute.amazonaws.com/index.php/Supplier/api/GetFiles/addPaymentFileApi3', 
+				    method: "POST",
+				    data: { file: file,filenameD:file.name,kind:kind,workOrder:workOrder,propertyId: propertyId},
+	        		headers: { 'Content-Type': 'multipart/form-data' },
 	        	});
 	            file.upload.then(function (response) {
 	                $timeout(function () {
@@ -380,14 +378,14 @@ $scope.setNewM = function(num, value) {
 	                });
 	            }, function (response) {
 	                if (response.status > 0)
-	                    $scope.errorMsg = response.status + ': ' + response.data;
+	                //    $scope.errorMsg = response.status + ': ' + response.data;
+	                	console.log("no");
 	            }, function (evt) {
-	                file.progress = Math.min(100, parseInt(100.0 * 
-	                                         evt.loaded / evt.total));
+	            	console.log("sucess");
 	            });
 	        });
 	    }
-	////	*/
+	////	
 })
 
 function addClass(data) {
