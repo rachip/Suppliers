@@ -191,7 +191,7 @@ input::-webkit-input-placeholder {
 
 .investText {
     width: 25%;
-    float: left;
+    float: center;
     margin: 8px 0px;
 
 }
@@ -259,7 +259,7 @@ width: 49.1%;
     float: left;
     height: 70px;
     background-size: cover;
-    background-position: center;
+    background-position: ;
 } 
 .col-40 {
     width: 40%;
@@ -297,7 +297,9 @@ width: 49.1%;
  [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
     background-color: #b1cd6e !important; }
 
-   
+   [nav-bar-transition="android"] [nav-bar="active"] .bar, [nav-bar-transition="android"] [nav-bar="entering"] .bar
+   { background-color: #b1cd6e !important; 
+   }
 .padding
 {
 	padding-left: 30%;
